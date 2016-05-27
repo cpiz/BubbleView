@@ -34,6 +34,7 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 箭头指向特定对象
 -------
 ![箭头指向特定对象](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/2.png)
+
 指定属性app:bb_arrowTo为目标对象ViewId，将自动确定箭头方向，并将箭头位置指向目标中心。
 
 ```XML
@@ -105,11 +106,11 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 
 ###作为RelativeLayout容器
 ![作为RelativeLayout容器](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/4.png)
+
 可以将BubbleView作为普通RelativeLayout容器使用，唯一区别是BubbleView将会自动修正带箭头一侧的Padding，让子内容在气泡区域中间。
 
 License
 -------
-
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
