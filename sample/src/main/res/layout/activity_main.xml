@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_light">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义箭头方向"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/group1"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/tvCenter1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_margin="10dp"
+                android:text="-"/>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/bb1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@id/tvCenter1"
+                android:padding="6dp"
+                app:bb_arrowDirection="Right"
+                app:bb_cornerRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ArrowRight"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/bb3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/tvCenter1"
+                android:padding="6dp"
+                app:bb_arrowDirection="Left"
+                app:bb_cornerRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ArrowLeft"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/bb4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvCenter1"
+                android:layout_centerHorizontal="true"
+                android:padding="6dp"
+                app:bb_arrowDirection="Up"
+                app:bb_cornerRadius="4dp">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ArrowTop"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/bb5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/bb4"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@+id/bb4"
+                android:padding="6dp"
+                app:bb_cornerRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="NoneArrow"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/bb2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/tvCenter1"
+                android:layout_centerHorizontal="true"
+                android:padding="6dp"
+                app:bb_arrowDirection="Down"
+                app:bb_cornerRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ArrowBottom"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自动指向&amp;目标对齐"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/group2"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:tint="#FFFFFF"/>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv1"
+                android:layout_toLeftOf="@id/iv1"
+                android:padding="6dp"
+                app:bb_arrowTo="@id/iv1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/iv1"
+                android:layout_alignRight="@id/iv1"
+                android:padding="6dp"
+                app:bb_arrowTo="@id/iv1">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/iv1"
+                android:layout_toRightOf="@id/iv1"
+                android:padding="6dp"
+                app:bb_arrowTo="@id/iv1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/iv1"
+                android:layout_below="@id/iv1"
+                android:padding="6dp"
+                app:bb_arrowTo="@id/iv1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义边框&amp;圆角"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/group3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/big1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:padding="30dp"
+                app:bb_arrowDirection="Up"
+                app:bb_arrowHeight="10dp"
+                app:bb_arrowWidth="20dp"
+                app:bb_backColor="@android:color/holo_red_light"
+                app:bb_borderColor="@color/colorPrimary"
+                app:bb_borderWidth="6dp"
+                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomRightRadius="10dp"
+                app:bb_cornerRadius="4dp"
+                app:bb_cornerTopLeftRadius="0dp"
+                app:bb_cornerTopRightRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WithBorder"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/big2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/big1"
+                android:layout_margin="4dp"
+                android:layout_toRightOf="@id/big1"
+                android:padding="30dp"
+                app:bb_arrowDirection="Right"
+                app:bb_arrowHeight="5dp"
+                app:bb_arrowWidth="10dp"
+                app:bb_backColor="@android:color/holo_red_light"
+                app:bb_borderColor="@color/colorPrimary"
+                app:bb_borderWidth="6dp"
+                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomRightRadius="10dp"
+                app:bb_cornerRadius="4dp"
+                app:bb_cornerTopLeftRadius="0dp"
+                app:bb_cornerTopRightRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CornerRadius"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/big3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/big1"
+                android:layout_margin="4dp"
+                android:padding="30dp"
+                app:bb_arrowDirection="Left"
+                app:bb_arrowHeight="20dp"
+                app:bb_arrowWidth="30dp"
+                app:bb_backColor="@android:color/holo_red_light"
+                app:bb_borderColor="@color/colorPrimary"
+                app:bb_borderWidth="6dp"
+                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomRightRadius="10dp"
+                app:bb_cornerRadius="4dp"
+                app:bb_cornerTopLeftRadius="0dp"
+                app:bb_cornerTopRightRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Arrow"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/big4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/big2"
+                android:layout_margin="4dp"
+                android:layout_toRightOf="@id/big3"
+                android:padding="30dp"
+                app:bb_arrowDirection="Down"
+                app:bb_arrowHeight="10dp"
+                app:bb_arrowWidth="40dp"
+                app:bb_backColor="@android:color/holo_red_light"
+                app:bb_borderColor="@color/colorPrimary"
+                app:bb_borderWidth="6dp"
+                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomRightRadius="10dp"
+                app:bb_cornerRadius="4dp"
+                app:bb_cornerTopLeftRadius="0dp"
+                app:bb_cornerTopRightRadius="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WithBorder"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="容器"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/group4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
+
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:tint="#FFFFFF"/>
+
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="match_parent"
+                android:layout_height="160dp"
+                android:layout_toRightOf="@id/iv2"
+                android:background="@android:color/holo_red_light"
+                android:padding="10dp"
+                app:bb_arrowDirection="Left"
+                app:bb_arrowTo="@id/iv2"
+                app:bb_backColor="@android:color/white"
+                app:bb_borderColor="@android:color/black"
+                app:bb_borderWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+
+                        <Button
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"/>
+                    </LinearLayout>
+                </LinearLayout>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+</ScrollView>

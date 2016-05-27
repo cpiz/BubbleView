@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BubbleLayout">
+        <attr name="bb_backColor" format="reference|color"/>
+
+        <attr name="bb_arrowTo" format="reference"/>
+        <attr name="bb_arrowDirection" format="enum">
+            <enum name="None" value="0"/>
+            <enum name="Left" value="1"/>
+            <enum name="Up" value="2"/>
+            <enum name="Right" value="3"/>
+            <enum name="Down" value="4"/>
+        </attr>
+        <attr name="bb_arrowHeight" format="dimension"/>
+        <attr name="bb_arrowWidth" format="dimension"/>
+
+        <attr name="bb_cornerRadius" format="dimension"/>
+        <attr name="bb_cornerTopLeftRadius" format="dimension"/>
+        <attr name="bb_cornerTopRightRadius" format="dimension"/>
+        <attr name="bb_cornerBottomLeftRadius" format="dimension"/>
+        <attr name="bb_cornerBottomRightRadius" format="dimension"/>
+
+        <attr name="bb_borderWidth" format="dimension"/>
+        <attr name="bb_borderColor" format="reference|color"/>
+
+    </declare-styleable>
+</resources>
