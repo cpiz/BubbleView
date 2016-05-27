@@ -1,9 +1,12 @@
 package com.cpiz.android.bubblelayout;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +48,7 @@ public class BubbleLayout extends RelativeLayout {
         init(context, attrs);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BubbleLayout(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context, attrs);
@@ -55,11 +59,11 @@ public class BubbleLayout extends RelativeLayout {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BubbleLayout);
             mArrowDirection = BubbleDrawable.ArrowDirection.valueOf(
                     ta.getInt(R.styleable.BubbleLayout_bb_arrowDirection, 0));
-            mArrowHeight = ta.getDimension(R.styleable.BubbleLayout_bb_arrowHeight, PixelUtil.dpToPx(6));
-            mArrowWidth = ta.getDimension(R.styleable.BubbleLayout_bb_arrowWidth, PixelUtil.dpToPx(10));
+            mArrowHeight = ta.getDimension(R.styleable.BubbleLayout_bb_arrowHeight, dpToPx(6));
+            mArrowWidth = ta.getDimension(R.styleable.BubbleLayout_bb_arrowWidth, dpToPx(10));
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleLayout_bb_arrowTo, 0);
 
-            float radius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerRadius, PixelUtil.dpToPx(10));
+            float radius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerRadius, dpToPx(10));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
             mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
             mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerTopRightRadius, mCornerTopLeftRadius);
@@ -335,5 +339,15 @@ public class BubbleLayout extends RelativeLayout {
         }
 
         return BubbleDrawable.ArrowDirection.None;
+    }
+
+    /**
+     * dp转为px
+     *
+     * @param dp dp值
+     * @return px值
+     */
+    private static int dpToPx(int dp) {
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 }
