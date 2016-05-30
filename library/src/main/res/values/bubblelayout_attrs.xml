@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BubbleLayout">
-        <attr name="bb_backColor" format="reference|color"/>
+        <attr name="bb_fillColor" format="reference|color"/>
+        <attr name="bb_fillPadding" format="dimension"/>
 
         <attr name="bb_arrowTo" format="reference"/>
         <attr name="bb_arrowDirection" format="enum">

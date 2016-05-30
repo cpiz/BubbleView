@@ -3,8 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/background_light">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -131,38 +130,38 @@
             android:textSize="24sp"
             android:textStyle="bold"/>
 
-<RelativeLayout
-    android:id="@+id/group2"
-    android:layout_width="match_parent"
-    android:layout_height="180dp"
-    android:layout_marginBottom="30dp"
-    android:background="#bdc3c7"
-    android:padding="10dp">
+        <RelativeLayout
+            android:id="@+id/group2"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
 
-    <ImageView
-        android:id="@+id/iv2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="4dp"
-        android:src="@android:drawable/ic_btn_speak_now"
-        android:tint="#FFFFFF"/>
+            <ImageView
+                android:id="@+id/iv2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_margin="4dp"
+                android:src="@android:drawable/ic_btn_speak_now"
+                android:tint="#FFFFFF"/>
 
-    <com.cpiz.android.bubblelayout.BubbleLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/iv2"
-        android:layout_toLeftOf="@id/iv2"
-        android:padding="6dp"
-        app:bb_arrowTo="@id/iv2">
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/iv2"
+                android:layout_toLeftOf="@id/iv2"
+                android:padding="6dp"
+                app:bb_arrowTo="@id/iv2">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Get your apps ready for Android 6.0 Marshmallow! "
-            android:textColor="@android:color/white"/>
-    </com.cpiz.android.bubblelayout.BubbleLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
 
             <com.cpiz.android.bubblelayout.BubbleLayout
                 android:layout_width="wrap_content"
@@ -227,30 +226,30 @@
             android:background="#bdc3c7"
             android:padding="10dp">
 
-<com.cpiz.android.bubblelayout.BubbleLayout
-    android:id="@+id/big1"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="4dp"
-    android:padding="30dp"
-    app:bb_arrowDirection="Up"
-    app:bb_arrowHeight="10dp"
-    app:bb_arrowWidth="20dp"
-    app:bb_backColor="@android:color/holo_red_light"
-    app:bb_borderColor="@color/colorPrimary"
-    app:bb_borderWidth="6dp"
-    app:bb_cornerBottomLeftRadius="20dp"
-    app:bb_cornerBottomRightRadius="10dp"
-    app:bb_cornerRadius="4dp"
-    app:bb_cornerTopLeftRadius="0dp"
-    app:bb_cornerTopRightRadius="4dp">
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:id="@+id/big1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:padding="30dp"
+                app:bb_arrowDirection="Up"
+                app:bb_arrowHeight="10dp"
+                app:bb_arrowWidth="20dp"
+                app:bb_borderColor="@color/colorPrimary"
+                app:bb_borderWidth="6dp"
+                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomRightRadius="10dp"
+                app:bb_cornerRadius="4dp"
+                app:bb_cornerTopLeftRadius="0dp"
+                app:bb_cornerTopRightRadius="4dp"
+                app:bb_fillColor="@android:color/holo_red_light">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WithBorder"
-        android:textColor="@android:color/white"/>
-</com.cpiz.android.bubblelayout.BubbleLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="WithBorder"
+                    android:textColor="@android:color/white"/>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
 
             <com.cpiz.android.bubblelayout.BubbleLayout
                 android:id="@+id/big2"
@@ -263,14 +262,14 @@
                 app:bb_arrowDirection="Right"
                 app:bb_arrowHeight="5dp"
                 app:bb_arrowWidth="10dp"
-                app:bb_backColor="@android:color/holo_red_light"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
                 app:bb_cornerBottomLeftRadius="20dp"
                 app:bb_cornerBottomRightRadius="10dp"
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
-                app:bb_cornerTopRightRadius="4dp">
+                app:bb_cornerTopRightRadius="4dp"
+                app:bb_fillColor="@android:color/holo_red_light">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -289,14 +288,14 @@
                 app:bb_arrowDirection="Left"
                 app:bb_arrowHeight="20dp"
                 app:bb_arrowWidth="30dp"
-                app:bb_backColor="@android:color/holo_red_light"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
                 app:bb_cornerBottomLeftRadius="20dp"
                 app:bb_cornerBottomRightRadius="10dp"
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
-                app:bb_cornerTopRightRadius="4dp">
+                app:bb_cornerTopRightRadius="4dp"
+                app:bb_fillColor="@android:color/holo_red_light">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -316,14 +315,15 @@
                 app:bb_arrowDirection="Down"
                 app:bb_arrowHeight="10dp"
                 app:bb_arrowWidth="40dp"
-                app:bb_backColor="@android:color/holo_red_light"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
                 app:bb_cornerBottomLeftRadius="20dp"
                 app:bb_cornerBottomRightRadius="10dp"
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
-                app:bb_cornerTopRightRadius="4dp">
+                app:bb_cornerTopRightRadius="4dp"
+                app:bb_fillColor="@android:color/holo_red_light"
+                app:bb_fillPadding="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -343,7 +343,7 @@
         <RelativeLayout
             android:id="@+id/group4"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="240dp"
             android:layout_marginBottom="30dp"
             android:background="#bdc3c7"
             android:padding="10dp">
@@ -352,86 +352,124 @@
                 android:id="@+id/iv3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
                 android:src="@android:drawable/ic_btn_speak_now"
                 android:tint="#FFFFFF"/>
 
             <com.cpiz.android.bubblelayout.BubbleLayout
                 android:layout_width="match_parent"
-                android:layout_height="160dp"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_toRightOf="@id/iv3"
                 android:background="@android:color/holo_red_light"
-                android:padding="10dp"
-                app:bb_arrowDirection="Left"
                 app:bb_arrowTo="@id/iv3"
-                app:bb_backColor="@android:color/white"
-                app:bb_borderColor="@android:color/black"
-                app:bb_borderWidth="1dp">
+                app:bb_borderColor="#88FFFFFF"
+                app:bb_borderWidth="1dp"
+                app:bb_fillColor="#200000FF">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:orientation="vertical">
+                <com.cpiz.android.bubblelayout.BubbleLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/holo_red_light"
+                    app:bb_arrowTo="@id/iv3"
+                    app:bb_borderColor="#88FFFFFF"
+                    app:bb_borderWidth="1dp"
+                    app:bb_fillColor="#200000FF">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="horizontal">
+                    <com.cpiz.android.bubblelayout.BubbleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        app:bb_arrowTo="@id/iv3"
+                        app:bb_borderColor="#88FFFFFF"
+                        app:bb_borderWidth="1dp"
+                        app:bb_fillColor="#200000FF">
 
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
+                        <com.cpiz.android.bubblelayout.BubbleLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/holo_red_light"
+                            app:bb_arrowTo="@id/iv3"
+                            app:bb_borderColor="#88FFFFFF"
+                            app:bb_borderWidth="1dp"
+                            app:bb_fillColor="#200000FF">
 
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
+                            <com.cpiz.android.bubblelayout.BubbleLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/holo_red_light"
+                                app:bb_arrowTo="@id/iv3"
+                                app:bb_borderColor="#88FFFFFF"
+                                app:bb_borderWidth="1dp"
+                                app:bb_fillColor="#200000FF">
 
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-                    </LinearLayout>
+                                <com.cpiz.android.bubblelayout.BubbleLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp"
+                                    android:background="@android:color/holo_red_light"
+                                    app:bb_arrowTo="@id/iv3"
+                                    app:bb_borderColor="#88FFFFFF"
+                                    app:bb_borderWidth="1dp"
+                                    app:bb_fillColor="#200000FF">
 
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="horizontal">
+                                    <com.cpiz.android.bubblelayout.BubbleLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="10dp"
+                                        android:background="@android:color/holo_red_light"
+                                        app:bb_arrowTo="@id/iv3"
+                                        app:bb_borderColor="#88FFFFFF"
+                                        app:bb_borderWidth="1dp"
+                                        app:bb_fillColor="#200000FF">
 
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
+                                        <com.cpiz.android.bubblelayout.BubbleLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_margin="10dp"
+                                            android:background="@android:color/holo_red_light"
+                                            app:bb_arrowTo="@id/iv3"
+                                            app:bb_borderColor="#88FFFFFF"
+                                            app:bb_borderWidth="1dp"
+                                            app:bb_fillColor="#200000FF">
 
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:orientation="horizontal">
-
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-
-                        <Button
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"/>
-                    </LinearLayout>
-                </LinearLayout>
+                                            <com.cpiz.android.bubblelayout.BubbleLayout
+                                                android:layout_width="match_parent"
+                                                android:layout_height="match_parent"
+                                                android:layout_margin="10dp"
+                                                android:background="@android:color/holo_red_light"
+                                                app:bb_arrowTo="@id/iv3"
+                                                app:bb_borderColor="#88FFFFFF"
+                                                app:bb_borderWidth="1dp"
+                                                app:bb_fillColor="#200000FF">
+                                            </com.cpiz.android.bubblelayout.BubbleLayout>
+                                        </com.cpiz.android.bubblelayout.BubbleLayout>
+                                    </com.cpiz.android.bubblelayout.BubbleLayout>
+                                </com.cpiz.android.bubblelayout.BubbleLayout>
+                            </com.cpiz.android.bubblelayout.BubbleLayout>
+                        </com.cpiz.android.bubblelayout.BubbleLayout>
+                    </com.cpiz.android.bubblelayout.BubbleLayout>
+                </com.cpiz.android.bubblelayout.BubbleLayout>
             </com.cpiz.android.bubblelayout.BubbleLayout>
         </RelativeLayout>
+
+        <com.cpiz.android.bubblelayout.BubbleLayout
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            app:bb_arrowDirection="Down"
+            app:bb_arrowHeight="20dp"
+            app:bb_arrowWidth="40dp"
+            app:bb_borderColor="#88FF0000"
+            app:bb_borderWidth="20dp"
+            app:bb_cornerRadius="40dp"
+            app:bb_fillColor="#880000FF"
+            app:bb_fillPadding="-10dp">
+
+        </com.cpiz.android.bubblelayout.BubbleLayout>
 
     </LinearLayout>
 </ScrollView>

@@ -29,9 +29,10 @@ public class BubbleLayout extends RelativeLayout {
     private float mCornerTopRightRadius = 0;
     private float mCornerBottomLeftRadius = 0;
     private float mCornerBottomRightRadius = 0;
-    private int mBackColor = 0xCC000000;
+    private int mFillColor = 0xCC000000;
     private int mBorderColor = Color.WHITE;
     private float mBorderWidth = 0;
+    private float mFillPadding = 0;
 
     public BubbleLayout(Context context) {
         super(context);
@@ -70,7 +71,8 @@ public class BubbleLayout extends RelativeLayout {
             mCornerBottomLeftRadius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerBottomLeftRadius, mCornerTopLeftRadius);
             mCornerBottomRightRadius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerBottomRightRadius, mCornerTopLeftRadius);
 
-            mBackColor = ta.getColor(R.styleable.BubbleLayout_bb_backColor, 0xCC000000);
+            mFillColor = ta.getColor(R.styleable.BubbleLayout_bb_fillColor, 0xCC000000);
+            mFillPadding = ta.getDimension(R.styleable.BubbleLayout_bb_fillPadding, 0);
             mBorderColor = ta.getColor(R.styleable.BubbleLayout_bb_borderColor, Color.WHITE);
             mBorderWidth = ta.getDimension(R.styleable.BubbleLayout_bb_borderWidth, 0);
 
@@ -139,15 +141,15 @@ public class BubbleLayout extends RelativeLayout {
     /**
      * 设置气泡背景色
      *
-     * @param backColor 气泡背景颜色
+     * @param fillColor 气泡背景颜色
      */
-    public void setBackColor(int backColor) {
-        mBackColor = backColor;
+    public void setFillColor(int fillColor) {
+        mFillColor = fillColor;
         updateBackground(getWidth(), getHeight());
     }
 
-    public int getBackColor() {
-        return mBackColor;
+    public int getFillColor() {
+        return mFillColor;
     }
 
     /**
@@ -179,6 +181,20 @@ public class BubbleLayout extends RelativeLayout {
     }
 
     /**
+     * 设置边框于背景之间的间隙宽度
+     *
+     * @param fillPadding 间隙宽度
+     */
+    public void setFillPadding(float fillPadding) {
+        mFillPadding = fillPadding;
+        updateBackground(getWidth(), getHeight());
+    }
+
+    public float getFillPadding() {
+        return mFillPadding;
+    }
+
+    /**
      * 设置边角弧度
      * 可以为四角指定不同弧度
      *
@@ -193,6 +209,10 @@ public class BubbleLayout extends RelativeLayout {
         mCornerBottomRightRadius = bottomRight;
         mCornerBottomLeftRadius = bottomLeft;
         updateBackground(getWidth(), getHeight());
+    }
+
+    public void setCornerRadius(float radius) {
+        setCornerRadius(radius, radius, radius, radius);
     }
 
     public float getCornerTopLeftRadius() {
@@ -282,59 +302,71 @@ public class BubbleLayout extends RelativeLayout {
     private void updateBackground(int width, int height) {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
-        if (mArrowToViewId != 0 && getParent() instanceof ViewGroup) {
-            View arrowToView = ((ViewGroup) getParent()).findViewById(mArrowToViewId);
-            arrowToView.getLocationInWindow(mLocation);
-            mRectTo.set(mLocation[0], mLocation[1], mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
+        View rootView = getRootView();
+        if (mArrowToViewId != 0 && rootView instanceof ViewGroup) {
+            View arrowToView = rootView.findViewById(mArrowToViewId);
+            if (arrowToView != null) {
+                arrowToView.getLocationInWindow(mLocation);
+                mRectTo.set(mLocation[0], mLocation[1], mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
 
-            getLocationInWindow(mLocation);
-            mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + getWidth(), mLocation[1] + getHeight());
+                getLocationInWindow(mLocation);
+                mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + getWidth(), mLocation[1] + getHeight());
 
-            arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
-            arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-            mArrowDirection = getArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY);
+                arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
+                arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
+                mArrowDirection = getArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY);
+            }
         }
         resetPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
 
         mBubbleDrawable.resetRect(width, height);
         mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius, mCornerBottomLeftRadius);
-        mBubbleDrawable.setBackColor(mBackColor);
+        mBubbleDrawable.setFillColor(mFillColor);
         mBubbleDrawable.setBorderWidth(mBorderWidth);
+        mBubbleDrawable.setFillPadding(mFillPadding);
         mBubbleDrawable.setBorderColor(mBorderColor);
         mBubbleDrawable.setArrowDirection(mArrowDirection);
         mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
         mBubbleDrawable.setArrowHeight(mArrowHeight);
         mBubbleDrawable.setArrowWidth(mArrowWidth);
-        setBackground(mBubbleDrawable);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            setBackground(mBubbleDrawable);
+        } else {
+            // noinspection deprecation
+            setBackgroundDrawable(mBubbleDrawable);
+        }
     }
 
     /**
      * 根据目标对象相对中心位置，推导箭头朝向
-     * 只有目标点落在气泡容器横纵延长区间内，才能获得确定的方向，否则不显示箭头
      *
      * @param width   自己的宽度
      * @param height  自己的高度
      * @param offsetX 目标对象中心相对X
      * @param offsetY 目标对象中心相对Y
-     * @return
+     * @return 推导出的箭头朝向
      */
     private BubbleDrawable.ArrowDirection getArrowDirection(int width, int height, int offsetX, int offsetY) {
         int targetCenterX = offsetX + width / 2;
         int targetCenterY = offsetY + height / 2;
 
-        if (targetCenterX < 0 && targetCenterY > 0 && targetCenterY < height) {
+        if ((targetCenterX < 0 && targetCenterY > 0 && targetCenterY < height)
+                || (Math.abs(offsetX) > Math.abs(offsetY) && offsetX < 0)) {
             return BubbleDrawable.ArrowDirection.Left;
         }
 
-        if (targetCenterY < 0 && targetCenterX > 0 && targetCenterX < width) {
+        if ((targetCenterY < 0 && targetCenterX > 0 && targetCenterX < width)
+                || (Math.abs(offsetX) < Math.abs(offsetY) && offsetY < 0)) {
             return BubbleDrawable.ArrowDirection.Up;
         }
 
-        if (targetCenterX > width && targetCenterY > 0 && targetCenterY < height) {
+        if ((targetCenterX > width && targetCenterY > 0 && targetCenterY < height)
+                || (Math.abs(offsetX) > Math.abs(offsetY) && offsetX > 0)) {
             return BubbleDrawable.ArrowDirection.Right;
         }
 
-        if (targetCenterY > height && targetCenterX > 0 && targetCenterX < width) {
+        if ((targetCenterY > height && targetCenterX > 0 && targetCenterX < width)
+                || (Math.abs(offsetX) < Math.abs(offsetY) && offsetY > 0)) {
             return BubbleDrawable.ArrowDirection.Down;
         }
 
