@@ -314,7 +314,7 @@
                 android:padding="30dp"
                 app:bb_arrowDirection="Down"
                 app:bb_arrowHeight="10dp"
-                app:bb_arrowOffset="1px"
+                app:bb_arrowOffset="30dp"
                 app:bb_arrowWidth="40dp"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
@@ -324,7 +324,7 @@
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
                 app:bb_fillColor="@android:color/holo_red_light"
-                app:bb_fillPadding="1dp">
+                app:bb_fillPadding="4dp">
 
                 <TextView
                     android:layout_width="wrap_content"
