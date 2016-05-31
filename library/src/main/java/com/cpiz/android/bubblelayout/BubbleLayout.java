@@ -24,6 +24,7 @@ public class BubbleLayout extends RelativeLayout {
     private int mArrowToViewId = 0;
     private float mArrowHeight = 0;
     private float mArrowWidth = 0;
+    private float mArrowOffset = 0;
     private int mPaddingLeftOffset = 0, mPaddingTopOffset = 0, mPaddingRightOffset = 0, mPaddingBottomOffset = 0;
     private float mCornerTopLeftRadius = 0;
     private float mCornerTopRightRadius = 0;
@@ -62,7 +63,11 @@ public class BubbleLayout extends RelativeLayout {
                     ta.getInt(R.styleable.BubbleLayout_bb_arrowDirection, 0));
             mArrowHeight = ta.getDimension(R.styleable.BubbleLayout_bb_arrowHeight, dpToPx(6));
             mArrowWidth = ta.getDimension(R.styleable.BubbleLayout_bb_arrowWidth, dpToPx(10));
+            mArrowOffset = ta.getDimension(R.styleable.BubbleLayout_bb_arrowOffset, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleLayout_bb_arrowTo, 0);
+            if (mArrowToViewId != 0) {
+                mArrowOffset = 0; // 箭头自动指向优先
+            }
 
             float radius = ta.getDimension(R.styleable.BubbleLayout_bb_cornerRadius, dpToPx(10));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
@@ -79,7 +84,7 @@ public class BubbleLayout extends RelativeLayout {
             ta.recycle();
         }
 
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight(), false);
     }
 
     public BubbleDrawable.ArrowDirection getArrowDirection() {
@@ -93,21 +98,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setArrowDirection(BubbleDrawable.ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
-        updateBackground(getWidth(), getHeight());
-    }
-
-    /**
-     * 设置箭头指向的View对象ID
-     *
-     * @param arrowToViewId 指向的ViewId
-     */
-    public void setArrowToViewId(int arrowToViewId) {
-        mArrowToViewId = arrowToViewId;
-        updateBackground(getWidth(), getHeight());
-    }
-
-    public int getArrowToViewId() {
-        return mArrowToViewId;
+        updateDrawable(getWidth(), getHeight());
     }
 
     /**
@@ -117,7 +108,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setArrowHeight(float arrowHeight) {
         mArrowHeight = arrowHeight;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public float getArrowHeight() {
@@ -131,11 +122,42 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setArrowWidth(float arrowWidth) {
         mArrowWidth = arrowWidth;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public float getArrowWidth() {
         return mArrowWidth;
+    }
+
+    /**
+     * 设置箭头在边线上的位置，视箭头方向而定
+     *
+     * @param arrowOffset 根据箭头位置，偏移像素值：
+     *                    朝上/下时在X轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
+     *                    朝左/右时在Y轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
+     */
+    public void setArrowOffset(float arrowOffset) {
+        mArrowOffset = arrowOffset;
+        updateDrawable(getWidth(), getHeight());
+    }
+
+    public float getArrowOffset() {
+        return mArrowOffset;
+    }
+
+    /**
+     * 设置箭头指向的View对象ID
+     * 设置了View对象后，setArrowPos将不起作用
+     *
+     * @param arrowToViewId 指向的ViewId
+     */
+    public void setArrowToViewId(int arrowToViewId) {
+        mArrowToViewId = arrowToViewId;
+        updateDrawable(getWidth(), getHeight());
+    }
+
+    public int getArrowToViewId() {
+        return mArrowToViewId;
     }
 
     /**
@@ -145,7 +167,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setFillColor(int fillColor) {
         mFillColor = fillColor;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public int getFillColor() {
@@ -159,7 +181,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setBorderColor(int borderColor) {
         mBorderColor = borderColor;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public int getBorderColor() {
@@ -173,7 +195,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setBorderWidth(float borderWidth) {
         mBorderWidth = borderWidth;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public float getBorderWidth() {
@@ -187,7 +209,7 @@ public class BubbleLayout extends RelativeLayout {
      */
     public void setFillPadding(float fillPadding) {
         mFillPadding = fillPadding;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public float getFillPadding() {
@@ -208,7 +230,7 @@ public class BubbleLayout extends RelativeLayout {
         mCornerTopRightRadius = topRight;
         mCornerBottomRightRadius = bottomRight;
         mCornerBottomLeftRadius = bottomLeft;
-        updateBackground(getWidth(), getHeight());
+        updateDrawable(getWidth(), getHeight());
     }
 
     public void setCornerRadius(float radius) {
@@ -269,7 +291,7 @@ public class BubbleLayout extends RelativeLayout {
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (changed) {
-            updateBackground(right - left, bottom - top);
+            updateDrawable(right - left, bottom - top);
         }
     }
 
@@ -299,7 +321,7 @@ public class BubbleLayout extends RelativeLayout {
     private Rect mRectTo = new Rect();
     private Rect mRectSelf = new Rect();
 
-    private void updateBackground(int width, int height) {
+    private void updateDrawable(int width, int height, boolean drawImmediately) {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
         View rootView = getRootView();
@@ -319,22 +341,30 @@ public class BubbleLayout extends RelativeLayout {
         }
         resetPadding(getPaddingLeft(), getPaddingTop(), getPaddingRight(), getPaddingBottom());
 
-        mBubbleDrawable.resetRect(width, height);
-        mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius, mCornerBottomLeftRadius);
-        mBubbleDrawable.setFillColor(mFillColor);
-        mBubbleDrawable.setBorderWidth(mBorderWidth);
-        mBubbleDrawable.setFillPadding(mFillPadding);
-        mBubbleDrawable.setBorderColor(mBorderColor);
-        mBubbleDrawable.setArrowDirection(mArrowDirection);
-        mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
-        mBubbleDrawable.setArrowHeight(mArrowHeight);
-        mBubbleDrawable.setArrowWidth(mArrowWidth);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(mBubbleDrawable);
-        } else {
-            // noinspection deprecation
-            setBackgroundDrawable(mBubbleDrawable);
+        if (drawImmediately) {
+            mBubbleDrawable.resetRect(width, height);
+            mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius, mCornerBottomLeftRadius);
+            mBubbleDrawable.setFillColor(mFillColor);
+            mBubbleDrawable.setBorderWidth(mBorderWidth);
+            mBubbleDrawable.setFillPadding(mFillPadding);
+            mBubbleDrawable.setBorderColor(mBorderColor);
+            mBubbleDrawable.setArrowDirection(mArrowDirection);
+            mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
+            mBubbleDrawable.setArrowPos(mArrowOffset);
+            mBubbleDrawable.setArrowHeight(mArrowHeight);
+            mBubbleDrawable.setArrowWidth(mArrowWidth);
+            mBubbleDrawable.rebuildShapes();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                setBackground(mBubbleDrawable);
+            } else {
+                // noinspection deprecation
+                setBackgroundDrawable(mBubbleDrawable);
+            }
         }
+    }
+
+    private void updateDrawable(int width, int height) {
+        updateDrawable(width, height, true);
     }
 
     /**

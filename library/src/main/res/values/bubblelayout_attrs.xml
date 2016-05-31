@@ -14,6 +14,7 @@
         </attr>
         <attr name="bb_arrowHeight" format="dimension"/>
         <attr name="bb_arrowWidth" format="dimension"/>
+        <attr name="bb_arrowOffset" format="dimension"/>
 
         <attr name="bb_cornerRadius" format="dimension"/>
         <attr name="bb_cornerTopLeftRadius" format="dimension"/>
@@ -23,6 +24,5 @@
 
         <attr name="bb_borderWidth" format="dimension"/>
         <attr name="bb_borderColor" format="reference|color"/>
-
     </declare-styleable>
 </resources>

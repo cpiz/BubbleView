@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
@@ -73,17 +74,19 @@ public class BubbleDrawable extends Drawable {
     private Path mBorderPath = new Path();
     private Paint mFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mFillPath = new Path();
-    private float mBorderWidth = 0;
     private float mFillPadding = 0;
     private int mFillColor = 0xCC000000;
     private int mBorderColor = Color.WHITE;
-    private float mArrowToX = 0;
-    private float mArrowToY = 0;
+    private PointF mArrowTo = new PointF(0, 0);
 
     private class Shape {
         RectF Rect = new RectF();
+        float BorderWidth = 0;
         float ArrowHeight = 0;
         float ArrowWidth = 0;
+        float ArrowOffset = 0;
+        float ArrowPeakX = 0;
+        float ArrowPeakY = 0;
         float TopLeftRadius = 0;
         float TopRightRadius = 0;
         float BottomLeftRadius = 0;
@@ -91,8 +94,12 @@ public class BubbleDrawable extends Drawable {
 
         void set(Shape shape) {
             this.Rect.set(shape.Rect);
+            this.BorderWidth = shape.BorderWidth;
             this.ArrowHeight = shape.ArrowHeight;
             this.ArrowWidth = shape.ArrowWidth;
+            this.ArrowOffset = shape.ArrowOffset;
+            this.ArrowPeakX = shape.ArrowPeakX;
+            this.ArrowPeakY = shape.ArrowPeakY;
             this.TopLeftRadius = shape.TopLeftRadius;
             this.TopRightRadius = shape.TopRightRadius;
             this.BottomLeftRadius = shape.BottomLeftRadius;
@@ -102,7 +109,6 @@ public class BubbleDrawable extends Drawable {
 
     public void resetRect(int width, int height) {
         mOriginalShape.Rect.set(0, 0, width, height);
-        rebuildShapes();
     }
 
     public void setFillColor(int fillColor) {
@@ -114,13 +120,11 @@ public class BubbleDrawable extends Drawable {
     }
 
     public void setBorderWidth(float borderWidth) {
-        mBorderWidth = borderWidth;
-        rebuildShapes();
+        mOriginalShape.BorderWidth = borderWidth;
     }
 
     public void setFillPadding(float fillPadding) {
         mFillPadding = fillPadding;
-        rebuildShapes();
     }
 
     public void rebuildShapes() {
@@ -132,31 +136,57 @@ public class BubbleDrawable extends Drawable {
         // 预留四周1/2的边框厚度，使得边框能够完全显示
         mBorderShape.set(mOriginalShape);
         mBorderShape.Rect.set(
-                mOriginalShape.Rect.left + mBorderWidth / 2 + (mArrowDirection.isLeft() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.top + mBorderWidth / 2 + (mArrowDirection.isUp() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.right - mBorderWidth / 2 - (mArrowDirection.isRight() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.bottom - mBorderWidth / 2 - (mArrowDirection.isDown() ? mOriginalShape.ArrowHeight : 0)
+                mOriginalShape.Rect.left + mOriginalShape.BorderWidth / 2 + (mArrowDirection.isLeft() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.top + mOriginalShape.BorderWidth / 2 + (mArrowDirection.isUp() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.right - mOriginalShape.BorderWidth / 2 - (mArrowDirection.isRight() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.bottom - mOriginalShape.BorderWidth / 2 - (mArrowDirection.isDown() ? mOriginalShape.ArrowHeight : 0)
         );
+        buildArrowPeak(mArrowDirection, mBorderShape);
+
+        mBorderPath.reset();
+        buildPath(mBorderShape, mBorderPath);
     }
 
     private void buildFillShape() {
-        mFillShape.set(mOriginalShape);
+        mFillShape.set(mBorderShape);
+        mFillShape.BorderWidth = 0;
         mFillShape.Rect.set(
-                mOriginalShape.Rect.left + mBorderWidth + mFillPadding + (mArrowDirection.isLeft() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.top + mBorderWidth + mFillPadding + (mArrowDirection.isUp() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.right - mBorderWidth - mFillPadding - (mArrowDirection.isRight() ? mOriginalShape.ArrowHeight : 0),
-                mOriginalShape.Rect.bottom - mBorderWidth - mFillPadding - (mArrowDirection.isDown() ? mOriginalShape.ArrowHeight : 0)
+                mOriginalShape.Rect.left + mOriginalShape.BorderWidth + mFillPadding + (mArrowDirection.isLeft() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.top + mOriginalShape.BorderWidth + mFillPadding + (mArrowDirection.isUp() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.right - mOriginalShape.BorderWidth - mFillPadding - (mArrowDirection.isRight() ? mOriginalShape.ArrowHeight : 0),
+                mOriginalShape.Rect.bottom - mOriginalShape.BorderWidth - mFillPadding - (mArrowDirection.isDown() ? mOriginalShape.ArrowHeight : 0)
         );
-        mFillShape.TopLeftRadius = Math.max(0, mOriginalShape.TopLeftRadius - mBorderWidth / 2 - mFillPadding);
-        mFillShape.TopRightRadius = Math.max(0, mOriginalShape.TopRightRadius - mBorderWidth / 2 - mFillPadding);
-        mFillShape.BottomLeftRadius = Math.max(0, mOriginalShape.BottomLeftRadius - mBorderWidth / 2 - mFillPadding);
-        mFillShape.BottomRightRadius = Math.max(0, mOriginalShape.BottomRightRadius - mBorderWidth / 2 - mFillPadding);
+        mFillShape.TopLeftRadius = Math.max(0, mOriginalShape.TopLeftRadius - mOriginalShape.BorderWidth / 2 - mFillPadding);
+        mFillShape.TopRightRadius = Math.max(0, mOriginalShape.TopRightRadius - mOriginalShape.BorderWidth / 2 - mFillPadding);
+        mFillShape.BottomLeftRadius = Math.max(0, mOriginalShape.BottomLeftRadius - mOriginalShape.BorderWidth / 2 - mFillPadding);
+        mFillShape.BottomRightRadius = Math.max(0, mOriginalShape.BottomRightRadius - mOriginalShape.BorderWidth / 2 - mFillPadding);
 
-        double w = mOriginalShape.ArrowWidth - 2 * (mBorderWidth / 2 + mFillPadding) / Math.sin(Math.atan(mOriginalShape.ArrowHeight / (mOriginalShape.ArrowWidth / 2)));
+        double w = mOriginalShape.ArrowWidth - 2 * (mOriginalShape.BorderWidth / 2 + mFillPadding) / Math.sin(Math.atan(mOriginalShape.ArrowHeight / (mOriginalShape.ArrowWidth / 2)));
         double h = w * mOriginalShape.ArrowHeight / mOriginalShape.ArrowWidth;
 
-        mFillShape.ArrowHeight = (float) (h + mBorderWidth / 2 + mFillPadding);
+        mFillShape.ArrowHeight = (float) (h + mOriginalShape.BorderWidth / 2 + mFillPadding);
         mFillShape.ArrowWidth = mFillShape.ArrowHeight * mOriginalShape.ArrowWidth / mOriginalShape.ArrowHeight;
+        buildArrowPeak(mArrowDirection, mFillShape);
+
+        mFillPath.reset();
+        buildPath(mFillShape, mFillPath);
+    }
+
+    private void buildArrowPeak(ArrowDirection direction, Shape shape) {
+        switch (direction) {
+            case Left:
+                buildLeftArrowPeak(shape);
+                break;
+            case Up:
+                buildUpArrowPeak(shape);
+                break;
+            case Right:
+                buildRightArrowPeak(shape);
+                break;
+            case Down:
+                buildDownArrowPeak(shape);
+                break;
+        }
     }
 
     public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
@@ -164,11 +194,18 @@ public class BubbleDrawable extends Drawable {
         mOriginalShape.TopRightRadius = topRight;
         mOriginalShape.BottomRightRadius = bottomRight;
         mOriginalShape.BottomLeftRadius = bottomLeft;
-        rebuildShapes();
     }
 
     public void setArrowDirection(ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
+    }
+
+    public void setArrowHeight(float arrowHeight) {
+        mOriginalShape.ArrowHeight = arrowHeight;
+    }
+
+    public void setArrowWidth(float arrowWidth) {
+        mOriginalShape.ArrowWidth = arrowWidth;
     }
 
     /**
@@ -178,35 +215,25 @@ public class BubbleDrawable extends Drawable {
      * @param y 目标中心y
      */
     public void setArrowTo(float x, float y) {
-        mArrowToX = x;
-        mArrowToY = y;
+        mArrowTo.x = x;
+        mArrowTo.y = y;
     }
 
-    public void setArrowHeight(float arrowHeight) {
-        mOriginalShape.ArrowHeight = arrowHeight;
-        rebuildShapes();
-    }
-
-    public void setArrowWidth(float arrowWidth) {
-        mOriginalShape.ArrowWidth = arrowWidth;
-        rebuildShapes();
+    public void setArrowPos(float arrowPos) {
+        mOriginalShape.ArrowOffset = arrowPos;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        mFillPath.reset();
-        buildPath(mFillShape, mFillPath);
         mFillPaint.setStyle(Paint.Style.FILL);
         mFillPaint.setColor(mFillColor);
         canvas.drawPath(mFillPath, mFillPaint);
 
-        if (mBorderWidth > 0) {
-            mBorderPath.reset();
-            buildPath(mBorderShape, mBorderPath);
+        if (mBorderShape.BorderWidth > 0) {
             mBorderPaint.setStyle(Paint.Style.STROKE);
             mBorderPaint.setStrokeCap(Paint.Cap.ROUND);
             mBorderPaint.setStrokeJoin(Paint.Join.ROUND);
-            mBorderPaint.setStrokeWidth(mBorderWidth);
+            mBorderPaint.setStrokeWidth(mBorderShape.BorderWidth);
             mBorderPaint.setColor(mBorderColor);
             canvas.drawPath(mBorderPath, mBorderPaint);
         }
@@ -228,182 +255,199 @@ public class BubbleDrawable extends Drawable {
     private void buildPath(Shape shape, Path path) {
         switch (mArrowDirection) {
             case None:
-                buildNoneArrow(shape, path);
+                buildWithNoneArrow(shape, path);
                 break;
             case Up:
-                buildTopArrow(shape, path);
+                buildWithUpArrow(shape, path);
                 break;
             case Down:
-                buildBottomArrow(shape, path);
+                buildWithDownArrow(shape, path);
                 break;
             case Left:
-                buildLeftArrow(shape, path);
+                buildWithLeftArrow(shape, path);
                 break;
             case Right:
-                buildRightArrow(shape, path);
+                buildWithRightArrow(shape, path);
                 break;
         }
     }
 
-    private void buildNoneArrow(Shape shape, Path path) {
+    private void buildWithNoneArrow(Shape shape, Path path) {
         RectF rect = shape.Rect;
         path.moveTo(rect.left, rect.top + shape.TopLeftRadius);
         compatPathArcTo(path, rect.left, rect.top,
                 rect.left + 2 * shape.TopLeftRadius, rect.top + 2 * shape.TopLeftRadius, 180, 90);
-
         path.lineTo(rect.right - shape.TopRightRadius, rect.top);
-        compatPathArcTo(path, rect.right - 2 * shape.TopRightRadius, rect.top,
-                rect.right, rect.top + 2 * shape.TopRightRadius,
-                270, 90);
+        buildTopRightCorner(shape, path);
         path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
-        compatPathArcTo(path, rect.right - 2 * shape.BottomRightRadius, rect.bottom - 2 * shape.BottomRightRadius,
-                rect.right, rect.bottom,
-                0, 90);
+        buildBottomRightCorner(shape, path);
         path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
-        compatPathArcTo(path, rect.left, rect.bottom - 2 * shape.BottomLeftRadius,
-                rect.left + 2 * shape.BottomLeftRadius, rect.bottom,
-                90, 90);
+        buildBottomLeftCorner(shape, path);
         path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
     }
 
-    private void buildLeftArrow(Shape shape, Path path) {
+    private void buildWithLeftArrow(Shape shape, Path path) {
         RectF rect = shape.Rect;
-
-        // 箭头顶点坐标
-        float peakX = rect.left - shape.ArrowHeight;
-        float peakY = bound(shape.TopLeftRadius + shape.ArrowWidth / 2 + 1,
-                rect.centerY() + mArrowToY, // 顶点指向目标中心，但保证弧角的显示
-                shape.Rect.bottom - shape.BottomLeftRadius - shape.ArrowWidth / 2 - 1);
-
-
-        // 从箭头顶点开始沿顺时针方向绘制
-        path.moveTo(peakX, peakY);
-        path.lineTo(rect.left, peakY - shape.ArrowWidth / 2);
-
-        // 左上竖线
-        path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
-
-        // 左上弧角
-        compatPathArcTo(path, rect.left, rect.top,
-                rect.left + 2 * shape.TopLeftRadius, rect.top + 2 * shape.TopLeftRadius,
-                180, 90);
-
-        // 上横向
-        path.lineTo(rect.right - shape.TopRightRadius, rect.top);
-
-        // 右上弧角
-        compatPathArcTo(path, rect.right - 2 * shape.TopRightRadius, rect.top,
-                rect.right, rect.top + 2 * shape.TopRightRadius,
-                270, 90);
-
-        // 右侧竖线
-        path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
-
-        // 右下弧角
-        compatPathArcTo(path, rect.right - 2 * shape.BottomRightRadius, rect.bottom - 2 * shape.BottomRightRadius,
-                rect.right, rect.bottom,
-                0, 90);
-
-        // 底部横向
-        path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
-
-        // 左下弧角
-        compatPathArcTo(path, rect.left, rect.bottom - 2 * shape.BottomLeftRadius,
-                rect.left + 2 * shape.BottomLeftRadius, rect.bottom,
-                90, 90);
-
-        // 左下竖线
-        path.lineTo(rect.left, peakY + shape.ArrowWidth / 2);
-
-        // 回到顶点
-        path.lineTo(peakX, peakY);
+        path.moveTo(shape.ArrowPeakX, shape.ArrowPeakY); // 从箭头顶点开始沿顺时针方向绘制
+        path.lineTo(rect.left, shape.ArrowPeakY - shape.ArrowWidth / 2);
+        path.lineTo(rect.left, rect.top + shape.TopLeftRadius); // 左上竖线
+        buildTopLeftCorner(shape, path); // 左上弧角
+        path.lineTo(rect.right - shape.TopRightRadius, rect.top); // 上横线
+        buildTopRightCorner(shape, path); // 右上弧角
+        path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius); // 右侧竖线
+        buildBottomRightCorner(shape, path); // 右下弧角
+        path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom); // 底部横向
+        buildBottomLeftCorner(shape, path); // 左下弧角
+        path.lineTo(rect.left, shape.ArrowPeakY + shape.ArrowWidth / 2); // 左下竖线
+        path.lineTo(shape.ArrowPeakX, shape.ArrowPeakY); // 回到顶点
     }
 
-    private void buildRightArrow(Shape shape, Path path) {
+    private void buildWithUpArrow(Shape shape, Path path) {
         RectF rect = shape.Rect;
-        float peakX = rect.right + shape.ArrowHeight;
-        float peakY = bound(shape.TopRightRadius + shape.ArrowWidth / 2 + 1,
-                rect.centerY() + mArrowToY,
-                shape.Rect.bottom - shape.BottomRightRadius - shape.ArrowWidth / 2 - 1);
-
-        path.moveTo(peakX, peakY);
-        path.lineTo(rect.right, peakY + shape.ArrowWidth / 2);
-        path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
-        compatPathArcTo(path, rect.right - 2 * shape.BottomRightRadius, rect.bottom - 2 * shape.BottomRightRadius,
-                rect.right, rect.bottom,
-                0, 90);
-        path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
-        compatPathArcTo(path, rect.left, rect.bottom - 2 * shape.BottomLeftRadius,
-                rect.left + 2 * shape.BottomLeftRadius, rect.bottom,
-                90, 90);
-        path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
-        compatPathArcTo(path, rect.left, rect.top,
-                rect.left + 2 * shape.TopLeftRadius, rect.top + 2 * shape.TopLeftRadius,
-                180, 90);
+        path.moveTo(shape.ArrowPeakX, shape.ArrowPeakY);
+        path.lineTo(shape.ArrowPeakX + shape.ArrowWidth / 2, rect.top);
         path.lineTo(rect.right - shape.TopRightRadius, rect.top);
-        compatPathArcTo(path, rect.right - 2 * shape.TopRightRadius, rect.top,
-                rect.right, rect.top + 2 * shape.TopRightRadius,
-                270, 90);
-        path.lineTo(rect.right, peakY - shape.ArrowWidth / 2);
-        path.lineTo(peakX, peakY);
+        buildTopRightCorner(shape, path);
+        path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
+        buildBottomRightCorner(shape, path);
+        path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
+        buildBottomLeftCorner(shape, path);
+        path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
+        buildTopLeftCorner(shape, path);
+        path.lineTo(shape.ArrowPeakX - shape.ArrowWidth / 2, rect.top);
+        path.lineTo(shape.ArrowPeakX, shape.ArrowPeakY);
     }
 
-    private void buildTopArrow(Shape shape, Path path) {
+    private void buildWithRightArrow(Shape shape, Path path) {
         RectF rect = shape.Rect;
-        float peakX = bound(shape.TopLeftRadius + shape.ArrowWidth / 2 + 1,
-                rect.centerX() + mArrowToX,
-                shape.Rect.right - shape.TopRightRadius - shape.ArrowWidth / 2 - 1);
-        float peakY = rect.top - shape.ArrowHeight;
-
-        path.moveTo(peakX, peakY);
-        path.lineTo(peakX + shape.ArrowWidth / 2, rect.top);
-        path.lineTo(rect.right - shape.TopRightRadius, rect.top);
-        compatPathArcTo(path, rect.right - 2 * shape.TopRightRadius, rect.top,
-                rect.right, rect.top + 2 * shape.TopRightRadius,
-                270, 90);
+        path.moveTo(shape.ArrowPeakX, shape.ArrowPeakY);
+        path.lineTo(rect.right, shape.ArrowPeakY + shape.ArrowWidth / 2);
         path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
-        compatPathArcTo(path, rect.right - 2 * shape.BottomRightRadius, rect.bottom - 2 * shape.BottomRightRadius,
-                rect.right, rect.bottom,
-                0, 90);
+        buildBottomRightCorner(shape, path);
         path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
-        compatPathArcTo(path, rect.left, rect.bottom - 2 * shape.BottomLeftRadius,
-                rect.left + 2 * shape.BottomLeftRadius, rect.bottom,
-                90, 90);
+        buildBottomLeftCorner(shape, path);
         path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
-        compatPathArcTo(path, rect.left, rect.top,
-                rect.left + 2 * shape.TopLeftRadius, rect.top + 2 * shape.TopLeftRadius,
-                180, 90);
-        path.lineTo(peakX - shape.ArrowWidth / 2, rect.top);
-        path.lineTo(peakX, peakY);
+        buildTopLeftCorner(shape, path);
+        path.lineTo(rect.right - shape.TopRightRadius, rect.top);
+        buildTopRightCorner(shape, path);
+        path.lineTo(rect.right, shape.ArrowPeakY - shape.ArrowWidth / 2);
+        path.lineTo(shape.ArrowPeakX, shape.ArrowPeakY);
     }
 
-    private void buildBottomArrow(Shape shape, Path path) {
+    private void buildWithDownArrow(Shape shape, Path path) {
         RectF rect = shape.Rect;
-        float peakX = bound(shape.BottomLeftRadius + shape.ArrowWidth / 2 + 1,
-                rect.centerX() + mArrowToX,
-                shape.Rect.right - shape.BottomRightRadius - shape.ArrowWidth / 2 - 1);
-        float peakY = rect.bottom + shape.ArrowHeight;
-
-        path.moveTo(peakX, peakY);
-        path.lineTo(peakX - shape.ArrowWidth / 2, rect.bottom);
+        path.moveTo(shape.ArrowPeakX, shape.ArrowPeakY);
+        path.lineTo(shape.ArrowPeakX - shape.ArrowWidth / 2, rect.bottom);
         path.lineTo(rect.left + shape.BottomLeftRadius, rect.bottom);
-        compatPathArcTo(path, rect.left, rect.bottom - 2 * shape.BottomLeftRadius,
-                rect.left + 2 * shape.BottomLeftRadius, rect.bottom,
-                90, 90);
+        buildBottomLeftCorner(shape, path);
         path.lineTo(rect.left, rect.top + shape.TopLeftRadius);
-        compatPathArcTo(path, rect.left, rect.top,
-                rect.left + 2 * shape.TopLeftRadius, rect.top + 2 * shape.TopLeftRadius,
-                180, 90);
+        buildTopLeftCorner(shape, path);
         path.lineTo(rect.right - shape.TopRightRadius, rect.top);
-        compatPathArcTo(path, rect.right - 2 * shape.TopRightRadius, rect.top,
-                rect.right, rect.top + 2 * shape.TopRightRadius,
-                270, 90);
+        buildTopRightCorner(shape, path);
         path.lineTo(rect.right, rect.bottom - shape.BottomRightRadius);
-        compatPathArcTo(path, rect.right - 2 * shape.BottomRightRadius, rect.bottom - 2 * shape.BottomRightRadius,
-                rect.right, rect.bottom,
-                0, 90);
-        path.lineTo(peakX + shape.ArrowWidth / 2, rect.bottom);
-        path.lineTo(peakX, peakY);
+        buildBottomRightCorner(shape, path);
+        path.lineTo(shape.ArrowPeakX + shape.ArrowWidth / 2, rect.bottom);
+        path.lineTo(shape.ArrowPeakX, shape.ArrowPeakY);
+    }
+
+    private void buildLeftArrowPeak(Shape shape) {
+        float y;
+        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
+            y = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.bottom + shape.Rect.top);
+        } else {
+            y = shape.Rect.centerY() + mArrowTo.y;
+        }
+
+        shape.ArrowPeakX = shape.Rect.left - shape.ArrowHeight;
+        shape.ArrowPeakY = bound(shape.Rect.top + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                y, // 确保弧角的显示
+                shape.Rect.bottom - shape.BottomLeftRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowOffset = shape.ArrowPeakY;
+    }
+
+    private void buildUpArrowPeak(Shape shape) {
+        float x;
+        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
+            x = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.right + shape.Rect.left);
+        } else {
+            x = shape.Rect.centerX() + mArrowTo.x;
+        }
+
+        shape.ArrowPeakX = bound(shape.Rect.left + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                x,
+                shape.Rect.right - shape.TopRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowPeakY = shape.Rect.top - shape.ArrowHeight;
+        shape.ArrowOffset = shape.ArrowPeakX;
+    }
+
+    private void buildDownArrowPeak(Shape shape) {
+        float x;
+        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
+            x = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.right + shape.Rect.left);
+        } else {
+            x = shape.Rect.centerX() + mArrowTo.x;
+        }
+
+        shape.ArrowPeakX = bound(shape.Rect.left + shape.BottomLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                x,
+                shape.Rect.right - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowPeakY = shape.Rect.bottom + shape.ArrowHeight;
+        shape.ArrowOffset = shape.ArrowPeakX;
+    }
+
+    private void buildRightArrowPeak(Shape shape) {
+        float y;
+        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
+            y = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.bottom + shape.Rect.top);
+        } else {
+            y = shape.Rect.centerY() + mArrowTo.y;
+        }
+
+        shape.ArrowPeakX = shape.Rect.right + shape.ArrowHeight;
+        shape.ArrowPeakY = bound(shape.Rect.top + shape.TopRightRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                y,
+                shape.Rect.bottom - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowOffset = shape.ArrowPeakY;
+    }
+
+    private void buildTopLeftCorner(Shape shape, Path path) {
+        compatPathArcTo(path,
+                shape.Rect.left,
+                shape.Rect.top,
+                shape.Rect.left + 2 * shape.TopLeftRadius,
+                shape.Rect.top + 2 * shape.TopLeftRadius,
+                180,
+                90);
+    }
+
+    private void buildTopRightCorner(Shape shape, Path path) {
+        compatPathArcTo(path,
+                shape.Rect.right - 2 * shape.TopRightRadius,
+                shape.Rect.top,
+                shape.Rect.right,
+                shape.Rect.top + 2 * shape.TopRightRadius,
+                270,
+                90);
+    }
+
+    private void buildBottomRightCorner(Shape shape, Path path) {
+        compatPathArcTo(path,
+                shape.Rect.right - 2 * shape.BottomRightRadius,
+                shape.Rect.bottom - 2 * shape.BottomRightRadius,
+                shape.Rect.right,
+                shape.Rect.bottom,
+                0,
+                90);
+    }
+
+    private void buildBottomLeftCorner(Shape shape, Path path) {
+        compatPathArcTo(path,
+                shape.Rect.left,
+                shape.Rect.bottom - 2 * shape.BottomLeftRadius,
+                shape.Rect.left + 2 * shape.BottomLeftRadius,
+                shape.Rect.bottom,
+                90,
+                90);
     }
 
     private RectF mOvalRect = new RectF();

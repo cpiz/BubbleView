@@ -314,16 +314,17 @@
                 android:padding="30dp"
                 app:bb_arrowDirection="Down"
                 app:bb_arrowHeight="10dp"
+                app:bb_arrowOffset="1px"
                 app:bb_arrowWidth="40dp"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
-                app:bb_cornerBottomLeftRadius="20dp"
+                app:bb_cornerBottomLeftRadius="0dp"
                 app:bb_cornerBottomRightRadius="10dp"
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
                 app:bb_fillColor="@android:color/holo_red_light"
-                app:bb_fillPadding="10dp">
+                app:bb_fillPadding="1dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -457,19 +458,116 @@
             </com.cpiz.android.bubblelayout.BubbleLayout>
         </RelativeLayout>
 
-        <com.cpiz.android.bubblelayout.BubbleLayout
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="箭头位置"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <RelativeLayout
+            android:id="@+id/group5"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            app:bb_arrowDirection="Down"
-            app:bb_arrowHeight="20dp"
-            app:bb_arrowWidth="40dp"
-            app:bb_borderColor="#88FF0000"
-            app:bb_borderWidth="20dp"
-            app:bb_cornerRadius="40dp"
-            app:bb_fillColor="#880000FF"
-            app:bb_fillPadding="-10dp">
+            android:layout_height="240dp"
+            android:layout_marginBottom="30dp"
+            android:background="#bdc3c7"
+            android:padding="10dp">
 
-        </com.cpiz.android.bubblelayout.BubbleLayout>
+            <com.cpiz.android.bubblelayout.BubbleLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
+                android:background="@android:color/holo_red_light"
+                app:bb_arrowDirection="Left"
+                app:bb_arrowOffset="20dp"
+                app:bb_borderColor="#88FFFFFF"
+                app:bb_borderWidth="1dp"
+                app:bb_fillColor="#20FF0000">
 
+                <com.cpiz.android.bubblelayout.BubbleLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:background="@android:color/holo_red_light"
+                    app:bb_arrowDirection="Up"
+                    app:bb_arrowOffset="20dp"
+                    app:bb_borderColor="#88FFFFFF"
+                    app:bb_borderWidth="1dp"
+                    app:bb_fillColor="#20FF0000">
+
+                    <com.cpiz.android.bubblelayout.BubbleLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="10dp"
+                        android:background="@android:color/holo_red_light"
+                        app:bb_arrowDirection="Right"
+                        app:bb_arrowOffset="20dp"
+                        app:bb_borderColor="#88FFFFFF"
+                        app:bb_borderWidth="1dp"
+                        app:bb_fillColor="#20FF0000">
+
+                        <com.cpiz.android.bubblelayout.BubbleLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_margin="10dp"
+                            android:background="@android:color/holo_red_light"
+                            app:bb_arrowDirection="Down"
+                            app:bb_arrowOffset="20dp"
+                            app:bb_borderColor="#88FFFFFF"
+                            app:bb_borderWidth="1dp"
+                            app:bb_fillColor="#20FF0000">
+
+                            <com.cpiz.android.bubblelayout.BubbleLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_margin="10dp"
+                                android:background="@android:color/holo_red_light"
+                                app:bb_arrowDirection="Left"
+                                app:bb_arrowOffset="-20dp"
+                                app:bb_borderColor="#88FFFFFF"
+                                app:bb_borderWidth="1dp"
+                                app:bb_fillColor="#20FF0000">
+
+                                <com.cpiz.android.bubblelayout.BubbleLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:layout_margin="10dp"
+                                    android:background="@android:color/holo_red_light"
+                                    app:bb_arrowDirection="Up"
+                                    app:bb_arrowOffset="-20dp"
+                                    app:bb_borderColor="#88FFFFFF"
+                                    app:bb_borderWidth="1dp"
+                                    app:bb_fillColor="#20FF0000">
+
+                                    <com.cpiz.android.bubblelayout.BubbleLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_margin="10dp"
+                                        android:background="@android:color/holo_red_light"
+                                        app:bb_arrowDirection="Right"
+                                        app:bb_arrowOffset="-20dp"
+                                        app:bb_borderColor="#88FFFFFF"
+                                        app:bb_borderWidth="1dp"
+                                        app:bb_fillColor="#20FF0000">
+
+                                        <com.cpiz.android.bubblelayout.BubbleLayout
+                                            android:layout_width="match_parent"
+                                            android:layout_height="match_parent"
+                                            android:layout_margin="10dp"
+                                            android:background="@android:color/holo_red_light"
+                                            app:bb_arrowDirection="Down"
+                                            app:bb_arrowOffset="-20dp"
+                                            app:bb_borderColor="#88FFFFFF"
+                                            app:bb_borderWidth="1dp"
+                                            app:bb_fillColor="#20FF0000">
+                                        </com.cpiz.android.bubblelayout.BubbleLayout>
+                                    </com.cpiz.android.bubblelayout.BubbleLayout>
+                                </com.cpiz.android.bubblelayout.BubbleLayout>
+                            </com.cpiz.android.bubblelayout.BubbleLayout>
+                        </com.cpiz.android.bubblelayout.BubbleLayout>
+                    </com.cpiz.android.bubblelayout.BubbleLayout>
+                </com.cpiz.android.bubblelayout.BubbleLayout>
+            </com.cpiz.android.bubblelayout.BubbleLayout>
+        </RelativeLayout>
     </LinearLayout>
 </ScrollView>
