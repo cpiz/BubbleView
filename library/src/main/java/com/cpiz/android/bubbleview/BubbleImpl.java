@@ -52,7 +52,7 @@ class BubbleImpl implements BubbleStyle {
                 mArrowOffset = 0; // 箭头自动指向优先
             }
 
-            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(10));
+            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(5));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
             mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
             mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
