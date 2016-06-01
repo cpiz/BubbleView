@@ -1,10 +1,11 @@
-# BubbleLayout
-BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布局中通过自定义属性或代码指定样式
+# BubbleView
+BubbleView是带箭头的气泡控件/容器类，支持在布局中通过自定义属性或代码进行丰富的定制
 
 * 自定义箭头朝向：上、下、左、右、无
 * 箭头自动指向目标
 * 箭头高度、宽度、位置
 * 气泡填充颜色、填充Padding、边框、边框颜色、圆角
+* BubbleTextView文字气泡/BubbleXxxLayout容器气泡
 
 箭头指定特定方向
 --------
