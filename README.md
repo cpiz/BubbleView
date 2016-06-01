@@ -3,8 +3,8 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 
 * 自定义箭头朝向：上、下、左、右、无
 * 箭头自动指向目标
-* 箭头高度、宽度
-* 气泡背景色、边框、边框颜色、圆角
+* 箭头高度、宽度、位置
+* 气泡填充颜色、填充Padding、边框、边框颜色、圆角
 
 箭头指定特定方向
 -------
@@ -79,22 +79,26 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 
 ```XML
 <com.cpiz.android.bubblelayout.BubbleLayout
-    android:id="@+id/big1"
+    android:id="@+id/big4"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:layout_below="@+id/big2"
     android:layout_margin="4dp"
+    android:layout_toRightOf="@id/big3"
     android:padding="30dp"
-    app:bb_arrowDirection="Up"
+    app:bb_arrowDirection="Down"
     app:bb_arrowHeight="10dp"
-    app:bb_arrowWidth="20dp"
-    app:bb_backColor="@android:color/holo_red_light"
+    app:bb_arrowOffset="30dp"
+    app:bb_arrowWidth="40dp"
     app:bb_borderColor="@color/colorPrimary"
     app:bb_borderWidth="6dp"
-    app:bb_cornerBottomLeftRadius="20dp"
+    app:bb_cornerBottomLeftRadius="0dp"
     app:bb_cornerBottomRightRadius="10dp"
     app:bb_cornerRadius="4dp"
     app:bb_cornerTopLeftRadius="0dp"
-    app:bb_cornerTopRightRadius="4dp">
+    app:bb_cornerTopRightRadius="4dp"
+    app:bb_fillColor="@android:color/holo_red_light"
+    app:bb_fillPadding="4dp">
 
     <TextView
         android:layout_width="wrap_content"
