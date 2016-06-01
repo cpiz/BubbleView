@@ -380,27 +380,25 @@ public class BubbleLayout extends RelativeLayout {
         int targetCenterX = offsetX + width / 2;
         int targetCenterY = offsetY + height / 2;
 
-        if ((targetCenterX < 0 && targetCenterY > 0 && targetCenterY < height)
-                || (Math.abs(offsetX) > Math.abs(offsetY) && offsetX < 0)) {
+        if (targetCenterX < 0 && targetCenterY > 0 && targetCenterY < height) {
             return BubbleDrawable.ArrowDirection.Left;
-        }
-
-        if ((targetCenterY < 0 && targetCenterX > 0 && targetCenterX < width)
-                || (Math.abs(offsetX) < Math.abs(offsetY) && offsetY < 0)) {
+        } else if (targetCenterY < 0 && targetCenterX > 0 && targetCenterX < width) {
             return BubbleDrawable.ArrowDirection.Up;
-        }
-
-        if ((targetCenterX > width && targetCenterY > 0 && targetCenterY < height)
-                || (Math.abs(offsetX) > Math.abs(offsetY) && offsetX > 0)) {
+        } else if (targetCenterX > width && targetCenterY > 0 && targetCenterY < height) {
             return BubbleDrawable.ArrowDirection.Right;
-        }
-
-        if ((targetCenterY > height && targetCenterX > 0 && targetCenterX < width)
-                || (Math.abs(offsetX) < Math.abs(offsetY) && offsetY > 0)) {
+        } else if (targetCenterY > height && targetCenterX > 0 && targetCenterX < width) {
             return BubbleDrawable.ArrowDirection.Down;
+        } else if (Math.abs(offsetX) > Math.abs(offsetY) && offsetX < 0) {
+            return BubbleDrawable.ArrowDirection.Left;
+        } else if (Math.abs(offsetX) < Math.abs(offsetY) && offsetY < 0) {
+            return BubbleDrawable.ArrowDirection.Up;
+        } else if (Math.abs(offsetX) > Math.abs(offsetY) && offsetX > 0) {
+            return BubbleDrawable.ArrowDirection.Right;
+        } else if (Math.abs(offsetX) < Math.abs(offsetY) && offsetY > 0) {
+            return BubbleDrawable.ArrowDirection.Down;
+        } else {
+            return BubbleDrawable.ArrowDirection.None;
         }
-
-        return BubbleDrawable.ArrowDirection.None;
     }
 
     /**
