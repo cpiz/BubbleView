@@ -35,59 +35,43 @@
                 android:src="@android:drawable/ic_btn_speak_now"
                 android:tint="#FFFFFF"/>
 
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@id/iv1"
                 android:padding="6dp"
+                android:text="ArrowRight"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Right"
-                app:bb_cornerRadius="4dp">
+                app:bb_cornerRadius="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ArrowRight"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/iv1"
                 android:padding="6dp"
+                android:text="ArrowLeft"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Left"
-                app:bb_cornerRadius="4dp">
+                app:bb_cornerRadius="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ArrowLeft"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/iv1"
                 android:layout_centerHorizontal="true"
                 android:padding="6dp"
+                android:text="ArrowUp"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Up"
-                app:bb_cornerRadius="4dp">
+                app:bb_cornerRadius="4dp"/>
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ArrowUp"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,32 +79,21 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@+id/bb4"
                 android:padding="6dp"
-                app:bb_cornerRadius="4dp">
+                android:text="NoneArrow"
+                android:textColor="@android:color/white"
+                app:bb_cornerRadius="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="NoneArrow"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@+id/iv1"
                 android:layout_centerHorizontal="true"
                 android:padding="6dp"
+                android:text="ArrowDown"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Down"
-                app:bb_cornerRadius="4dp">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="ArrowDown"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
+                app:bb_cornerRadius="4dp"/>
         </RelativeLayout>
 
         <TextView
@@ -148,66 +121,45 @@
                 android:src="@android:drawable/ic_btn_speak_now"
                 android:tint="#FFFFFF"/>
 
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@id/iv2"
                 android:layout_toLeftOf="@id/iv2"
                 android:padding="6dp"
-                app:bb_arrowTo="@id/iv2">
+                android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                android:textColor="@android:color/white"
+                app:bb_arrowTo="@id/iv2"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_above="@id/iv2"
                 android:layout_alignRight="@id/iv2"
                 android:padding="6dp"
-                app:bb_arrowTo="@id/iv2">
+                android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                android:textColor="@android:color/white"
+                app:bb_arrowTo="@id/iv2"/>
 
-                <TextView
-                    android:id="@+id/textView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/iv2"
                 android:layout_toRightOf="@id/iv2"
                 android:padding="6dp"
-                app:bb_arrowTo="@id/iv2">
+                android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                android:textColor="@android:color/white"
+                app:bb_arrowTo="@id/iv2"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignLeft="@id/iv2"
                 android:layout_below="@id/iv2"
                 android:padding="6dp"
-                app:bb_arrowTo="@id/iv2">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Get your apps ready for Android 6.0 Marshmallow! "
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
+                android:text="Get your apps ready for Android 6.0 Marshmallow! "
+                android:textColor="@android:color/white"
+                app:bb_arrowTo="@id/iv2"/>
 
         </RelativeLayout>
 
@@ -226,12 +178,14 @@
             android:background="#bdc3c7"
             android:padding="10dp">
 
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="4dp"
                 android:padding="30dp"
+                android:text="WithBorder"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Up"
                 app:bb_arrowHeight="10dp"
                 app:bb_arrowWidth="20dp"
@@ -242,16 +196,9 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light">
+                app:bb_fillColor="@android:color/holo_red_light"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WithBorder"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -259,6 +206,8 @@
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@id/big1"
                 android:padding="30dp"
+                android:text="CornerRadius"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Right"
                 app:bb_arrowHeight="5dp"
                 app:bb_arrowWidth="10dp"
@@ -269,22 +218,17 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light">
+                app:bb_fillColor="@android:color/holo_red_light"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="CornerRadius"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/big1"
                 android:layout_margin="4dp"
                 android:padding="30dp"
+                android:text="Arrow"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Left"
                 app:bb_arrowHeight="20dp"
                 app:bb_arrowWidth="30dp"
@@ -295,16 +239,9 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light">
+                app:bb_fillColor="@android:color/holo_red_light"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Arrow"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
-
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -312,6 +249,8 @@
                 android:layout_margin="4dp"
                 android:layout_toRightOf="@id/big3"
                 android:padding="30dp"
+                android:text="WithBorder"
+                android:textColor="@android:color/white"
                 app:bb_arrowDirection="Down"
                 app:bb_arrowHeight="10dp"
                 app:bb_arrowOffset="30dp"
@@ -324,14 +263,8 @@
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
                 app:bb_fillColor="@android:color/holo_red_light"
-                app:bb_fillPadding="4dp">
+                app:bb_fillPadding="4dp"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="WithBorder"
-                    android:textColor="@android:color/white"/>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
         </RelativeLayout>
 
         <TextView
@@ -344,11 +277,11 @@
         <RelativeLayout
             android:id="@+id/group4"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="210dp"
             android:layout_marginBottom="30dp"
             android:background="#bdc3c7">
 
-            <com.cpiz.android.bubblelayout.BubbleLayout
+            <com.cpiz.android.bubbleview.BubbleRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -359,7 +292,7 @@
                 app:bb_borderWidth="1dp"
                 app:bb_fillColor="#200000FF">
 
-                <com.cpiz.android.bubblelayout.BubbleLayout
+                <com.cpiz.android.bubbleview.BubbleRelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_margin="10dp"
@@ -370,7 +303,7 @@
                     app:bb_borderWidth="1dp"
                     app:bb_fillColor="#200000FF">
 
-                    <com.cpiz.android.bubblelayout.BubbleLayout
+                    <com.cpiz.android.bubbleview.BubbleRelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_margin="10dp"
@@ -381,7 +314,7 @@
                         app:bb_borderWidth="1dp"
                         app:bb_fillColor="#200000FF">
 
-                        <com.cpiz.android.bubblelayout.BubbleLayout
+                        <com.cpiz.android.bubbleview.BubbleRelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_margin="10dp"
@@ -392,7 +325,7 @@
                             app:bb_borderWidth="1dp"
                             app:bb_fillColor="#200000FF">
 
-                            <com.cpiz.android.bubblelayout.BubbleLayout
+                            <com.cpiz.android.bubbleview.BubbleRelativeLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp"
@@ -403,7 +336,7 @@
                                 app:bb_borderWidth="1dp"
                                 app:bb_fillColor="#200000FF">
 
-                                <com.cpiz.android.bubblelayout.BubbleLayout
+                                <com.cpiz.android.bubbleview.BubbleRelativeLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:layout_margin="10dp"
@@ -414,7 +347,7 @@
                                     app:bb_borderWidth="1dp"
                                     app:bb_fillColor="#200000FF">
 
-                                    <com.cpiz.android.bubblelayout.BubbleLayout
+                                    <com.cpiz.android.bubbleview.BubbleRelativeLayout
                                         android:layout_width="match_parent"
                                         android:layout_height="match_parent"
                                         android:layout_margin="10dp"
@@ -425,7 +358,7 @@
                                         app:bb_borderWidth="1dp"
                                         app:bb_fillColor="#200000FF">
 
-                                        <com.cpiz.android.bubblelayout.BubbleLayout
+                                        <com.cpiz.android.bubbleview.BubbleRelativeLayout
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent"
                                             android:layout_margin="10dp"
@@ -435,14 +368,14 @@
                                             app:bb_borderColor="#88FFFFFF"
                                             app:bb_borderWidth="1dp"
                                             app:bb_fillColor="#200000FF">
-                                        </com.cpiz.android.bubblelayout.BubbleLayout>
-                                    </com.cpiz.android.bubblelayout.BubbleLayout>
-                                </com.cpiz.android.bubblelayout.BubbleLayout>
-                            </com.cpiz.android.bubblelayout.BubbleLayout>
-                        </com.cpiz.android.bubblelayout.BubbleLayout>
-                    </com.cpiz.android.bubblelayout.BubbleLayout>
-                </com.cpiz.android.bubblelayout.BubbleLayout>
-            </com.cpiz.android.bubblelayout.BubbleLayout>
+                                        </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                                    </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                                </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                            </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                        </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                    </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+            </com.cpiz.android.bubbleview.BubbleRelativeLayout>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

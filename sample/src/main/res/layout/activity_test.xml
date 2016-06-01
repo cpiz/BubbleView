@@ -12,14 +12,16 @@
         android:orientation="vertical"
         android:padding="10dp">
 
-        <com.cpiz.android.bubblelayout.BubbleLayout
-            android:id="@+id/big4"
+        <com.cpiz.android.bubbleview.BubbleTextView
+            android:id="@+id/bubble"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/big2"
             android:layout_margin="4dp"
             android:layout_toRightOf="@id/big3"
-            android:padding="30dp"
+            android:padding="10dp"
+            android:text="WithBorder"
+            android:textColor="@android:color/white"
             app:bb_arrowDirection="Left"
             app:bb_arrowHeight="10dp"
             app:bb_arrowOffset="3dp"
@@ -32,13 +34,6 @@
             app:bb_cornerTopLeftRadius="0dp"
             app:bb_cornerTopRightRadius="4dp"
             app:bb_fillColor="@android:color/holo_red_light"
-            app:bb_fillPadding="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WithBorder"
-                android:textColor="@android:color/white"/>
-        </com.cpiz.android.bubblelayout.BubbleLayout>
+            app:bb_fillPadding="2dp"/>
     </LinearLayout>
 </ScrollView>

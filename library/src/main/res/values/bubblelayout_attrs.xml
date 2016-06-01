@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="BubbleLayout">
+    <declare-styleable name="BubbleStyle">
         <attr name="bb_fillColor" format="reference|color"/>
         <attr name="bb_fillPadding" format="dimension"/>
 

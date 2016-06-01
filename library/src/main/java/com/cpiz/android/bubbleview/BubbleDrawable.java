@@ -1,4 +1,4 @@
-package com.cpiz.android.bubblelayout;
+package com.cpiz.android.bubbleview;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -9,64 +9,13 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * 气泡框背景
  *
  * Created by caijw on 2016/5/26.
  */
-public class BubbleDrawable extends Drawable {
-    /**
-     * 箭头朝向枚举
-     */
-    public enum ArrowDirection {
-        None(0),
-        Left(1),
-        Up(2),
-        Right(3),
-        Down(4);
-
-        private static final Map<Integer, ArrowDirection> intToTypeMap = new HashMap<>();
-
-        static {
-            for (ArrowDirection type : ArrowDirection.values()) {
-                intToTypeMap.put(type.mValue, type);
-            }
-        }
-
-        private int mValue = 0;
-
-        ArrowDirection(int value) {
-            mValue = value;
-        }
-
-        public static ArrowDirection valueOf(int value) {
-            ArrowDirection type = intToTypeMap.get(value);
-            if (type == null)
-                return ArrowDirection.None;
-            return type;
-        }
-
-        public boolean isLeft() {
-            return this == Left;
-        }
-
-        public boolean isUp() {
-            return this == Up;
-        }
-
-        public boolean isRight() {
-            return this == Right;
-        }
-
-        public boolean isDown() {
-            return this == Down;
-        }
-    }
-
-    private ArrowDirection mArrowDirection = ArrowDirection.None;
+class BubbleDrawable extends Drawable {
+    private BubbleStyle.ArrowDirection mArrowDirection = BubbleStyle.ArrowDirection.None;
     private Shape mOriginalShape = new Shape();
     private Shape mBorderShape = new Shape();
     private Shape mFillShape = new Shape();
@@ -107,7 +56,7 @@ public class BubbleDrawable extends Drawable {
         }
     }
 
-    public void resetRect(int width, int height) {
+    protected void resetRect(int width, int height) {
         mOriginalShape.Rect.set(0, 0, width, height);
     }
 
@@ -172,7 +121,7 @@ public class BubbleDrawable extends Drawable {
         buildPath(mFillShape, mFillPath);
     }
 
-    private void buildArrowPeak(ArrowDirection direction, Shape shape) {
+    private void buildArrowPeak(BubbleStyle.ArrowDirection direction, Shape shape) {
         switch (direction) {
             case Left:
                 buildLeftArrowPeak(shape);
@@ -196,7 +145,7 @@ public class BubbleDrawable extends Drawable {
         mOriginalShape.BottomLeftRadius = bottomLeft;
     }
 
-    public void setArrowDirection(ArrowDirection arrowDirection) {
+    public void setArrowDirection(BubbleStyle.ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
     }
 

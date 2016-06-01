@@ -7,35 +7,30 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 * 气泡填充颜色、填充Padding、边框、边框颜色、圆角
 
 箭头指定特定方向
--------
-![指定箭头方向](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/1.png)
-
+--------
 指定属性app:bb_arrowDirection，可选值为Left|Up|Right|Down|None，默认箭头位置在气泡侧面居中。
 
+![指定箭头方向](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/1.png)
+
 ```XML
-<com.cpiz.android.bubblelayout.BubbleLayout
+<com.cpiz.android.bubbleview.BubbleTextView
     android:id="@+id/bb1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_centerVertical="true"
-    android:layout_toLeftOf="@id/tvCenter1"
+    android:layout_toLeftOf="@id/iv1"
     android:padding="6dp"
+    android:text="ArrowRight"
+    android:textColor="@android:color/white"
     app:bb_arrowDirection="Right"
-    app:bb_cornerRadius="4dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ArrowRight"
-        android:textColor="@android:color/white"/>
-</com.cpiz.android.bubblelayout.BubbleLayout>
+    app:bb_cornerRadius="4dp"/>
 ```
 
 箭头指向特定对象
 -------
-![箭头指向特定对象](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/2.png)
-
 指定属性app:bb_arrowTo为目标对象ViewId，将自动确定箭头方向，并将箭头位置指向目标中心。
+
+![箭头指向特定对象](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/2.png)
 
 ```XML
 <RelativeLayout
@@ -56,20 +51,15 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
         android:src="@android:drawable/ic_btn_speak_now"
         android:tint="#FFFFFF"/>
 
-    <com.cpiz.android.bubblelayout.BubbleLayout
+    <com.cpiz.android.bubbleview.BubbleTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/iv2"
         android:layout_toLeftOf="@id/iv2"
         android:padding="6dp"
-        app:bb_arrowTo="@id/iv2">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Get your apps ready for Android 6.0 Marshmallow! "
-            android:textColor="@android:color/white"/>
-    </com.cpiz.android.bubblelayout.BubbleLayout>
+        android:text="Get your apps ready for Android 6.0 Marshmallow! "
+        android:textColor="@android:color/white"
+        app:bb_arrowTo="@id/iv2"/>
 </RelativeLayout>
 ```
 
@@ -78,7 +68,7 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 ![自定义样式](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/3.png)
 
 ```XML
-<com.cpiz.android.bubblelayout.BubbleLayout
+<com.cpiz.android.bubbleview.BubbleTextView
     android:id="@+id/big4"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -86,6 +76,8 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
     android:layout_margin="4dp"
     android:layout_toRightOf="@id/big3"
     android:padding="30dp"
+    android:text="WithBorder"
+    android:textColor="@android:color/white"
     app:bb_arrowDirection="Down"
     app:bb_arrowHeight="10dp"
     app:bb_arrowOffset="30dp"
@@ -94,24 +86,23 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
     app:bb_borderWidth="6dp"
     app:bb_cornerBottomLeftRadius="0dp"
     app:bb_cornerBottomRightRadius="10dp"
-    app:bb_cornerRadius="4dp"
     app:bb_cornerTopLeftRadius="0dp"
     app:bb_cornerTopRightRadius="4dp"
     app:bb_fillColor="@android:color/holo_red_light"
-    app:bb_fillPadding="4dp">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="WithBorder"
-        android:textColor="@android:color/white"/>
-</com.cpiz.android.bubblelayout.BubbleLayout>
+    app:bb_fillPadding="4dp"/>
 ```
 
-###作为RelativeLayout容器
-![作为RelativeLayout容器](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/4.png)
+###作为容器
+--------
+除直接使用BubbleTextView显示文字外，还可以使用
 
-可以将BubbleView作为普通RelativeLayout容器使用，唯一区别是BubbleView将会自动修正带箭头一侧的Padding，让子内容在气泡区域中间。
+* BubbleRelativeLayout
+* BubbleLinearLayout
+* BubbleFrameLayout
+
+作为气泡容器，自定义包含内容
+
+![作为容器](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/4.png)
 
 License
 -------
