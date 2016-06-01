@@ -8,7 +8,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.cpiz.android.bubblelayout.R;
 
@@ -52,7 +51,7 @@ class BubbleImpl implements BubbleStyle {
                 mArrowOffset = 0; // 箭头自动指向优先
             }
 
-            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(5));
+            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(6));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
             mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
             mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
@@ -74,11 +73,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param arrowDirection 上下左右或者无
      */
+    @Override
     public void setArrowDirection(ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
         updateDrawable();
     }
 
+    @Override
     public ArrowDirection getArrowDirection() {
         return mArrowDirection;
     }
@@ -88,11 +89,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param arrowHeight 箭头厚度
      */
+    @Override
     public void setArrowHeight(float arrowHeight) {
         mArrowHeight = arrowHeight;
         updateDrawable();
     }
 
+    @Override
     public float getArrowHeight() {
         return mArrowHeight;
     }
@@ -102,11 +105,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param arrowWidth 箭头底边宽度
      */
+    @Override
     public void setArrowWidth(float arrowWidth) {
         mArrowWidth = arrowWidth;
         updateDrawable();
     }
 
+    @Override
     public float getArrowWidth() {
         return mArrowWidth;
     }
@@ -118,11 +123,13 @@ class BubbleImpl implements BubbleStyle {
      *                    朝上/下时在X轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
      *                    朝左/右时在Y轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
      */
+    @Override
     public void setArrowOffset(float arrowOffset) {
         mArrowOffset = arrowOffset;
         updateDrawable();
     }
 
+    @Override
     public float getArrowOffset() {
         return mArrowOffset;
     }
@@ -133,11 +140,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param arrowToViewId 指向的ViewId
      */
+    @Override
     public void setArrowToViewId(int arrowToViewId) {
         mArrowToViewId = arrowToViewId;
         updateDrawable();
     }
 
+    @Override
     public int getArrowToViewId() {
         return mArrowToViewId;
     }
@@ -147,11 +156,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param fillColor 气泡背景颜色
      */
+    @Override
     public void setFillColor(int fillColor) {
         mFillColor = fillColor;
         updateDrawable();
     }
 
+    @Override
     public int getFillColor() {
         return mFillColor;
     }
@@ -161,11 +172,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param borderColor 边框颜色
      */
+    @Override
     public void setBorderColor(int borderColor) {
         mBorderColor = borderColor;
         updateDrawable();
     }
 
+    @Override
     public int getBorderColor() {
         return mBorderColor;
     }
@@ -175,11 +188,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param borderWidth 边框厚度
      */
+    @Override
     public void setBorderWidth(float borderWidth) {
         mBorderWidth = borderWidth;
         updateDrawable();
     }
 
+    @Override
     public float getBorderWidth() {
         return mBorderWidth;
     }
@@ -189,11 +204,13 @@ class BubbleImpl implements BubbleStyle {
      *
      * @param fillPadding 间隙宽度
      */
+    @Override
     public void setFillPadding(float fillPadding) {
         mFillPadding = fillPadding;
         updateDrawable();
     }
 
+    @Override
     public float getFillPadding() {
         return mFillPadding;
     }
@@ -207,6 +224,7 @@ class BubbleImpl implements BubbleStyle {
      * @param bottomRight 右下角
      * @param bottomLeft  左下角
      */
+    @Override
     public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
         mCornerTopLeftRadius = topLeft;
         mCornerTopRightRadius = topRight;
@@ -215,24 +233,75 @@ class BubbleImpl implements BubbleStyle {
         updateDrawable();
     }
 
+    @Override
     public void setCornerRadius(float radius) {
         setCornerRadius(radius, radius, radius, radius);
     }
 
+    @Override
     public float getCornerTopLeftRadius() {
         return mCornerTopLeftRadius;
     }
 
+    @Override
     public float getCornerTopRightRadius() {
         return mCornerTopRightRadius;
     }
 
+    @Override
     public float getCornerBottomLeftRadius() {
         return mCornerBottomLeftRadius;
     }
 
+    @Override
     public float getCornerBottomRightRadius() {
         return mCornerBottomRightRadius;
+    }
+
+    @SuppressWarnings("SuspiciousNameCombination")
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        mPaddingLeftOffset = mPaddingTopOffset = mPaddingRightOffset = mPaddingBottomOffset = 0;
+        switch (mArrowDirection) {
+            case Left:
+                mPaddingLeftOffset += mArrowHeight;
+                break;
+            case Up:
+                mPaddingTopOffset += mArrowHeight;
+                break;
+            case Right:
+                mPaddingRightOffset += mArrowHeight;
+                break;
+            case Down:
+                mPaddingBottomOffset += mArrowHeight;
+                break;
+        }
+
+        mHolderCallback.setSuperPadding(
+                left + mPaddingLeftOffset,
+                top + mPaddingTopOffset,
+                right + mPaddingRightOffset,
+                bottom + mPaddingBottomOffset);
+    }
+
+    @Override
+    public int getPaddingLeft() {
+        return mHolderCallback.getSuperPaddingLeft() - mPaddingLeftOffset;
+    }
+
+    @Override
+    public int getPaddingTop() {
+        return mHolderCallback.getSuperPaddingTop() - mPaddingTopOffset;
+    }
+
+    @Override
+    public int getPaddingRight() {
+        return mHolderCallback.getSuperPaddingRight() - mPaddingRightOffset;
+    }
+
+    @Override
+    public int getPaddingBottom() {
+        return mHolderCallback.getSuperPaddingBottom() - mPaddingBottomOffset;
     }
 
     /**
@@ -253,9 +322,12 @@ class BubbleImpl implements BubbleStyle {
     protected void updateDrawable(int width, int height, boolean drawImmediately) {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
-        View rootView = mParentView.getRootView();
-        if (mArrowToViewId != 0 && rootView instanceof ViewGroup) {
-            View arrowToView = rootView.findViewById(mArrowToViewId);
+
+        View vp = mParentView;
+        while (vp.getParent() instanceof View) {
+            // 逐层在父View中查找，是为了查找离自己最近的目标对象，因为ID可能重复
+            vp = (View) vp.getParent();
+            View arrowToView = vp.findViewById(mArrowToViewId);
             if (arrowToView != null) {
                 arrowToView.getLocationInWindow(mLocation);
                 mRectTo.set(mLocation[0], mLocation[1], mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
@@ -265,7 +337,8 @@ class BubbleImpl implements BubbleStyle {
 
                 arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
                 arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-                mArrowDirection = getArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY);
+                mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
+                break;
             }
         }
         mParentView.setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
@@ -305,17 +378,17 @@ class BubbleImpl implements BubbleStyle {
      * @param offsetY 目标对象中心相对Y
      * @return 推导出的箭头朝向
      */
-    private ArrowDirection getArrowDirection(int width, int height, int offsetX, int offsetY) {
+    private ArrowDirection getAutoArrowDirection(int width, int height, int offsetX, int offsetY, int arrowHeight) {
         int targetCenterX = offsetX + width / 2;
         int targetCenterY = offsetY + height / 2;
 
-        if (targetCenterX < 0 && targetCenterY > 0 && targetCenterY < height) {
+        if (targetCenterX < arrowHeight && targetCenterY > 0 && targetCenterY < height) {
             return ArrowDirection.Left;
-        } else if (targetCenterY < 0 && targetCenterX > 0 && targetCenterX < width) {
+        } else if (targetCenterY < arrowHeight && targetCenterX > 0 && targetCenterX < width) {
             return ArrowDirection.Up;
-        } else if (targetCenterX > width && targetCenterY > 0 && targetCenterY < height) {
+        } else if (targetCenterX > width - arrowHeight && targetCenterY > 0 && targetCenterY < height) {
             return ArrowDirection.Right;
-        } else if (targetCenterY > height && targetCenterX > 0 && targetCenterX < width) {
+        } else if (targetCenterY > height - arrowHeight && targetCenterX > 0 && targetCenterX < width) {
             return ArrowDirection.Down;
         } else if (Math.abs(offsetX) > Math.abs(offsetY) && offsetX < 0) {
             return ArrowDirection.Left;
@@ -328,46 +401,5 @@ class BubbleImpl implements BubbleStyle {
         } else {
             return ArrowDirection.None;
         }
-    }
-
-    @SuppressWarnings("SuspiciousNameCombination")
-    public void setPadding(int left, int top, int right, int bottom) {
-        mPaddingLeftOffset = mPaddingTopOffset = mPaddingRightOffset = mPaddingBottomOffset = 0;
-        switch (mArrowDirection) {
-            case Left:
-                mPaddingLeftOffset += mArrowHeight;
-                break;
-            case Up:
-                mPaddingTopOffset += mArrowHeight;
-                break;
-            case Right:
-                mPaddingRightOffset += mArrowHeight;
-                break;
-            case Down:
-                mPaddingBottomOffset += mArrowHeight;
-                break;
-        }
-
-        mHolderCallback.setSuperPadding(
-                left + mPaddingLeftOffset,
-                top + mPaddingTopOffset,
-                right + mPaddingRightOffset,
-                bottom + mPaddingBottomOffset);
-    }
-
-    public int getPaddingLeft() {
-        return mHolderCallback.getSuperPaddingLeft() - mPaddingLeftOffset;
-    }
-
-    public int getPaddingTop() {
-        return mHolderCallback.getSuperPaddingTop() - mPaddingTopOffset;
-    }
-
-    public int getPaddingRight() {
-        return mHolderCallback.getSuperPaddingRight() - mPaddingRightOffset;
-    }
-
-    public int getPaddingBottom() {
-        return mHolderCallback.getSuperPaddingBottom() - mPaddingBottomOffset;
     }
 }
