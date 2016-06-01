@@ -1,5 +1,7 @@
 package com.cpiz.android.bubbleview;
 
+import android.view.View;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,6 +9,7 @@ import java.util.Map;
  * 气泡View抽象接口
  *
  * Created by caijw on 2016/6/1.
+ * https://github.com/cpiz/BubbleView
  */
 interface BubbleStyle {
     /**
@@ -96,14 +99,16 @@ interface BubbleStyle {
     float getArrowOffset();
 
     /**
-     * 设置箭头指向的View对象ID
+     * 设置箭头指向的View对象
      * 设置了View对象后，setArrowPos将不起作用
      *
-     * @param arrowToViewId 指向的ViewId
+     * @param viewId 指向的ViewId
      */
-    void setArrowToViewId(int arrowToViewId);
+    void setArrowToView(int viewId);
 
-    int getArrowToViewId();
+    void setArrowToView(View view);
+
+    View getArrowToView();
 
     /**
      * 设置气泡背景色

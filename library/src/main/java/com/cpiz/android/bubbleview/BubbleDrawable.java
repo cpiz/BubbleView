@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
  * 气泡框背景
  *
  * Created by caijw on 2016/5/26.
+ * https://github.com/cpiz/BubbleView
  */
 class BubbleDrawable extends Drawable {
     private BubbleStyle.ArrowDirection mArrowDirection = BubbleStyle.ArrowDirection.None;

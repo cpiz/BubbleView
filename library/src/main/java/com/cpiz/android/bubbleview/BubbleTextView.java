@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.TextView;
 
 /**
@@ -11,6 +12,7 @@ import android.widget.TextView;
  * 支持自定义气泡样式
  *
  * Created by caijw on 2016/6/1.
+ * https://github.com/cpiz/BubbleView
  */
 public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallback {
     private BubbleImpl mBubbleImpl = new BubbleImpl();
@@ -89,13 +91,18 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     }
 
     @Override
-    public void setArrowToViewId(int arrowToViewId) {
-        mBubbleImpl.setArrowToViewId(arrowToViewId);
+    public void setArrowToView(int viewId) {
+        mBubbleImpl.setArrowToView(viewId);
     }
 
     @Override
-    public int getArrowToViewId() {
-        return mBubbleImpl.getArrowToViewId();
+    public void setArrowToView(View view) {
+        mBubbleImpl.setArrowToView(view);
+    }
+
+    @Override
+    public View getArrowToView() {
+        return mBubbleImpl.getArrowToView();
     }
 
     @Override

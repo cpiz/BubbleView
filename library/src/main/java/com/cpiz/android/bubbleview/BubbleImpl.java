@@ -15,6 +15,7 @@ import com.cpiz.android.bubblelayout.R;
  * 气泡控件的实现类，将与真正的气泡View进行聚合，方便扩展
  *
  * Created by caijw on 2016/6/1.
+ * https://github.com/cpiz/BubbleView
  */
 class BubbleImpl implements BubbleStyle {
     private View mParentView;
@@ -22,6 +23,7 @@ class BubbleImpl implements BubbleStyle {
 
     private BubbleDrawable mBubbleDrawable = new BubbleDrawable();
     private ArrowDirection mArrowDirection = ArrowDirection.None;
+    private View mArrowToView = null;
     private int mArrowToViewId = 0;
     private float mArrowHeight = 0;
     private float mArrowWidth = 0;
@@ -47,9 +49,6 @@ class BubbleImpl implements BubbleStyle {
             mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dpToPx(10));
             mArrowOffset = ta.getDimension(R.styleable.BubbleStyle_bb_arrowOffset, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleStyle_bb_arrowTo, 0);
-            if (mArrowToViewId != 0) {
-                mArrowOffset = 0; // 箭头自动指向优先
-            }
 
             float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(6));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
@@ -141,14 +140,21 @@ class BubbleImpl implements BubbleStyle {
      * @param arrowToViewId 指向的ViewId
      */
     @Override
-    public void setArrowToViewId(int arrowToViewId) {
-        mArrowToViewId = arrowToViewId;
+    public void setArrowToView(int arrowToViewId) {
+        mArrowToView = findGlobalViewById(arrowToViewId);
         updateDrawable();
     }
 
     @Override
-    public int getArrowToViewId() {
-        return mArrowToViewId;
+    public void setArrowToView(View view) {
+        mArrowToView = view;
+        mArrowToViewId = mArrowToView != null ? mArrowToView.getId() : 0;
+        updateDrawable();
+    }
+
+    @Override
+    public View getArrowToView() {
+        return mArrowToView;
     }
 
     /**
@@ -323,23 +329,21 @@ class BubbleImpl implements BubbleStyle {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
 
-        View vp = mParentView;
-        while (vp.getParent() instanceof View) {
-            // 逐层在父View中查找，是为了查找离自己最近的目标对象，因为ID可能重复
-            vp = (View) vp.getParent();
-            View arrowToView = vp.findViewById(mArrowToViewId);
-            if (arrowToView != null) {
-                arrowToView.getLocationInWindow(mLocation);
-                mRectTo.set(mLocation[0], mLocation[1], mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
+        if (mArrowToView == null && mArrowToViewId != 0) {
+            mArrowToView = findGlobalViewById(mArrowToViewId);
+        }
 
-                mParentView.getLocationInWindow(mLocation);
-                mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
+        if (mArrowToView != null) {
+            mArrowToView.getLocationInWindow(mLocation);
+            mRectTo.set(mLocation[0], mLocation[1],
+                    mLocation[0] + mArrowToView.getWidth(), mLocation[1] + mArrowToView.getHeight());
 
-                arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
-                arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-                mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
-                break;
-            }
+            mParentView.getLocationInWindow(mLocation);
+            mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
+
+            arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
+            arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
+            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
         }
         mParentView.setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
@@ -367,6 +371,20 @@ class BubbleImpl implements BubbleStyle {
 
     private void updateDrawable() {
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), true);
+    }
+
+    private View findGlobalViewById(int viewId) {
+        View vp = mParentView;
+        while (vp.getParent() instanceof View) {
+            // 逐层在父View中查找，是为了查找离自己最近的目标对象，因为ID可能重复
+            vp = (View) vp.getParent();
+            View arrowToView = vp.findViewById(viewId);
+            if (arrowToView != null) {
+                return arrowToView;
+            }
+        }
+
+        return null;
     }
 
     /**

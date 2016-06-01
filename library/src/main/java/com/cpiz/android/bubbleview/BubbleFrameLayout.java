@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.FrameLayout;
 
 /**
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
  * 支持自定义气泡样式
  *
  * Created by caijw on 2016/5/26.
+ * https://github.com/cpiz/BubbleView
  */
 @SuppressWarnings("unused")
 public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, BubbleCallback {
@@ -90,13 +92,18 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     }
 
     @Override
-    public void setArrowToViewId(int arrowToViewId) {
-        mBubbleImpl.setArrowToViewId(arrowToViewId);
+    public void setArrowToView(int viewId) {
+        mBubbleImpl.setArrowToView(viewId);
     }
 
     @Override
-    public int getArrowToViewId() {
-        return mBubbleImpl.getArrowToViewId();
+    public void setArrowToView(View view) {
+        mBubbleImpl.setArrowToView(view);
+    }
+
+    @Override
+    public View getArrowToView() {
+        return mBubbleImpl.getArrowToView();
     }
 
     @Override
