@@ -104,6 +104,10 @@ BubbleLayout是继承自RelativeLayout的带箭头气泡容器类，支持在布
 
 ![作为容器](https://raw.githubusercontent.com/cpiz/BubbleLayout/master/screenshots/4.png)
 
+###其它
+
+* 如果自行指定BubbleView的setBackground/setBackgroundColor等，将导致气泡样式失效
+
 License
 -------
     Licensed under the Apache License, Version 2.0 (the "License");

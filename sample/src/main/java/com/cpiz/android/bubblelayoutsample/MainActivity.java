@@ -14,26 +14,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
-        setContentView(R.layout.activity_test);
-        final BubbleTextView mBubbleLayout = (BubbleTextView) findViewById(R.id.bubble);
-        if (mBubbleLayout != null) {
-            mBubbleLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Log.d(TAG, String.format("left=%d, top=%d, right=%d, bottom=%d",
-                            mBubbleLayout.getPaddingLeft(),
-                            mBubbleLayout.getPaddingTop(),
-                            mBubbleLayout.getPaddingRight(),
-                            mBubbleLayout.getPaddingBottom()));
-                    mBubbleLayout.setBackgroundColor(Color.BLACK);
+        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_test);
+//        final BubbleTextView mBubbleLayout = (BubbleTextView) findViewById(R.id.bubble);
+//        if (mBubbleLayout != null) {
+//            mBubbleLayout.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Log.d(TAG, String.format("left=%d, top=%d, right=%d, bottom=%d",
+//                            mBubbleLayout.getPaddingLeft(),
+//                            mBubbleLayout.getPaddingTop(),
+//                            mBubbleLayout.getPaddingRight(),
+//                            mBubbleLayout.getPaddingBottom()));
 //                    mBubbleLayout.setPadding(
 //                            mBubbleLayout.getPaddingLeft() + 2,
 //                            mBubbleLayout.getPaddingTop() + 2,
 //                            mBubbleLayout.getPaddingRight() + 2,
 //                            mBubbleLayout.getPaddingBottom() + 2);
-                }
-            });
-        }
+//                }
+//            });
+//        }
     }
 }
