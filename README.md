@@ -1,5 +1,7 @@
 # BubbleView
 
+![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)
+
 ##English
 
 BubbleView is a control/container with an arrow, which can be fully customized by following attributes in layout file.
