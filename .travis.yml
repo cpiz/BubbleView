@@ -8,8 +8,6 @@ android:
     - build-tools-23.0.2
     - android-23
     - extra-android-m2repository
-  licenses:
-    - android-sdk-license-5be876d5
 
 notifications:
   email: false
