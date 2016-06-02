@@ -4,7 +4,7 @@
 
 ##English
 
-BubbleView is a control/container with an arrow, which can be fully customized by following attributes in layout file.
+BubbleView is a control/container with an arrow, which can be fully customized by code or XML layout file.
 
 * Arrow direction: up, down, left, right or none
 * Should arrow auto point to its target
