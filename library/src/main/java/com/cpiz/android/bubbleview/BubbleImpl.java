@@ -9,8 +9,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.cpiz.android.bubblelayout.R;
-
 /**
  * 气泡控件的实现类，将与真正的气泡View进行聚合，方便扩展
  *
