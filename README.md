@@ -8,12 +8,9 @@ BubbleView is a control/container with an arrow, which can be fully customized b
 
 * Arrow direction: up, down, left, right or none
 * Should arrow auto point to its target
-* Size and position of arrow
-* Filling color and padding of bubble
-* Frame size and color of bubble
-* Rounded corners and their radius
+* Customizable arrow properties: size and location 
+* Customizable bubble properties: color, padding, borders and corner radius
 * Bubble can be plain text view(BubbleTextView) or layout container(BubbleXxxLayout)
-
 
 Specify the direction of arrow
 --------
