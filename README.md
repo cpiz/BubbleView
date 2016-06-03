@@ -1,10 +1,10 @@
-# BubbleView
+# BubbleView for Android
 
 ![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)
 
 ##English
 
-BubbleView is a control/container with an arrow, which can be fully customized by code or XML layout file.
+BubbleView is a control/container with an arrow for Android, which can be fully customized by code or XML layout file.
 
 * Arrow direction: up, down, left, right or none
 * Should arrow auto point to its target
@@ -121,7 +121,7 @@ as bubble layout container and put customized content into it.
 
 ##中文版
 
-BubbleView是带箭头的气泡控件/容器类，支持在布局中通过自定义属性或代码进行丰富的定制
+BubbleView是带箭头的Android气泡控件/容器类，支持在布局中通过自定义属性或代码进行丰富的定制
 
 * 自定义箭头朝向：上、下、左、右、无
 * 箭头自动指向目标
