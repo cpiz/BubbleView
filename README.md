@@ -14,7 +14,7 @@ BubbleView is a control/container with an arrow, which can be fully customized b
 
 Specify the direction of arrow
 --------
-You can use app:bb_arrowDirection attribute to specify the direction of arrow. It's value can be: Left, Up, Right, Down or None. Arrow will be placed in the middle of the corresponding edge of bubble.
+You can use app:bb_arrowDirection attribute to specify the direction of arrow. Its value can be: Left, Up, Right, Down or None. Arrow will be placed in the middle of the corresponding edge of bubble.
 
 ![Specify the direction of arrow](./screenshots/1.png)
 
