@@ -8,16 +8,13 @@ BubbleView is a control/container with an arrow for Android, which can be fully 
 
 * Arrow direction: up, down, left, right or none
 * Should arrow auto point to its target
-* Size and position of arrow
-* Filling color and padding of bubble
-* Frame size and color of bubble
-* Rounded corners and their radius
+* Customizable arrow properties: size and location 
+* Customizable bubble properties: color, padding, borders and corner radius
 * Bubble can be plain text view(BubbleTextView) or layout container(BubbleXxxLayout)
-
 
 Specify the direction of arrow
 --------
-You can use app:bb_arrowDirection attribute to specify the direction of arrow. It's value can be: Left, Up, Right, Down or None. Arrow will be placed in the middle of the corresponding edge of bubble.
+You can use app:bb_arrowDirection attribute to specify the direction of arrow. Its value can be: Left, Up, Right, Down or None. Arrow will be placed in the middle of the corresponding edge of bubble.
 
 ![Specify the direction of arrow](./screenshots/1.png)
 
