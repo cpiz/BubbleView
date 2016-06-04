@@ -2,19 +2,19 @@
 
 ![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)
 
-[中文版README](README_CN.md)
+[English version README](README.md)
 
-BubbleView is a control/container with an arrow for Android, which can be fully customized by code or XML layout file.
+BubbleView是带箭头的Android气泡控件/容器类，支持在布局中通过自定义属性或代码进行丰富的定制
 
-* Arrow direction: up, down, left, right or none
-* Should arrow auto point to its target
-* Customizable arrow properties: size and location
-* Customizable bubble properties: color, padding, borders and corner radius
-* Bubble can be plain text view(BubbleTextView) or layout container(BubbleXxxLayout)
+* 自定义箭头朝向：上、下、左、右、无
+* 箭头自动指向目标
+* 箭头高度、宽度、位置
+* 气泡填充颜色、填充Padding、边框、边框颜色、圆角
+* BubbleTextView文字气泡/BubbleXxxLayout容器气泡
 
-Download
+下载
 --------
-Add `maven { url "https://jitpack.io" }` to your project-level `build.gradle`
+在项目目录的 `build.gradle` 中增加 `maven { url "https://jitpack.io" }`
 ```
 allprojects {
     repositories {
@@ -24,7 +24,7 @@ allprojects {
 }
 ```
 
-Add `compile 'com.github.cpiz:BubbleView:0.9.1'` to your module-level `build.gradle`
+在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:0.9.1'`
 ```
 dependencies {
     ...
@@ -32,11 +32,12 @@ dependencies {
 }
 ```
 
-Specify the direction of arrow
---------
-You can use app:bb_arrowDirection attribute to specify the direction of arrow. Its value can be: Left, Up, Right, Down or None. Arrow will be placed in the middle of the corresponding edge of bubble.
 
-![Specify the direction of arrow](./screenshots/1.png)
+箭头指定特定方向
+--------
+指定属性app:bb_arrowDirection，可选值为Left|Up|Right|Down|None，默认箭头位置在气泡侧面居中。
+
+![指定箭头方向](./screenshots/1.png)
 
 ```XML
 <com.cpiz.android.bubbleview.BubbleTextView
@@ -52,11 +53,11 @@ You can use app:bb_arrowDirection attribute to specify the direction of arrow. I
     app:bb_cornerRadius="4dp"/>
 ```
 
-Point arrow to a specific target
+箭头指向特定对象
 -------
-You can use app:bb_arrowTo attribute to specify the id of target view. The direction of arrow will be calculated automatically and it will point to the center of target.
+指定属性app:bb_arrowTo为目标对象ViewId，将自动确定箭头方向，并将箭头位置指向目标中心。
 
-![Point arrow to specific target](screenshots/2.png)
+![箭头指向特定对象](./screenshots/2.png)
 
 ```XML
 <RelativeLayout
@@ -89,10 +90,9 @@ You can use app:bb_arrowTo attribute to specify the id of target view. The direc
 </RelativeLayout>
 ```
 
-
-Customize style
+自定义样式
 -------
-![Customize style](./screenshots/3.png)
+![自定义样式](./screenshots/3.png)
 
 ```XML
 <com.cpiz.android.bubbleview.BubbleTextView
@@ -119,31 +119,31 @@ Customize style
     app:bb_fillPadding="4dp"/>
 ```
 
-###Use it as layout container
+###作为容器
 --------
-Beside using BubbleTextView to display text, you can also use
+除直接使用BubbleTextView显示文字外，还可以使用
 
 * BubbleRelativeLayout
 * BubbleLinearLayout
 * BubbleFrameLayout
 
-as bubble layout container and put customized content into it.
+作为气泡容器，自定义包含内容
 
-![As container](./screenshots/4.png)
+![作为容器](./screenshots/4.png)
 
-###Misc.
+###其它
 
-* Invoke methods like setBackground/setBackgroundColor of BubbleView will make the style settings invalid.
+* 如果自行指定BubbleView的setBackground/setBackgroundColor等，将导致气泡样式失效
 
 License
 -------
-	Copyright 2016 Cpiz
+    Copyright 2016 Cpiz
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
     You may obtain a copy of the License at
 
-       http://www.apache.org/licenses/LICENSE-2.0Copyright 2016 Cpiz
+       http://www.apache.org/licenses/LICENSE-2.0
 
     Unless required by applicable law or agreed to in writing, software
     distributed under the License is distributed on an "AS IS" BASIS,
