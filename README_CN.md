@@ -2,7 +2,7 @@
 
 ![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)
 
-[English version README](README.md)
+[README in English](README.md)
 
 BubbleView是带箭头的Android气泡控件/容器类，支持在布局中通过自定义属性或代码进行丰富的定制
 
