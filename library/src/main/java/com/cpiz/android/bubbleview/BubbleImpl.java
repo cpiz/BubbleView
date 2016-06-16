@@ -9,6 +9,8 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.view.View;
 
+import java.lang.ref.WeakReference;
+
 /**
  * 气泡控件的实现类，将与真正的气泡View进行聚合，方便扩展
  *
@@ -18,10 +20,9 @@ import android.view.View;
 class BubbleImpl implements BubbleStyle {
     private View mParentView;
     private BubbleCallback mHolderCallback;
-
     private BubbleDrawable mBubbleDrawable = new BubbleDrawable();
     private ArrowDirection mArrowDirection = ArrowDirection.None;
-    private View mArrowToView = null;
+    private WeakReference<View> mArrowToViewRef = null;
     private int mArrowToViewId = 0;
     private float mArrowHeight = 0;
     private float mArrowWidth = 0;
@@ -48,7 +49,7 @@ class BubbleImpl implements BubbleStyle {
             mArrowOffset = ta.getDimension(R.styleable.BubbleStyle_bb_arrowOffset, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleStyle_bb_arrowTo, 0);
 
-            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(6));
+            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(4));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
             mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
             mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
@@ -135,24 +136,24 @@ class BubbleImpl implements BubbleStyle {
      * 设置箭头指向的View对象ID
      * 设置了View对象后，setArrowPos将不起作用
      *
-     * @param arrowToViewId 指向的ViewId
+     * @param targetViewId 指向的ViewId
      */
     @Override
-    public void setArrowToView(int arrowToViewId) {
-        mArrowToView = findGlobalViewById(arrowToViewId);
+    public void setArrowTo(int targetViewId) {
+        mArrowToViewId = targetViewId;
+        mArrowToViewRef = null;
         updateDrawable();
     }
 
     @Override
-    public void setArrowToView(View view) {
-        mArrowToView = view;
-        mArrowToViewId = mArrowToView != null ? mArrowToView.getId() : 0;
+    public void setArrowTo(View targetView) {
+        mArrowToViewId = targetView != null ? targetView.getId() : 0;
+        mArrowToViewRef = targetView != null ? new WeakReference<>(targetView) : null;
         updateDrawable();
     }
 
-    @Override
-    public View getArrowToView() {
-        return mArrowToView;
+    public View getArrowTo() {
+        return mArrowToViewRef != null ? mArrowToViewRef.get() : null;
     }
 
     /**
@@ -327,14 +328,18 @@ class BubbleImpl implements BubbleStyle {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
 
-        if (mArrowToView == null && mArrowToViewId != 0) {
-            mArrowToView = findGlobalViewById(mArrowToViewId);
+        View arrowToView = getArrowTo();
+        if (arrowToView == null && mArrowToViewId != 0) {
+            arrowToView = findGlobalViewById(mArrowToViewId);
+            if (arrowToView != null) {
+                mArrowToViewRef = new WeakReference<>(arrowToView);
+            }
         }
 
-        if (mArrowToView != null) {
-            mArrowToView.getLocationInWindow(mLocation);
+        if (arrowToView != null) {
+            arrowToView.getLocationInWindow(mLocation);
             mRectTo.set(mLocation[0], mLocation[1],
-                    mLocation[0] + mArrowToView.getWidth(), mLocation[1] + mArrowToView.getHeight());
+                    mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
 
             mParentView.getLocationInWindow(mLocation);
             mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
@@ -367,7 +372,8 @@ class BubbleImpl implements BubbleStyle {
         }
     }
 
-    private void updateDrawable() {
+    @Override
+    public void updateDrawable() {
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), true);
     }
 

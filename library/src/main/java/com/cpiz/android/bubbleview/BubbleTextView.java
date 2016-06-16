@@ -91,18 +91,17 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     }
 
     @Override
-    public void setArrowToView(int viewId) {
-        mBubbleImpl.setArrowToView(viewId);
+    public void setArrowTo(int viewId) {
+        mBubbleImpl.setArrowTo(viewId);
     }
 
     @Override
-    public void setArrowToView(View view) {
-        mBubbleImpl.setArrowToView(view);
+    public void setArrowTo(View view) {
+        mBubbleImpl.setArrowTo(view);
     }
 
-    @Override
-    public View getArrowToView() {
-        return mBubbleImpl.getArrowToView();
+    public View getArrowTo() {
+        return mBubbleImpl.getArrowTo();
     }
 
     @Override
@@ -223,5 +222,10 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     @Override
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
+    }
+
+    @Override
+    public void updateDrawable() {
+        mBubbleImpl.updateDrawable();
     }
 }

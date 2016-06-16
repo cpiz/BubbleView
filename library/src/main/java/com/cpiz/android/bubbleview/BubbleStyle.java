@@ -104,11 +104,11 @@ interface BubbleStyle {
      *
      * @param viewId 指向的ViewId
      */
-    void setArrowToView(int viewId);
+    void setArrowTo(int viewId);
 
-    void setArrowToView(View view);
+    void setArrowTo(View view);
 
-    View getArrowToView();
+    View getArrowTo();
 
     /**
      * 设置气泡背景色
@@ -185,4 +185,6 @@ interface BubbleStyle {
     int getPaddingRight();
 
     int getPaddingBottom();
+
+    void updateDrawable();
 }
