@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 
@@ -177,6 +178,12 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
+        if (mBubbleImpl == null) {
+            Log.w("BubbleView", "mBubbleImpl == null on old Android platform");
+            setSuperPadding(left, top, right, bottom);
+            return;
+        }
+
         mBubbleImpl.setPadding(left, top, right, bottom);
     }
 
