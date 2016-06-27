@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
@@ -60,7 +61,6 @@ class BubbleImpl implements BubbleStyle {
             mFillPadding = ta.getDimension(R.styleable.BubbleStyle_bb_fillPadding, 0);
             mBorderColor = ta.getColor(R.styleable.BubbleStyle_bb_borderColor, Color.WHITE);
             mBorderWidth = ta.getDimension(R.styleable.BubbleStyle_bb_borderWidth, 0);
-
             ta.recycle();
         }
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), false);
@@ -266,6 +266,22 @@ class BubbleImpl implements BubbleStyle {
     @SuppressWarnings("SuspiciousNameCombination")
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
+        if (mHolderCallback == null) {
+            return;
+        }
+
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
+            StackTraceElement stack[] = (new Throwable()).getStackTrace();
+            for (int i = 0; i < 7; i++) {
+                if (stack[i].getClassName().equals(View.class.getName())
+                        && stack[i].getMethodName().equals("recomputePadding")) {
+                    Log.w("BubbleImpl", "Called setPadding by View on old Android platform");
+                    mHolderCallback.setSuperPadding(left, top, right, bottom);
+                    return;
+                }
+            }
+        }
+
         mPaddingLeftOffset = mPaddingTopOffset = mPaddingRightOffset = mPaddingBottomOffset = 0;
         switch (mArrowDirection) {
             case Left:
@@ -348,7 +364,7 @@ class BubbleImpl implements BubbleStyle {
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
             mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
         }
-        mParentView.setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
+        setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
         if (drawImmediately) {
             mBubbleDrawable.resetRect(width, height);
