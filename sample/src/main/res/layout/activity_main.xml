@@ -377,5 +377,11 @@
                 </com.cpiz.android.bubbleview.BubbleRelativeLayout>
             </com.cpiz.android.bubbleview.BubbleRelativeLayout>
         </RelativeLayout>
+        <Button
+            android:id="@+id/bbttn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click!"
+            android:textSize="18dp"/>
     </LinearLayout>
 </ScrollView>
