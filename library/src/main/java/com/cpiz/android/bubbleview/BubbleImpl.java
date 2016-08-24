@@ -62,6 +62,14 @@ class BubbleImpl implements BubbleStyle {
             mBorderColor = ta.getColor(R.styleable.BubbleStyle_bb_borderColor, Color.WHITE);
             mBorderWidth = ta.getDimension(R.styleable.BubbleStyle_bb_borderWidth, 0);
             ta.recycle();
+        }else {
+            mArrowHeight = dpToPx(6);
+            mArrowWidth = dpToPx(10);
+            mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = dpToPx(4);
+            mFillColor = Color.argb(204,0,0,0);
+            mFillPadding = 0;
+            mBorderColor = Color.WHITE;
+            mBorderWidth = 0;
         }
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), false);
     }
@@ -419,7 +427,6 @@ class BubbleImpl implements BubbleStyle {
 
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
         }
         setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
