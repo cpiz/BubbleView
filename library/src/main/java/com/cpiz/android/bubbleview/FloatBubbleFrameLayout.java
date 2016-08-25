@@ -28,7 +28,6 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     private BubbleImpl mBubbleImpl = new BubbleImpl();
     private int floatX;
     private int floatY;
-    private int offset = 5;
     private boolean flag = false;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWindowLayoutParams;
@@ -67,7 +66,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             WindowManagerHelper.updateParentWindowManager(mWindowManager, mWindowLayoutParams, this, floatX, floatY);
             mBubbleImpl.setArrowTo(mParentView,false);
             mBubbleImpl.updateDrawable(floatX, floatY, right - left, bottom - top, true);
-
+            flag = false;
         }
     }
 
@@ -85,15 +84,6 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
 
     public void removeFloatLayoutListener(){
         mFloatListener = null;
-    }
-
-
-    public int getOffset() {
-        return offset;
-    }
-
-    public void setOffset(int offset) {
-        this.offset = offset;
     }
 
     @Override
@@ -493,10 +483,8 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         public int getDelta() {
             return delta;
         }
-
         public void setDelta(int delta) {
             this.delta = delta;
         }
-
     }
 }
