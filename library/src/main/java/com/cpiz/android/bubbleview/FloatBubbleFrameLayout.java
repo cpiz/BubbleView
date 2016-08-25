@@ -22,6 +22,8 @@ import java.util.List;
 
 /**
  * Created by uchia on 8/23/2016.
+ * 该控件类似popupwindow,利用WindowManager悬浮在Activity
+ * 的上层，箭头位置由该控件自主确定
  */
 public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, BubbleCallback, FloatFunc {
     private FloatListener mFloatListener;
@@ -307,6 +309,11 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     }
 
 
+    /*
+    * 计算FloatBubbleFrameLayout在Window中的位置，
+    * 首先判断上下左右区域是否能完整地容纳下这个控件
+    * 若是有多于一个区域能容纳下，则根据该控件的中心到被ArrowTo控件的中心最短距离来确定
+    * */
     private void locateSelfInParentWindow(int width, int height) {
         int left = 0;
         int top = 0;
@@ -378,6 +385,10 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         floatY = top;
     }
 
+    /*
+    * 计算FloatBubbleFrameLayout的(Left,Top)，
+    * 并根据屏幕大小，做矫正处理
+    * */
     private void calculateLocation(DirectionHelper direction,
                                    Rect rect, int[] screenSize,
                                    int parentViewWidth, int parentViewHeight,
