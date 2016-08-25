@@ -301,7 +301,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
 
     @Override
     public void dismiss() {
-        flag = false;
+//        flag = false;
         if(mFloatListener != null){
             mFloatListener.dismiss();
         }
