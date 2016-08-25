@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
@@ -25,21 +24,15 @@ import java.util.List;
  * Created by uchia on 8/23/2016.
  */
 public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, BubbleCallback, FloatFunc {
+    private FloatListener mFloatListener;
     private BubbleImpl mBubbleImpl = new BubbleImpl();
     private int floatX;
     private int floatY;
+    private int offset = 5;
     private boolean flag = false;
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWindowLayoutParams;
     private View mParentView;
-
-    public void setFloatX(int floatX) {
-        this.floatX = floatX;
-    }
-
-    public void setFloatY(int floatY) {
-        this.floatY = floatY;
-    }
 
     public FloatBubbleFrameLayout(Context context) {
         super(context);
@@ -72,14 +65,44 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         if (flag) {
             locateSelfInParentWindow(right - left, bottom - top);
             WindowManagerHelper.updateParentWindowManager(mWindowManager, mWindowLayoutParams, this, floatX, floatY);
+            mBubbleImpl.setArrowTo(mParentView,false);
             mBubbleImpl.updateDrawable(floatX, floatY, right - left, bottom - top, true);
 
         }
     }
 
+    public void setFloatX(int floatX) {
+        this.floatX = floatX;
+    }
+
+    public void setFloatY(int floatY) {
+        this.floatY = floatY;
+    }
+
+    public void addFloatLayoutListener(FloatListener listener){
+        mFloatListener = listener;
+    }
+
+    public void removeFloatLayoutListener(){
+        mFloatListener = null;
+    }
+
+
+    public int getOffset() {
+        return offset;
+    }
+
+    public void setOffset(int offset) {
+        this.offset = offset;
+    }
+
     @Override
     public void setArrowDirection(ArrowDirection arrowDirection) {
         mBubbleImpl.setArrowDirection(arrowDirection);
+    }
+
+    public void setArrowDirection(ArrowDirection arrowDirection,boolean flag) {
+        mBubbleImpl.setArrowDirection(arrowDirection,flag);
     }
 
     @Override
@@ -274,6 +297,9 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         mWindowLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         mWindowManager.addView(this, mWindowLayoutParams);
+        if(mFloatListener!= null){
+            mFloatListener.show();
+        }
     }
 
     @Override
@@ -284,6 +310,9 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     @Override
     public void dismiss() {
         flag = false;
+        if(mFloatListener != null){
+            mFloatListener.dismiss();
+        }
         WindowManagerHelper.removeViewFromWindowManager(mWindowManager, this);
     }
 
@@ -325,7 +354,8 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             List<DirectionHelper> regions = new ArrayList<>();
 
             for (int i = 0; i < direction.size(); i++) {
-                if (direction.get(i).getDelta() > 0) {
+                //3表示控件与屏幕最短边距为3
+                if (direction.get(i).getDelta() >= 3) {
                     calculateLocation(direction.get(i), rect, screenSize
                             , parentViewWidth, parentViewHeight, width, height);
                     regions.add(direction.get(i));
@@ -351,7 +381,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             });
             top = regions.get(0).getRect().top;
             left = regions.get(0).getRect().left;
-            setArrowDirection(regions.get(0).getDirection());
+            setArrowDirection(regions.get(0).getDirection(),false);
             mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         }
         floatX = left;

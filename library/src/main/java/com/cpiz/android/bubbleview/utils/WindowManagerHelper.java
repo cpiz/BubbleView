@@ -1,7 +1,5 @@
 package com.cpiz.android.bubbleview.utils;
 
-import android.graphics.PixelFormat;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 

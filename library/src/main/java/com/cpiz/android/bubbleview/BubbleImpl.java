@@ -85,6 +85,12 @@ class BubbleImpl implements BubbleStyle {
         updateDrawable();
     }
 
+    public void setArrowDirection(ArrowDirection arrowDirection,boolean flag) {
+        mArrowDirection = arrowDirection;
+        if(flag)
+        updateDrawable();
+    }
+
     @Override
     public ArrowDirection getArrowDirection() {
         return mArrowDirection;
