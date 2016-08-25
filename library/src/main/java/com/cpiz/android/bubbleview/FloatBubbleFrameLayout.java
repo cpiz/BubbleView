@@ -70,8 +70,8 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (flag) {
-            locateSelfInParentWindow(right - left,bottom - top);
-            WindowManagerHelper.updateParentWindowManager(mWindowManager,mWindowLayoutParams,this,floatX,floatY);
+            locateSelfInParentWindow(right - left, bottom - top);
+            WindowManagerHelper.updateParentWindowManager(mWindowManager, mWindowLayoutParams, this, floatX, floatY);
             mBubbleImpl.updateDrawable(floatX, floatY, right - left, bottom - top, true);
 
         }
@@ -268,12 +268,12 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         mParentView = parent;
         mWindowManager = wm;
         flag = true;
-        mWindowLayoutParams =  new WindowManager.LayoutParams();
+        mWindowLayoutParams = new WindowManager.LayoutParams();
         mWindowLayoutParams.format = PixelFormat.RGBA_8888;
         mWindowLayoutParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         mWindowLayoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-        mWindowManager.addView(this,mWindowLayoutParams);
+        mWindowManager.addView(this, mWindowLayoutParams);
     }
 
     @Override
@@ -284,7 +284,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     @Override
     public void dismiss() {
         flag = false;
-        WindowManagerHelper.removeViewFromWindowManager(mWindowManager,this);
+        WindowManagerHelper.removeViewFromWindowManager(mWindowManager, this);
     }
 
 
@@ -312,81 +312,121 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             }
         });
 
-        Rect rect = new Rect();
+        final Rect rect = new Rect();
         rect.set(mParentView.getLeft(), mParentView.getTop(),
                 mParentView.getLeft() + parentViewWidth,
                 mParentView.getTop() + parentViewHeight);
 
-        if (direction.get(0).getDelta() > 0) {
-            switch (direction.get(0).getDescription()) {
-                case 'L':
-                    left = mParentView.getLeft() - width;
-                    if (rect.centerY() - height / 2 <= 0) {
-                        top = mParentView.getTop();
-                    }
-                    if (rect.centerY() + height / 2 >= screenSize[1]) {
-                        top = mParentView.getTop() + parentViewHeight - height;
-                    }
-                    if(rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]){
-                        top = rect.centerY() - height / 2;
-                    }
-                    setArrowDirection(ArrowDirection.Right);
-                    break;
-                case 'R':
-                    left = mParentView.getRight();
-                    if (rect.centerY() - height / 2 <= 0) {
-                        top = mParentView.getTop();
-                    }
-                    if(rect.centerY() + height / 2 >= screenSize[1]){
-                        top = mParentView.getTop() + parentViewHeight - height;
-                    }
-                    if(rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]){
-                        top = rect.centerY() - height / 2;
-                    }
-                    setArrowDirection(ArrowDirection.Left);
-                    break;
-                case 'T':
-                    top = mParentView.getTop() - height;
-                    if(rect.centerX() + width / 2 >= screenSize[0]){
-                        left = mParentView.getLeft() + parentViewWidth - width;
-                    }
-                    if(rect.centerX() - width / 2 <= 0){
-                        left = mParentView.getLeft();
-                    }
-                    if(rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0){
-                        left = rect.centerX() - width / 2;
-                    }
-                    setArrowDirection(ArrowDirection.Down);
-                    break;
-                case 'B':
-                    top = mParentView.getBottom() ;
-                    if(rect.centerX() + width / 2 >= screenSize[0]){
-                        left = mParentView.getLeft() + parentViewWidth - width;
-                    }
-                    if(rect.centerX() - width / 2 <= 0){
-                        left = mParentView.getLeft() ;
-                    }
-                    if(rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0){
-                        left = rect.centerX() - width / 2;
-                    }
-                    setArrowDirection(ArrowDirection.Up);
-                    break;
-            }
-            mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
-        } else {
+        if (direction.get(0).getDelta() <= 0) {
             left = 0;
             top = 0;
             mWindowLayoutParams.gravity = Gravity.CENTER;
+        } else {
+            List<DirectionHelper> regions = new ArrayList<>();
+
+            for (int i = 0; i < direction.size(); i++) {
+                if (direction.get(i).getDelta() > 0) {
+                    calculateLocation(direction.get(i), rect, screenSize
+                            , parentViewWidth, parentViewHeight, width, height);
+                    regions.add(direction.get(i));
+                }
+            }
+
+            Collections.sort(regions, new Comparator<DirectionHelper>() {
+                @Override
+                public int compare(DirectionHelper lhs, DirectionHelper rhs) {
+
+                    int d1 = (lhs.getRect().centerX() - rect.centerX())
+                            * (lhs.getRect().centerX() - rect.centerX())
+                            + (lhs.getRect().centerY() - rect.centerY())
+                            * (lhs.getRect().centerY() - rect.centerY());
+
+                    int d2 = (rhs.getRect().centerX() - rect.centerX())
+                            * (rhs.getRect().centerX() - rect.centerX())
+                            + (rhs.getRect().centerY() - rect.centerY())
+                            * (rhs.getRect().centerY() - rect.centerY());
+
+                    return d1 - d2;
+                }
+            });
+            top = regions.get(0).getRect().top;
+            left = regions.get(0).getRect().left;
+            setArrowDirection(regions.get(0).getDirection());
+            mWindowLayoutParams.gravity = Gravity.LEFT | Gravity.TOP;
         }
         floatX = left;
         floatY = top;
+    }
+
+    private void calculateLocation(DirectionHelper direction,
+                                   Rect rect, int[] screenSize,
+                                   int parentViewWidth, int parentViewHeight,
+                                   int width, int height) {
+        int left = 0;
+        int top = 0;
+        switch (direction.getDescription()) {
+            case 'L':
+                left = mParentView.getLeft() - width;
+                if (rect.centerY() - height / 2 <= 0) {
+                    top = mParentView.getTop();
+                }
+                if (rect.centerY() + height / 2 >= screenSize[1]) {
+                    top = mParentView.getTop() + parentViewHeight - height;
+                }
+                if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
+                    top = rect.centerY() - height / 2;
+                }
+                direction.setDirection(ArrowDirection.Right);
+                break;
+            case 'R':
+                left = mParentView.getRight();
+                if (rect.centerY() - height / 2 <= 0) {
+                    top = mParentView.getTop();
+                }
+                if (rect.centerY() + height / 2 >= screenSize[1]) {
+                    top = mParentView.getTop() + parentViewHeight - height;
+                }
+                if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
+                    top = rect.centerY() - height / 2;
+                }
+                direction.setDirection(ArrowDirection.Left);
+                break;
+            case 'T':
+                top = mParentView.getTop() - height;
+                if (rect.centerX() + width / 2 >= screenSize[0]) {
+                    left = mParentView.getLeft() + parentViewWidth - width;
+                }
+                if (rect.centerX() - width / 2 <= 0) {
+                    left = mParentView.getLeft();
+                }
+                if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
+                    left = rect.centerX() - width / 2;
+                }
+                direction.setDirection(ArrowDirection.Down);
+                break;
+            case 'B':
+                top = mParentView.getBottom();
+                if (rect.centerX() + width / 2 >= screenSize[0]) {
+                    left = mParentView.getLeft() + parentViewWidth - width;
+                }
+                if (rect.centerX() - width / 2 <= 0) {
+                    left = mParentView.getLeft();
+                }
+                if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
+                    left = rect.centerX() - width / 2;
+                }
+                direction.setDirection(ArrowDirection.Up);
+                break;
+        }
+        direction.setRect(new Rect(left, top, left + width, top + height));
     }
 
     private class DirectionHelper {
 
         private char description;
         private int delta;
-
+        private Rect rect;
+        private ArrowDirection direction;
         public DirectionHelper() {
 
         }
@@ -394,6 +434,22 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         public DirectionHelper(char description, int delta) {
             this.description = description;
             this.delta = delta;
+        }
+
+        public Rect getRect() {
+            return rect;
+        }
+
+        public void setRect(Rect rect) {
+            this.rect = rect;
+        }
+
+        public ArrowDirection getDirection() {
+            return direction;
+        }
+
+        public void setDirection(ArrowDirection direction) {
+            this.direction = direction;
         }
 
         public char getDescription() {
