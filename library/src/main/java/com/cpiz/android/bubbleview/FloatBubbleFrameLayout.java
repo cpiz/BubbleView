@@ -398,53 +398,57 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
         switch (direction.getDescription()) {
             case 'L':
                 left = mParentView.getLeft() - width;
-                if (rect.centerY() - height / 2 <= 0) {
-                    top = mParentView.getTop();
-                }
-                if (rect.centerY() + height / 2 >= screenSize[1]) {
-                    top = mParentView.getTop() + parentViewHeight - height;
-                }
                 if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
                     top = rect.centerY() - height / 2;
+                }else{
+                    if (rect.centerY() - height / 2 <= 0) {
+                        top = mParentView.getTop();
+                    }
+                    if (rect.centerY() + height / 2 >= screenSize[1]) {
+                        top = mParentView.getTop() + parentViewHeight - height;
+                    }
                 }
                 direction.setDirection(ArrowDirection.Right);
                 break;
             case 'R':
                 left = mParentView.getRight();
-                if (rect.centerY() - height / 2 <= 0) {
-                    top = mParentView.getTop();
-                }
-                if (rect.centerY() + height / 2 >= screenSize[1]) {
-                    top = mParentView.getTop() + parentViewHeight - height;
-                }
                 if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
                     top = rect.centerY() - height / 2;
+                }else{
+                    if (rect.centerY() - height / 2 <= 0) {
+                        top = mParentView.getTop();
+                    }
+                    if (rect.centerY() + height / 2 >= screenSize[1]) {
+                        top = mParentView.getTop() + parentViewHeight - height;
+                    }
                 }
                 direction.setDirection(ArrowDirection.Left);
                 break;
             case 'T':
                 top = mParentView.getTop() - height;
-                if (rect.centerX() + width / 2 >= screenSize[0]) {
-                    left = mParentView.getLeft() + parentViewWidth - width;
-                }
-                if (rect.centerX() - width / 2 <= 0) {
-                    left = mParentView.getLeft();
-                }
                 if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
                     left = rect.centerX() - width / 2;
+                }else{
+                    if (rect.centerX() + width / 2 >= screenSize[0]) {
+                        left = mParentView.getLeft() + parentViewWidth - width;
+                    }
+                    if (rect.centerX() - width / 2 <= 0) {
+                        left = mParentView.getLeft();
+                    }
                 }
                 direction.setDirection(ArrowDirection.Down);
                 break;
             case 'B':
                 top = mParentView.getBottom();
-                if (rect.centerX() + width / 2 >= screenSize[0]) {
-                    left = mParentView.getLeft() + parentViewWidth - width;
-                }
-                if (rect.centerX() - width / 2 <= 0) {
-                    left = mParentView.getLeft();
-                }
                 if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
                     left = rect.centerX() - width / 2;
+                }else{
+                    if (rect.centerX() + width / 2 >= screenSize[0]) {
+                        left = mParentView.getLeft() + parentViewWidth - width;
+                    }
+                    if (rect.centerX() - width / 2 <= 0) {
+                        left = mParentView.getLeft();
+                    }
                 }
                 direction.setDirection(ArrowDirection.Up);
                 break;
