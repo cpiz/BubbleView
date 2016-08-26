@@ -1,6 +1,7 @@
 package com.cpiz.android.bubbleview;
 
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 
 /**
@@ -9,7 +10,7 @@ import android.view.WindowManager;
 public interface FloatFunc {
     void setFloatX(int x);
     void setFloatY(int y);
-    void show(View parent, WindowManager wm);
+    void show(View parent, WindowManager wm, Window window);
     void hide();
     void dismiss();
 }

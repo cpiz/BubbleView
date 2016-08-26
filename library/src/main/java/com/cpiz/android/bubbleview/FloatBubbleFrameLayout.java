@@ -9,12 +9,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.cpiz.android.bubbleview.utils.DisplayHelper;
 import com.cpiz.android.bubbleview.utils.WindowManagerHelper;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -34,7 +36,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mWindowLayoutParams;
     private View mParentView;
-
+    private Window mWindow;
     public FloatBubbleFrameLayout(Context context) {
         super(context);
         init(context, null);
@@ -64,7 +66,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (flag) {
-            locateSelfInParentWindow(right - left, bottom - top);
+            locateSelfInParentWindow(mWindow,right - left, bottom - top);
             WindowManagerHelper.updateParentWindowManager(mWindowManager, mWindowLayoutParams, this, floatX, floatY);
             mBubbleImpl.setArrowTo(mParentView,false);
             mBubbleImpl.updateDrawable(floatX, floatY, right - left, bottom - top, true);
@@ -279,9 +281,10 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
 
 
     @Override
-    public void show(View parent, WindowManager wm) {
+    public void show(View parent, WindowManager wm,Window window) {
         mParentView = parent;
         mWindowManager = wm;
+        mWindow = window;
         flag = true;
         mWindowLayoutParams = new WindowManager.LayoutParams();
         mWindowLayoutParams.format = PixelFormat.RGBA_8888;
@@ -314,7 +317,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     * 首先判断上下左右区域是否能完整地容纳下这个控件
     * 若是有多于一个区域能容纳下，则根据该控件的中心到被ArrowTo控件的中心最短距离来确定
     * */
-    private void locateSelfInParentWindow(int width, int height) {
+    private void locateSelfInParentWindow(Window window,int width, int height) {
         int left = 0;
         int top = 0;
         int[] screenSize = DisplayHelper.getScreenDemension(mWindowManager);
@@ -353,7 +356,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             for (int i = 0; i < direction.size(); i++) {
                 //3表示控件与屏幕最短边距为3
                 if (direction.get(i).getDelta() >= 3) {
-                    calculateLocation(direction.get(i), rect, screenSize
+                    calculateLocation(window,direction.get(i), rect, screenSize
                             , parentViewWidth, parentViewHeight, width, height);
                     regions.add(direction.get(i));
                 }
@@ -389,23 +392,24 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
     * 计算FloatBubbleFrameLayout的(Left,Top)，
     * 并根据屏幕大小，做矫正处理
     * */
-    private void calculateLocation(DirectionHelper direction,
+    private void calculateLocation(Window window ,DirectionHelper direction,
                                    Rect rect, int[] screenSize,
                                    int parentViewWidth, int parentViewHeight,
                                    int width, int height) {
         int left = 0;
         int top = 0;
+        int offset = getTitleBarHeight(window);
         switch (direction.getDescription()) {
             case 'L':
                 left = mParentView.getLeft() - width;
                 if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
-                    top = rect.centerY() - height / 2;
+                    top = rect.centerY() - height / 2 + offset;
                 }else{
                     if (rect.centerY() - height / 2 <= 0) {
-                        top = mParentView.getTop();
+                        top = mParentView.getTop() + offset;
                     }
                     if (rect.centerY() + height / 2 >= screenSize[1]) {
-                        top = mParentView.getTop() + parentViewHeight - height;
+                        top = mParentView.getTop() + parentViewHeight - height + offset;
                     }
                 }
                 direction.setDirection(ArrowDirection.Right);
@@ -413,19 +417,19 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
             case 'R':
                 left = mParentView.getRight();
                 if (rect.centerY() - height / 2 > 0 && rect.centerY() + height / 2 < screenSize[1]) {
-                    top = rect.centerY() - height / 2;
+                    top = rect.centerY() - height / 2 + offset;
                 }else{
                     if (rect.centerY() - height / 2 <= 0) {
-                        top = mParentView.getTop();
+                        top = mParentView.getTop() + offset;
                     }
                     if (rect.centerY() + height / 2 >= screenSize[1]) {
-                        top = mParentView.getTop() + parentViewHeight - height;
+                        top = mParentView.getTop() + parentViewHeight - height + offset;
                     }
                 }
                 direction.setDirection(ArrowDirection.Left);
                 break;
             case 'T':
-                top = mParentView.getTop() - height;
+                top = mParentView.getTop() - height + offset;
                 if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
                     left = rect.centerX() - width / 2;
                 }else{
@@ -439,7 +443,7 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
                 direction.setDirection(ArrowDirection.Down);
                 break;
             case 'B':
-                top = mParentView.getBottom();
+                top = mParentView.getBottom() + offset;
                 if (rect.centerX() + width / 2 < screenSize[0] && rect.centerX() - width / 2 > 0) {
                     left = rect.centerX() - width / 2;
                 }else{
@@ -454,6 +458,30 @@ public class FloatBubbleFrameLayout extends FrameLayout implements BubbleStyle, 
                 break;
         }
         direction.setRect(new Rect(left, top, left + width, top + height));
+    }
+
+    /*
+    * 计算标题栏高度，使用View的(Top,Left)默认不包括标题栏的高度，
+    * 所以对于没有隐藏标题栏的情况，弹出的位置会有偏差
+    * */
+    private int getTitleBarHeight(Window window){
+        WindowManager.LayoutParams attrs = window.getAttributes();
+        if((attrs.flags & WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                != WindowManager.LayoutParams.FLAG_FULLSCREEN){
+            try {
+                Class<?> c = Class.forName("com.android.internal.R$dimen");
+                Object obj = c.newInstance();
+                Field field = c.getField("status_bar_height");
+                int x = Integer.parseInt(field.get(obj).toString());
+                int stateBarTitle = getResources().getDimensionPixelSize(x);
+                int titleBarHeight = window.findViewById(Window.ID_ANDROID_CONTENT).getTop();
+                return  titleBarHeight - stateBarTitle;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+        return  0;
     }
 
     private class DirectionHelper {

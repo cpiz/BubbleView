@@ -33,7 +33,7 @@ public class TwoActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.acitivty_two);
 
         btn = (Button)findViewById(R.id.bubble_btn);
@@ -82,7 +82,7 @@ public class TwoActivity extends Activity {
                 bubbleFrameLayout.addView(textView);
 
                 //弹出bubbleFrameLayout
-                bubbleFrameLayout.show(btn,getWindowManager());
+                bubbleFrameLayout.show(btn,getWindowManager(),getWindow());
 
                 //控件由于继承FrameLayout，其具有点击事件
                 bubbleFrameLayout.setOnClickListener(new View.OnClickListener() {
@@ -110,5 +110,7 @@ public class TwoActivity extends Activity {
             }
         });
     }
+
+
 
 }
