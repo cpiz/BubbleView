@@ -18,6 +18,16 @@ import android.widget.FrameLayout;
 @SuppressWarnings("unused")
 public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, BubbleCallback {
     private BubbleImpl mBubbleImpl = new BubbleImpl();
+    private int floatX;
+    private int floatY;
+
+    public void setFloatX(int floatX) {
+        this.floatX = floatX;
+    }
+
+    public void setFloatY(int floatY) {
+        this.floatY = floatY;
+    }
 
     public BubbleFrameLayout(Context context) {
         super(context);
@@ -48,7 +58,7 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         if (changed) {
-            mBubbleImpl.updateDrawable(right - left, bottom - top, true);
+            mBubbleImpl.updateDrawable(floatX,floatY,right - left, bottom - top, true);
         }
     }
 

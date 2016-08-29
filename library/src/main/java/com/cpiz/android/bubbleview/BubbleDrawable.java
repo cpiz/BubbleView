@@ -6,7 +6,11 @@ import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Region;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -20,6 +24,7 @@ class BubbleDrawable extends Drawable {
     private Shape mOriginalShape = new Shape();
     private Shape mBorderShape = new Shape();
     private Shape mFillShape = new Shape();
+    private Paint mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Paint mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private Path mBorderPath = new Path();
     private Paint mFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -178,7 +183,6 @@ class BubbleDrawable extends Drawable {
         mFillPaint.setStyle(Paint.Style.FILL);
         mFillPaint.setColor(mFillColor);
         canvas.drawPath(mFillPath, mFillPaint);
-
         if (mBorderShape.BorderWidth > 0) {
             mBorderPaint.setStyle(Paint.Style.STROKE);
             mBorderPaint.setStrokeCap(Paint.Cap.ROUND);

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.cpiz.android.bubbleview.BubbleFrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:bb_borderWidth="2dp"
+    app:bb_borderColor="#cccccc"
+    app:bb_fillColor="#ffffff">
+
+    <TextView
+        android:id="@+id/btv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Hello Bubble"
+        android:textSize="18sp"
+        android:textColor="#545454"
+        android:padding="12dp"/>
+
+</com.cpiz.android.bubbleview.BubbleFrameLayout>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#878787">
+
+    <Button
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/bubble_btn7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Left Top"
+        android:textSize="16sp"/>
+
+    <Button
+        android:layout_marginRight="5dp"
+        android:layout_alignParentRight="true"
+        android:id="@+id/bubble_btn6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Right Top"
+        android:textSize="16sp"/>
+
+    <Button
+        android:layout_marginLeft="50dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/bubble_btn4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Bubble4"
+        android:textSize="18sp"/>
+
+    <Button
+        android:layout_marginTop="50dp"
+        android:layout_marginRight="100dp"
+        android:id="@+id/bubble_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello Bubble"
+        android:textSize="18sp"/>
+    <Button
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/bubble_btn1"
+        android:layout_width="40dp"
+        android:layout_height="320dp"
+        android:text="Hello Bubble2"
+        android:gravity="center_vertical"
+        android:textSize="18sp"/>
+
+    <Button
+        android:layout_marginLeft="50dp"
+        android:layout_marginBottom="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/bubble_btn2"
+        android:layout_width="40dp"
+        android:layout_height="320dp"
+        android:text="Hello Bubble3"
+        android:gravity="center_vertical"
+        android:textSize="18sp"/>
+
+    <Button
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/bubble_btn5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bottom Center"
+        android:textSize="12sp"/>
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/bubble_btn8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bottom Left"
+        android:textSize="12sp"/>
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:id="@+id/bubble_btn9"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Bottom Right"
+        android:textSize="12sp"/>
+    <Button
+        android:layout_centerInParent="true"
+        android:layout_marginRight="5dp"
+        android:id="@+id/bubble_btn10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Center"
+        android:textSize="12sp"/>
+</RelativeLayout>

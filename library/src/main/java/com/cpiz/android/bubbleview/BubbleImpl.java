@@ -62,6 +62,14 @@ class BubbleImpl implements BubbleStyle {
             mBorderColor = ta.getColor(R.styleable.BubbleStyle_bb_borderColor, Color.WHITE);
             mBorderWidth = ta.getDimension(R.styleable.BubbleStyle_bb_borderWidth, 0);
             ta.recycle();
+        }else {
+            mArrowHeight = dpToPx(6);
+            mArrowWidth = dpToPx(10);
+            mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = dpToPx(4);
+            mFillColor = Color.argb(204,0,0,0);
+            mFillPadding = 0;
+            mBorderColor = Color.WHITE;
+            mBorderWidth = 0;
         }
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), false);
     }
@@ -74,6 +82,12 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setArrowDirection(ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
+        updateDrawable();
+    }
+
+    public void setArrowDirection(ArrowDirection arrowDirection,boolean flag) {
+        mArrowDirection = arrowDirection;
+        if(flag)
         updateDrawable();
     }
 
@@ -150,6 +164,14 @@ class BubbleImpl implements BubbleStyle {
         mArrowToViewId = targetView != null ? targetView.getId() : 0;
         mArrowToViewRef = targetView != null ? new WeakReference<>(targetView) : null;
         updateDrawable();
+    }
+
+    public void setArrowTo(View targetView,boolean drawImmdiately){
+        mArrowToViewId = targetView != null ? targetView.getId() : 0;
+        mArrowToViewRef = targetView != null ? new WeakReference<>(targetView) : null;
+        if(drawImmdiately){
+            updateDrawable();
+        }
     }
 
     public View getArrowTo() {
@@ -387,6 +409,55 @@ class BubbleImpl implements BubbleStyle {
             }
         }
     }
+
+
+    protected void updateDrawable(int floatX,int floatY,int width, int height, boolean drawImmediately) {
+        int arrowToOffsetX = 0;
+        int arrowToOffsetY = 0;
+
+        View arrowToView = getArrowTo();
+        if (arrowToView == null && mArrowToViewId != 0) {
+            arrowToView = findGlobalViewById(mArrowToViewId);
+            if (arrowToView != null) {
+                mArrowToViewRef = new WeakReference<>(arrowToView);
+            }
+        }
+
+        if (arrowToView != null) {
+            arrowToView.getLocationInWindow(mLocation);
+            mRectTo.set(mLocation[0], mLocation[1],
+                    mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
+
+            mParentView.getLocationInWindow(mLocation);
+            mRectSelf.set(floatX, floatY, floatX + width, floatY + height);
+
+            arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
+            arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
+        }
+        setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
+
+        if (drawImmediately) {
+            mBubbleDrawable.resetRect(width, height);
+            mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius, mCornerBottomLeftRadius);
+            mBubbleDrawable.setFillColor(mFillColor);
+            mBubbleDrawable.setBorderWidth(mBorderWidth);
+            mBubbleDrawable.setFillPadding(mFillPadding);
+            mBubbleDrawable.setBorderColor(mBorderColor);
+            mBubbleDrawable.setArrowDirection(mArrowDirection);
+            mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
+            mBubbleDrawable.setArrowPos(mArrowOffset);
+            mBubbleDrawable.setArrowHeight(mArrowHeight);
+            mBubbleDrawable.setArrowWidth(mArrowWidth);
+            mBubbleDrawable.rebuildShapes();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                mParentView.setBackground(mBubbleDrawable);
+            } else {
+                // noinspection deprecation
+                mParentView.setBackgroundDrawable(mBubbleDrawable);
+            }
+        }
+    }
+
 
     @Override
     public void updateDrawable() {
