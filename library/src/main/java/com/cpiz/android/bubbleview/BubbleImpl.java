@@ -14,7 +14,7 @@ import java.lang.ref.WeakReference;
 
 /**
  * 气泡控件的实现类，将与真正的气泡View进行聚合，方便扩展
- *
+ * <p>
  * Created by caijw on 2016/6/1.
  * https://github.com/cpiz/BubbleView
  */
@@ -331,7 +331,7 @@ class BubbleImpl implements BubbleStyle {
      * @param dp dp值
      * @return px值
      */
-    private static int dpToPx(int dp) {
+    static int dpToPx(int dp) {
         return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
     }
 
@@ -353,16 +353,19 @@ class BubbleImpl implements BubbleStyle {
         }
 
         if (arrowToView != null) {
-            arrowToView.getLocationInWindow(mLocation);
+            arrowToView.getLocationOnScreen(mLocation);
             mRectTo.set(mLocation[0], mLocation[1],
                     mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
 
-            mParentView.getLocationInWindow(mLocation);
+            mParentView.getLocationOnScreen(mLocation);
             mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
 
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
+
+            if (mArrowDirection == ArrowDirection.None) {
+                mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
+            }
         }
         setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="AnimationArrowLeft">
+        <item name="android:windowEnterAnimation">@anim/pop_show_left</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide_left</item>
+    </style>
+
+    <style name="AnimationArrowRight">
+        <item name="android:windowEnterAnimation">@anim/pop_show_right</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide_right</item>
+    </style>
+
+    <style name="AnimationArrowUp">
+        <item name="android:windowEnterAnimation">@anim/pop_show_up</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide_up</item>
+    </style>
+
+    <style name="AnimationArrowDown">
+        <item name="android:windowEnterAnimation">@anim/pop_show_down</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide_down</item>
+    </style>
+</resources>

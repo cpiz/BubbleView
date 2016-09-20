@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">BubbleRelativeLayout</string>
+    <string name="sample_text">A control/container with an arrow for Android, which can be fully customized by code or XML layout file.</string>
 </resources>

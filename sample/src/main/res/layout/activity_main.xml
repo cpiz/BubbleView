@@ -377,5 +377,20 @@
                 </com.cpiz.android.bubbleview.BubbleRelativeLayout>
             </com.cpiz.android.bubbleview.BubbleRelativeLayout>
         </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="气泡弹窗"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/btn_anchor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="480dp"
+            android:text="Popup"/>
     </LinearLayout>
 </ScrollView>

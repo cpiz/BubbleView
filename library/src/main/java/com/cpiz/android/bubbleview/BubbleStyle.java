@@ -11,7 +11,7 @@ import java.util.Map;
  * Created by caijw on 2016/6/1.
  * https://github.com/cpiz/BubbleView
  */
-interface BubbleStyle {
+public interface BubbleStyle {
     /**
      * 箭头朝向枚举
      */
