@@ -42,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mBubblePopupWindow = new BubblePopupWindow(rootView, bubbleView);
             mBubblePopupWindow.setCanceledOnTouch(true);
             mBubblePopupWindow.setCanceledOnTouchOutside(true);
-            mBubblePopupWindow.setCanceledOnLater(2000);
+            mBubblePopupWindow.setCanceledOnLater(3000);
         }
 
         mBubblePopupWindow.showArrowTo(v, BubbleStyle.ArrowDirection.valueOf(1 + (i++ % 4)));
