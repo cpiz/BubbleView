@@ -3,8 +3,8 @@ sudo: false
 language: android
 
 jdk:
-  - oraclejdk7
-  - openjdk7
+  - oraclejdk8
+  - openjdk8
 
 android:
   components:
