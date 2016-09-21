@@ -2,6 +2,10 @@ sudo: false
 
 language: android
 
+jdk:
+  - oraclejdk7
+  - openjdk7
+
 android:
   components:
     - tools
