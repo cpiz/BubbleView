@@ -131,6 +131,26 @@ dependencies {
 
 ![作为容器](./screenshots/4.png)
 
+###弹出显示
+--------
+还可通过BubblePopupWindow来包装，弹出显示
+![弹出显示](./screenshots/5.gif)
+
+* 支持点击气泡之外关闭
+* 支持点击气泡关闭
+* 支持定时关闭
+
+```
+View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
+BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
+window = new BubblePopupWindow(rootView, bubbleView);
+window.setCanceledOnTouch(true);
+window.setCanceledOnTouchOutside(true);
+window.setCanceledOnLater(3000);
+window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
+```
+
+
 ###其它
 
 * 如果自行指定BubbleView的setBackground/setBackgroundColor等，将导致气泡样式失效

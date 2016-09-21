@@ -89,7 +89,6 @@ You can use app:bb_arrowTo attribute to specify the id of target view. The direc
 </RelativeLayout>
 ```
 
-
 Customize style
 -------
 ![Customize style](./screenshots/3.png)
@@ -130,6 +129,25 @@ Beside using BubbleTextView to display text, you can also use
 as bubble layout container and put customized content into it.
 
 ![As container](./screenshots/4.png)
+
+###Popup
+--------
+Can use BubblePopupWindow to wrap bubble, and show as popup.
+![popup](./screenshots/5.gif)
+
+* Support touch outside to close
+* Support touch inside to close
+* Support close in time
+
+```
+View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
+BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
+window = new BubblePopupWindow(rootView, bubbleView);
+window.setCanceledOnTouch(true);
+window.setCanceledOnTouchOutside(true);
+window.setCanceledOnLater(3000);
+window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
+```
 
 ###Misc.
 
