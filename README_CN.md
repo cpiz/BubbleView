@@ -24,11 +24,11 @@ allprojects {
 }
 ```
 
-在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:0.9.2'`
+在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:0.9.3'`
 ```
 dependencies {
     ...
-    compile 'com.github.cpiz:BubbleView:0.9.2'
+    compile 'com.github.cpiz:BubbleView:0.9.3'
 }
 ```
 
