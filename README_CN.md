@@ -1,6 +1,6 @@
 # BubbleView for Android
 
-![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)
+[![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)](https://travis-ci.org/cpiz/BubbleView)
 
 [README in English](README.md)
 
