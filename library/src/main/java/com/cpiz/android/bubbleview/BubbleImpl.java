@@ -37,6 +37,12 @@ class BubbleImpl implements BubbleStyle {
     private int mBorderColor = Color.WHITE;
     private float mBorderWidth = 0;
     private float mFillPadding = 0;
+    private View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+            updateDrawable();
+        }
+    };
 
     public void init(View view, Context context, AttributeSet attrs) {
         mParentView = view;
@@ -141,14 +147,14 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setArrowTo(int targetViewId) {
         mArrowToViewId = targetViewId;
-        mArrowToViewRef = null;
+        setArrowToRef(null); // 先不设置，在updateDrawable会重新寻找
         updateDrawable();
     }
 
     @Override
     public void setArrowTo(View targetView) {
         mArrowToViewId = targetView != null ? targetView.getId() : 0;
-        mArrowToViewRef = targetView != null ? new WeakReference<>(targetView) : null;
+        setArrowToRef(targetView);
         updateDrawable();
     }
 
@@ -347,9 +353,7 @@ class BubbleImpl implements BubbleStyle {
         View arrowToView = getArrowTo();
         if (arrowToView == null && mArrowToViewId != 0) {
             arrowToView = findGlobalViewById(mArrowToViewId);
-            if (arrowToView != null) {
-                mArrowToViewRef = new WeakReference<>(arrowToView);
-            }
+            setArrowToRef(arrowToView);
         }
 
         if (arrowToView != null) {
@@ -363,9 +367,7 @@ class BubbleImpl implements BubbleStyle {
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
 
-            if (mArrowDirection == ArrowDirection.None) {
-                mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
-            }
+            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
         }
         setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
@@ -397,6 +399,10 @@ class BubbleImpl implements BubbleStyle {
     }
 
     private View findGlobalViewById(int viewId) {
+        if (viewId == 0) {
+            return null;
+        }
+
         View vp = mParentView;
         while (vp.getParent() instanceof View) {
             // 逐层在父View中查找，是为了查找离自己最近的目标对象，因为ID可能重复
@@ -408,6 +414,20 @@ class BubbleImpl implements BubbleStyle {
         }
 
         return null;
+    }
+
+    private void setArrowToRef(View targetView) {
+        if (mArrowToViewRef != null) {
+            View oldTargetView = mArrowToViewRef.get();
+            if (oldTargetView != null) {
+                oldTargetView.removeOnLayoutChangeListener(mOnLayoutChangeListener);
+            }
+        }
+
+        mArrowToViewRef = targetView != null ? new WeakReference<>(targetView) : null;
+        if (targetView != null) {
+            targetView.addOnLayoutChangeListener(mOnLayoutChangeListener);
+        }
     }
 
     /**

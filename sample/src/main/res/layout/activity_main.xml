@@ -385,6 +385,15 @@
             android:textSize="24sp"
             android:textStyle="bold"/>
 
+        <com.cpiz.android.bubbleview.BubbleTextView
+            android:id="@+id/bb_program"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:text="@string/sample_text"
+            android:textColor="@android:color/white"
+            android:visibility="invisible"/>
+
         <Button
             android:id="@+id/btn_anchor"
             android:layout_width="wrap_content"

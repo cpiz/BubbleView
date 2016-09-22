@@ -17,8 +17,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
-        findViewById(R.id.btn_anchor).setOnClickListener(this);
+//        setContentView(R.layout.activity_test);
+
+        final View btnAnchor = findViewById(R.id.btn_anchor);
+        if (btnAnchor != null) {
+            btnAnchor.setOnClickListener(this);
+
+            final BubbleTextView bb = (BubbleTextView) findViewById(R.id.bb_program);
+            if (bb != null) {
+                bb.setArrowTo(btnAnchor);
+                bb.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
