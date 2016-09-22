@@ -24,11 +24,11 @@ allprojects {
 }
 ```
 
-在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:0.9.3'`
+在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:0.9.4'`
 ```
 dependencies {
     ...
-    compile 'com.github.cpiz:BubbleView:0.9.3'
+    compile 'com.github.cpiz:BubbleView:0.9.4'
 }
 ```
 
@@ -141,13 +141,13 @@ dependencies {
 * 支持定时关闭
 
 ```
-View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
-BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
-window = new BubblePopupWindow(rootView, bubbleView);
-window.setCanceledOnTouch(true);
-window.setCanceledOnTouchOutside(true);
-window.setCanceledOnLater(3000);
-window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
+    View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
+    BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
+    window = new BubblePopupWindow(rootView, bubbleView);
+    window.setCanceledOnTouch(true);
+    window.setCanceledOnTouchOutside(true);
+    window.setCanceledOnLater(3000);
+    window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
 ```
 
 

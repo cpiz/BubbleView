@@ -24,11 +24,11 @@ allprojects {
 }
 ```
 
-Add `compile 'com.github.cpiz:BubbleView:0.9.3'` to your module-level `build.gradle`
+Add `compile 'com.github.cpiz:BubbleView:0.9.4'` to your module-level `build.gradle`
 ```
 dependencies {
     ...
-    compile 'com.github.cpiz:BubbleView:0.9.3'
+    compile 'com.github.cpiz:BubbleView:0.9.4'
 }
 ```
 
@@ -140,13 +140,13 @@ Can use BubblePopupWindow to wrap bubble, and show as popup.
 * Support close in time
 
 ```
-View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
-BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
-window = new BubblePopupWindow(rootView, bubbleView);
-window.setCanceledOnTouch(true);
-window.setCanceledOnTouchOutside(true);
-window.setCanceledOnLater(3000);
-window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
+    View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
+    BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
+    window = new BubblePopupWindow(rootView, bubbleView);
+    window.setCanceledOnTouch(true);
+    window.setCanceledOnTouchOutside(true);
+    window.setCanceledOnLater(3000);
+    window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
 ```
 
 ###Misc.
