@@ -58,6 +58,12 @@ public class BubblePopupWindow extends PopupWindow {
         setCanceledOnTouch(true);
     }
 
+    @Override
+    public void dismiss() {
+        mHandler.removeCallbacks(mDismissRunnable); // prevent leak
+        super.dismiss();
+    }
+
     /**
      * 设置点击气泡关闭弹窗
      *
