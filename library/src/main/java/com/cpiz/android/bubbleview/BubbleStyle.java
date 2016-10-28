@@ -16,11 +16,12 @@ public interface BubbleStyle {
      * 箭头朝向枚举
      */
     enum ArrowDirection {
-        None(0),
+        Auto(0),
         Left(1),
         Up(2),
         Right(3),
-        Down(4);
+        Down(4),
+        None(5);
 
         private static final Map<Integer, ArrowDirection> intToTypeMap = new HashMap<>();
 
@@ -31,6 +32,10 @@ public interface BubbleStyle {
         }
 
         private int mValue = 0;
+
+        public int getValue() {
+            return mValue;
+        }
 
         ArrowDirection(int value) {
             mValue = value;
@@ -57,6 +62,10 @@ public interface BubbleStyle {
 
         public boolean isDown() {
             return this == Down;
+        }
+
+        public boolean isAuto() {
+            return this == Auto;
         }
     }
 

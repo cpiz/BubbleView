@@ -46,9 +46,7 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
-//        if (changed) { // fix PopupWindow wrong arrow position issue
         mBubbleImpl.updateDrawable(right - left, bottom - top, true);
-//        }
     }
 
     @Override

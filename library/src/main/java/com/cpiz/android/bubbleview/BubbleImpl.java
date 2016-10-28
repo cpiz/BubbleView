@@ -1,9 +1,9 @@
 package com.cpiz.android.bubbleview;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.util.AttributeSet;
@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+
+import static com.cpiz.android.bubbleview.Utils.dp2px;
 
 /**
  * 气泡控件的实现类，将与真正的气泡View进行聚合，方便扩展
@@ -22,7 +24,7 @@ class BubbleImpl implements BubbleStyle {
     private View mParentView;
     private BubbleCallback mHolderCallback;
     private BubbleDrawable mBubbleDrawable = new BubbleDrawable();
-    private ArrowDirection mArrowDirection = ArrowDirection.None;
+    private ArrowDirection mArrowDirection = ArrowDirection.Auto;
     private WeakReference<View> mArrowToViewRef = null;
     private int mArrowToViewId = 0;
     private float mArrowHeight = 0;
@@ -50,13 +52,13 @@ class BubbleImpl implements BubbleStyle {
 
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BubbleStyle);
-            mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, 0));
-            mArrowHeight = ta.getDimension(R.styleable.BubbleStyle_bb_arrowHeight, dpToPx(6));
-            mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dpToPx(10));
+            mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.None.getValue()));
+            mArrowHeight = ta.getDimension(R.styleable.BubbleStyle_bb_arrowHeight, dp2px(6));
+            mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dp2px(10));
             mArrowOffset = ta.getDimension(R.styleable.BubbleStyle_bb_arrowOffset, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleStyle_bb_arrowTo, 0);
 
-            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dpToPx(4));
+            float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dp2px(4));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
             mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
             mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
@@ -331,31 +333,23 @@ class BubbleImpl implements BubbleStyle {
         return mHolderCallback.getSuperPaddingBottom() - mPaddingBottomOffset;
     }
 
-    /**
-     * dp转为px
-     *
-     * @param dp dp值
-     * @return px值
-     */
-    static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
     // 方便计算用的中间值对象，避免重复创建
     private int[] mLocation = new int[2];
     private Rect mRectTo = new Rect();
     private Rect mRectSelf = new Rect();
 
-    protected void updateDrawable(int width, int height, boolean drawImmediately) {
+    void updateDrawable(int width, int height, boolean drawImmediately) {
         int arrowToOffsetX = 0;
         int arrowToOffsetY = 0;
 
         View arrowToView = getArrowTo();
+
         if (arrowToView == null && mArrowToViewId != 0) {
             arrowToView = findGlobalViewById(mArrowToViewId);
             setArrowToRef(arrowToView);
         }
 
+//        ArrowDirection direction = mArrowDirection;
         if (arrowToView != null) {
             arrowToView.getLocationOnScreen(mLocation);
             mRectTo.set(mLocation[0], mLocation[1],
@@ -367,7 +361,10 @@ class BubbleImpl implements BubbleStyle {
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
 
-            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
+//            if (direction == ArrowDirection.Auto) {
+//            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
+            mArrowDirection = getAutoArrowDirection(mRectSelf, mRectTo);
+//            }
         }
         setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
@@ -433,34 +430,28 @@ class BubbleImpl implements BubbleStyle {
     /**
      * 根据目标对象相对中心位置，推导箭头朝向
      *
-     * @param width   自己的宽度
-     * @param height  自己的高度
-     * @param offsetX 目标对象中心相对X
-     * @param offsetY 目标对象中心相对Y
+     * @param bubble 气泡的区域
+     * @param target 目标区域
      * @return 推导出的箭头朝向
      */
-    private ArrowDirection getAutoArrowDirection(int width, int height, int offsetX, int offsetY, int arrowHeight) {
-        int targetCenterX = offsetX + width / 2;
-        int targetCenterY = offsetY + height / 2;
-
-        if (targetCenterX < arrowHeight && targetCenterY > 0 && targetCenterY < height) {
-            return ArrowDirection.Left;
-        } else if (targetCenterY < arrowHeight && targetCenterX > 0 && targetCenterX < width) {
-            return ArrowDirection.Up;
-        } else if (targetCenterX > width - arrowHeight && targetCenterY > 0 && targetCenterY < height) {
-            return ArrowDirection.Right;
-        } else if (targetCenterY > height - arrowHeight && targetCenterX > 0 && targetCenterX < width) {
-            return ArrowDirection.Down;
-        } else if (Math.abs(offsetX) > Math.abs(offsetY) && offsetX < 0) {
-            return ArrowDirection.Left;
-        } else if (Math.abs(offsetX) < Math.abs(offsetY) && offsetY < 0) {
-            return ArrowDirection.Up;
-        } else if (Math.abs(offsetX) > Math.abs(offsetY) && offsetX > 0) {
-            return ArrowDirection.Right;
-        } else if (Math.abs(offsetX) < Math.abs(offsetY) && offsetY > 0) {
-            return ArrowDirection.Down;
-        } else {
-            return ArrowDirection.None;
+    private static ArrowDirection getAutoArrowDirection(Rect bubble, Rect target) {
+        if (!bubble.intersects(target.left, target.top, target.right, target.bottom)) {
+            Point offset = new Point(bubble.centerX() - target.centerX(), bubble.centerY() - target.centerY());
+            if (Math.abs(offset.x) < bubble.width() / 2 + target.width() / 2) {
+                if (offset.y < 0) {
+                    return ArrowDirection.Down;
+                } else if (offset.y > 0) {
+                    return ArrowDirection.Up;
+                }
+            } else if (Math.abs(offset.y) < bubble.height() / 2 + target.height() / 2) {
+                if (offset.x < 0) {
+                    return ArrowDirection.Right;
+                } else if (offset.x > 0) {
+                    return ArrowDirection.Left;
+                }
+            }
         }
+
+        return ArrowDirection.None;
     }
 }

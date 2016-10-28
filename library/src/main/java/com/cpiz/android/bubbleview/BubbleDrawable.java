@@ -5,9 +5,12 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+
+import static com.cpiz.android.bubbleview.Utils.bound;
 
 /**
  * 气泡框背景
@@ -199,7 +202,7 @@ class BubbleDrawable extends Drawable {
 
     @Override
     public int getOpacity() {
-        return 0;
+        return PixelFormat.UNKNOWN;
     }
 
     private void buildPath(Shape shape, Path path) {
@@ -411,9 +414,5 @@ class BubbleDrawable extends Drawable {
                          float sweepAngle) {
         mOvalRect.set(left, top, right, bottom);
         path.arcTo(mOvalRect, startAngle, sweepAngle);
-    }
-
-    private float bound(float min, float val, float max) {
-        return Math.min(Math.max(val, min), max);
     }
 }
