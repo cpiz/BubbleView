@@ -18,12 +18,15 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import com.cpiz.android.bubbleview.BubbleStyle.ArrowDirection;
+
 /**
  * 气泡弹窗控件
  * 可装入自定义气泡在需要时弹出，不受目标布局的约束
- *
+ * <p>
  * Created by cpiz on 2016/8/2.
  */
+@SuppressWarnings({"WeakerAccess", "unused"})
 @SuppressLint("RtlHardcoded")
 public class BubblePopupWindow extends PopupWindow {
     private static final String TAG = "BubblePopupWindow";
@@ -115,9 +118,11 @@ public class BubblePopupWindow extends PopupWindow {
      * 显示气泡弹窗，并将箭头指向目标
      *
      * @param anchor    气泡箭头要指向的目标
-     * @param direction 箭头方向，同时也决定了气泡出现的位置，因此不能是 BubbleStyle.ArrowDirection#None
+     * @param direction 箭头方向，同时也决定了气泡出现的位置
+     * @deprecated 已经有更灵活的方式，使用showArrowTo(View anchor, Relative relative, int offsetX, int offsetY)替代
      */
-    public void showArrowTo(View anchor, BubbleStyle.ArrowDirection direction) {
+    public void showArrowTo(View anchor, ArrowDirection direction) {
+        //noinspection deprecation
         showArrowTo(anchor, direction, 0);
     }
 
@@ -125,11 +130,41 @@ public class BubblePopupWindow extends PopupWindow {
      * 显示气泡弹窗，并将箭头指向目标
      *
      * @param anchor    气泡箭头要指向的目标
-     * @param direction 箭头方向，同时也决定了气泡出现的位置，不能是 BubbleStyle.ArrowDirection#None
+     * @param direction 箭头方向，同时也决定了气泡出现的位置
      * @param offset    气泡箭头与目标的距离
+     * @deprecated 已经有更灵活的方式，使用showArrowTo(View anchor, Relative relative, int offsetX, int offsetY)替代
      */
     @SuppressWarnings("WeakerAccess")
-    public void showArrowTo(View anchor, BubbleStyle.ArrowDirection direction, int offset) {
+    public void showArrowTo(View anchor, ArrowDirection direction, int offset) {
+        Relative relative;
+        switch (direction) {
+            case Up:
+                relative = new Relative(Relative.CENTER_HORIZONTAL, Relative.BELOW);
+                break;
+            case Down:
+                relative = new Relative(Relative.CENTER_HORIZONTAL, Relative.ABOVE);
+                break;
+            case Left:
+                relative = new Relative(Relative.TO_RIGHT_OF, Relative.CENTER_VERTICAL);
+                break;
+            case Right:
+                relative = new Relative(Relative.TO_LEFT_OF, Relative.CENTER_VERTICAL);
+                break;
+            default:
+                relative = new Relative(Relative.CENTER_HORIZONTAL, Relative.CENTER_VERTICAL);
+                break;
+
+        }
+        showArrowTo(anchor, relative, offset, offset);
+    }
+
+    /**
+     * 显示气泡弹窗，并将箭头指向目标
+     *
+     * @param anchor   气泡箭头对齐的目标
+     * @param relative 气泡与目标的对齐方式
+     */
+    public void showArrowTo(View anchor, Relative relative, int offsetX, int offsetY) {
         dismiss();
 
         final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
@@ -137,6 +172,7 @@ public class BubblePopupWindow extends PopupWindow {
         final int navigationBarHeight = getNavigationBarHeight(anchor);
         final Rect anchorRect = getAnchorRectInWindow(anchor);
 
+        ArrowDirection direction = relative.getArrowDirection();
         mBubbleView.setArrowDirection(direction);
         getContentView().measure(
                 View.MeasureSpec.makeMeasureSpec(screenWidth - 2 * mPadding, View.MeasureSpec.AT_MOST),
@@ -146,21 +182,7 @@ public class BubblePopupWindow extends PopupWindow {
         Log.d(TAG, String.format("w:%d, h:%d", contentWidth, contentHeight));
 
         PopupProp outProp = new PopupProp();
-        switch (direction) {
-            case Left:
-                getLeftPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
-                break;
-            case Right:
-                getRightPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
-                break;
-            case Up:
-                getUpPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
-                break;
-            case Down:
-            default:
-                getDownPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
-                break;
-        }
+        getPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, relative, offsetX, offsetY, outProp);
 
         mBubbleView.setArrowDirection(outProp.direction);
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -183,79 +205,77 @@ public class BubblePopupWindow extends PopupWindow {
         return new Rect(location[0], location[1], location[0] + anchor.getWidth(), location[1] + anchor.getHeight());
     }
 
-    private void getLeftPopupProp(final int screenWidth, final int screenHeight,
-                                  final int navigationBarHeight, final Rect anchorRect,
-                                  final int contentWidth, final int contentHeight,
-                                  final int offset, PopupProp outProp) {
-        outProp.direction = BubbleStyle.ArrowDirection.Left;
-        outProp.animationStyle = R.style.AnimationArrowLeft;
-        outProp.maxWidth = screenWidth - anchorRect.right - offset - mPadding;
-        outProp.gravity = Gravity.LEFT | Gravity.CENTER_VERTICAL;
-        outProp.x = anchorRect.right + offset;
-        outProp.y = anchorRect.centerY() - navigationBarHeight / 2 - screenHeight / 2;
-    }
-
-    private void getRightPopupProp(final int screenWidth, final int screenHeight,
-                                   final int navigationBarHeight, final Rect anchorRect,
-                                   final int contentWidth, final int contentHeight,
-                                   final int offset, PopupProp outProp) {
-        outProp.direction = BubbleStyle.ArrowDirection.Right;
-        outProp.animationStyle = R.style.AnimationArrowRight;
-        outProp.maxWidth = anchorRect.left - offset - mPadding;
-        outProp.gravity = Gravity.RIGHT | Gravity.CENTER_VERTICAL;
-        outProp.x = screenWidth - anchorRect.left + offset;
-        outProp.y = anchorRect.centerY() - navigationBarHeight / 2 - screenHeight / 2;
-    }
-
-    private void getUpPopupProp(final int screenWidth, final int screenHeight,
-                                final int navigationBarHeight, final Rect anchorRect,
-                                final int contentWidth, final int contentHeight,
-                                final int offset, PopupProp outProp) {
-        outProp.direction = BubbleStyle.ArrowDirection.Up;
-        outProp.animationStyle = R.style.AnimationArrowUp;
-        outProp.maxWidth = screenWidth - 2 * mPadding;
-
-        if (anchorRect.centerX() < contentWidth / 2 + mPadding) {
-            outProp.gravity = Gravity.LEFT | Gravity.TOP;
-            outProp.x = mPadding;
-        } else if (screenWidth - anchorRect.centerX() < contentWidth / 2 + mPadding) {
-            outProp.gravity = Gravity.RIGHT | Gravity.TOP;
-            outProp.x = mPadding;
-        } else {
-            outProp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.TOP;
-            outProp.x = anchorRect.centerX() - screenWidth / 2;
+    private void getPopupProp(final int screenWidth, final int screenHeight,
+                              final int navigationBarHeight, final Rect anchorRect,
+                              final int contentWidth, final int contentHeight,
+                              final Relative relative, final int offsetX, final int offsetY,
+                              PopupProp outProp) {
+        outProp.direction = relative.getArrowDirection();
+        outProp.animationStyle = getAnimationStyle(outProp.direction);
+        switch (outProp.direction) {
+            case Left:
+                outProp.maxWidth = screenWidth - anchorRect.right - offsetX - mPadding;
+                break;
+            case Right:
+                outProp.maxWidth = anchorRect.left - offsetX - mPadding;
+                break;
+            default:
+                outProp.maxWidth = screenWidth - 2 * mPadding;
         }
-        outProp.y = anchorRect.bottom + offset;
 
-        if (screenHeight - anchorRect.bottom < contentHeight + offset
-                && anchorRect.top >= contentHeight + offset) {
-            getDownPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
+        outProp.gravity = 0;
+        switch (relative.getHorizontalRelate()) {
+            case Relative.ALIGN_LEFT:
+                outProp.gravity |= Gravity.LEFT;
+                outProp.x = anchorRect.left + offsetX;
+                break;
+            case Relative.TO_RIGHT_OF:
+                outProp.gravity |= Gravity.LEFT;
+                outProp.x = anchorRect.right + offsetX;
+                break;
+            case Relative.TO_LEFT_OF:
+                outProp.gravity |= Gravity.RIGHT;
+                outProp.x = screenWidth - anchorRect.left + offsetX;
+                break;
+            case Relative.ALIGN_RIGHT:
+                outProp.gravity |= Gravity.RIGHT;
+                outProp.x = screenWidth - anchorRect.right + offsetX;
+                break;
+            case Relative.CENTER_HORIZONTAL:
+                if (anchorRect.centerX() < contentWidth / 2 + mPadding) {
+                    outProp.gravity |= Gravity.LEFT;
+                    outProp.x = mPadding;
+                } else if (screenWidth - anchorRect.centerX() < contentWidth / 2 + mPadding) {
+                    outProp.gravity |= Gravity.RIGHT;
+                    outProp.x = mPadding;
+                } else {
+                    outProp.gravity = Gravity.CENTER_HORIZONTAL;
+                    outProp.x = anchorRect.centerX() - screenWidth / 2;
+                }
+                break;
         }
-    }
 
-    private void getDownPopupProp(final int screenWidth, final int screenHeight,
-                                  final int navigationBarHeight, final Rect anchorRect,
-                                  final int contentWidth, final int contentHeight,
-                                  final int offset, PopupProp outProp) {
-        outProp.direction = BubbleStyle.ArrowDirection.Down;
-        outProp.animationStyle = R.style.AnimationArrowDown;
-        outProp.maxWidth = screenWidth - 2 * mPadding;
-
-        if (anchorRect.centerX() < contentWidth / 2 + mPadding) {
-            outProp.gravity = Gravity.LEFT | Gravity.BOTTOM;
-            outProp.x = mPadding;
-        } else if (screenWidth - anchorRect.centerX() < contentWidth / 2 + mPadding) {
-            outProp.gravity = Gravity.RIGHT | Gravity.BOTTOM;
-            outProp.x = mPadding;
-        } else {
-            outProp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM;
-            outProp.x = anchorRect.centerX() - screenWidth / 2;
-        }
-        outProp.y = screenHeight + navigationBarHeight - anchorRect.top + offset;
-
-        if (anchorRect.top < contentHeight + offset
-                && screenHeight - anchorRect.bottom >= contentHeight + offset) {
-            getUpPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, offset, outProp);
+        switch (relative.getVerticalRelate()) {
+            case Relative.ALIGN_TOP:
+                outProp.gravity |= Gravity.TOP;
+                outProp.y = anchorRect.top + offsetY;
+                break;
+            case Relative.BELOW:
+                outProp.gravity |= Gravity.TOP;
+                outProp.y = anchorRect.bottom + offsetY;
+                break;
+            case Relative.ALIGN_BOTTOM:
+                outProp.gravity |= Gravity.BOTTOM;
+                outProp.y = screenHeight + navigationBarHeight - anchorRect.bottom + offsetY;
+                break;
+            case Relative.ABOVE:
+                outProp.gravity |= Gravity.BOTTOM;
+                outProp.y = screenHeight + navigationBarHeight - anchorRect.top + offsetY;
+                break;
+            case Relative.CENTER_VERTICAL:
+                outProp.gravity |= Gravity.CENTER_VERTICAL;
+                outProp.y = anchorRect.centerY() - navigationBarHeight / 2 - screenHeight / 2;
+                break;
         }
     }
 
@@ -287,8 +307,23 @@ public class BubblePopupWindow extends PopupWindow {
         return 0;
     }
 
+    private static int getAnimationStyle(ArrowDirection direction) {
+        switch (direction) {
+            case Up:
+                return R.style.AnimationArrowUp;
+            case Down:
+                return R.style.AnimationArrowDown;
+            case Left:
+                return R.style.AnimationArrowLeft;
+            case Right:
+                return R.style.AnimationArrowRight;
+            default:
+                return R.style.AnimationArrowNone;
+        }
+    }
+
     private class PopupProp {
-        BubbleStyle.ArrowDirection direction;
+        ArrowDirection direction;
         int animationStyle;
         int maxWidth;
         int gravity, x, y;
