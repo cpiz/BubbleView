@@ -2,9 +2,11 @@
 <LinearLayout
     android:id="@+id/activity_popup_window_sample"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:ignore="HardcodedText">
 
     <RelativeLayout
         android:id="@+id/layout_anchor"
@@ -74,6 +76,8 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
+                    android:inputType="none"
+                    android:maxLines="1"
                     android:singleLine="true"
                     android:text="Learn Git and GitHub without any code!"/>
             </LinearLayout>
@@ -236,7 +240,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:max="100"
+                    android:max="50"
                     android:progress="0"/>
 
                 <TextView
@@ -251,7 +255,7 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
-                    android:max="100"
+                    android:max="50"
                     android:progress="0"/>
             </LinearLayout>
 
@@ -269,7 +273,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
-                    android:text="Padding"/>
+                    android:text="Screen Padding"/>
 
                 <SeekBar
                     android:id="@+id/seekbar_padding"
