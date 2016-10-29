@@ -93,7 +93,7 @@ public class BubblePopupWindow extends PopupWindow {
      *
      * @param delayMillis 自动关闭延时，设0将不会自动关闭
      */
-    public void setCanceledOnLater(long delayMillis) {
+    public void setCancelOnLater(long delayMillis) {
         mHandler.removeCallbacks(mDismissRunnable);
         mDelayMillis = delayMillis;
         if (delayMillis > 0) {
@@ -189,7 +189,7 @@ public class BubblePopupWindow extends PopupWindow {
         mBubbleView.setArrowTo(anchor);
 
         if (mDelayMillis > 0) {
-            setCanceledOnLater(mDelayMillis);
+            setCancelOnLater(mDelayMillis);
         }
     }
 

@@ -139,7 +139,7 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
         mSeekbarAutoCancelTime.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mBubblePopupWindow.setCanceledOnLater(progress);
+                mBubblePopupWindow.setCancelOnLater(progress);
                 showPopupBubble();
             }
 
@@ -151,7 +151,7 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        mBubblePopupWindow.setCanceledOnLater(mSeekbarAutoCancelTime.getProgress());
+        mBubblePopupWindow.setCancelOnLater(mSeekbarAutoCancelTime.getProgress());
 
         mRadioGroupHorizontal.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -259,7 +259,6 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
 
             @Override
             public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                Log.d(TAG, "onLayoutChange() called with: " + "v = [" + v + "], left = [" + left + "], top = [" + top + "], right = [" + right + "], bottom = [" + bottom + "], oldLeft = [" + oldLeft + "], oldTop = [" + oldTop + "], oldRight = [" + oldRight + "], oldBottom = [" + oldBottom + "]");
                 if (bottom != oldBottom && oldBottom != 0) {
                     ViewGroup.LayoutParams lp = mLayoutAnchor.getLayoutParams();
                     if (lp != null) {
