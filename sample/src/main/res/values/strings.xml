@@ -1,4 +1,6 @@
 <resources>
-    <string name="app_name">BubbleRelativeLayout</string>
-    <string name="sample_text">A control/container with an arrow for Android, which can be fully customized by code or XML layout file.</string>
+    <string name="app_name">BubbleView</string>
+    <!--<string name="sample_text">A control/container with an arrow for Android, which can be fully customized by code or XML layout file.</string>-->
+    <string name="sample_text">A control/container</string>
+    <string name="bubble_popup_window_sample">BubblePopupWindow Sample</string>
 </resources>

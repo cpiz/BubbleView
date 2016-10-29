@@ -26,3 +26,6 @@ task sourcesJar(type: Jar) {
 artifacts {
     archives sourcesJar
 }
+dependencies {
+    compile 'com.android.support:support-annotations:24.1.0'
+}

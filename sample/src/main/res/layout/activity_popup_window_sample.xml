@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/activity_popup_window_sample"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_anchor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="240dp">
+
+        <TextView
+            android:id="@+id/view_anchor"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Click Me"
+            android:textColor="@android:color/white"
+            android:textSize="30sp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SideLength:"/>
+
+            <SeekBar
+                android:id="@+id/seekbar_anchor_side_length"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="340"
+                android:progress="100"/>
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Sample Text"/>
+
+                <EditText
+                    android:id="@+id/edit_sample_text"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:text="Learn Git and GitHub without any code!"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/checkbox_cancel_on_touch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CancelOnTouch"/>
+
+                <CheckBox
+                    android:id="@+id/checkbox_cancel_on_touch_outside"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CancelOnTouchOutside"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="CanceledOnLater"/>
+
+                <SeekBar
+                    android:id="@+id/seekbar_auto_cancel_time"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="10000"
+                    android:progress="0"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:id="@+id/radio_group_horizontal"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radio_center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CENTER_HORIZONTAL"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_to_left_of"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TO_LEFT_OF"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_to_right_of"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TO_RIGHT_OF"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_align_left"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ALIGN_LEFT"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_align_right"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ALIGN_RIGHT"/>
+                </RadioGroup>
+
+                <RadioGroup
+                    android:id="@+id/radio_group_vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <RadioButton
+                        android:id="@+id/radio_center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CENTER_VERTICAL"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_above"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ABOVE"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_below"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="BELOW"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_align_top"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ALIGN_TOP"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_align_bottom"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="ALIGN_BOTTOM"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="MarginH"/>
+
+                <SeekBar
+                    android:id="@+id/seekbar_margin_h"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="0"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="MarginV"/>
+
+                <SeekBar
+                    android:id="@+id/seekbar_margin_v"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="0"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="Padding"/>
+
+                <SeekBar
+                    android:id="@+id/seekbar_padding"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1"
+                    android:max="100"
+                    android:progress="10"/>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

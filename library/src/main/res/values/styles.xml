@@ -22,7 +22,7 @@
     </style>
 
     <style name="AnimationArrowNone">
-        <item name="android:windowEnterAnimation">@anim/pop_show_down</item>
-        <item name="android:windowExitAnimation">@anim/pop_hide_down</item>
+        <item name="android:windowEnterAnimation">@anim/pop_show_center</item>
+        <item name="android:windowExitAnimation">@anim/pop_hide_center</item>
     </style>
 </resources>
