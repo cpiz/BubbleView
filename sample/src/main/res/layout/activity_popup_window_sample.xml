@@ -149,22 +149,10 @@
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/radio_center_horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="CENTER_HORIZONTAL"/>
-
-                    <RadioButton
                         android:id="@+id/radio_to_left_of"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="TO_LEFT_OF"/>
-
-                    <RadioButton
-                        android:id="@+id/radio_to_right_of"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="TO_RIGHT_OF"/>
 
                     <RadioButton
                         android:id="@+id/radio_align_left"
@@ -173,10 +161,22 @@
                         android:text="ALIGN_LEFT"/>
 
                     <RadioButton
+                        android:id="@+id/radio_center_horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CENTER_HORIZONTAL"/>
+
+                    <RadioButton
                         android:id="@+id/radio_align_right"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ALIGN_RIGHT"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_to_right_of"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="TO_RIGHT_OF"/>
                 </RadioGroup>
 
                 <RadioGroup
@@ -187,22 +187,10 @@
                     android:orientation="vertical">
 
                     <RadioButton
-                        android:id="@+id/radio_center_vertical"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="CENTER_VERTICAL"/>
-
-                    <RadioButton
                         android:id="@+id/radio_above"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ABOVE"/>
-
-                    <RadioButton
-                        android:id="@+id/radio_below"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="BELOW"/>
 
                     <RadioButton
                         android:id="@+id/radio_align_top"
@@ -211,10 +199,22 @@
                         android:text="ALIGN_TOP"/>
 
                     <RadioButton
+                        android:id="@+id/radio_center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="CENTER_VERTICAL"/>
+
+                    <RadioButton
                         android:id="@+id/radio_align_bottom"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="ALIGN_BOTTOM"/>
+
+                    <RadioButton
+                        android:id="@+id/radio_below"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="BELOW"/>
                 </RadioGroup>
             </LinearLayout>
 

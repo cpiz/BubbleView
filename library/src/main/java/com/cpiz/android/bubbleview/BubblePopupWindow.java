@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
@@ -163,7 +164,7 @@ public class BubblePopupWindow extends PopupWindow {
 
         final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-        final int navigationBarHeight = Utils.getNavigationBarHeight(anchor);
+        final int navigationBarHeight = getDeltaNavigationBarHeight(anchor);
         final Rect anchorRect = getRectInWindow(anchor);
 
         ArrowDirection direction = relativePos.getArrowDirection();
@@ -210,31 +211,6 @@ public class BubblePopupWindow extends PopupWindow {
         getPopupPropOfX(screenWidth, anchorRect, contentWidth, relativePos, marginH, padding, outProp);
         getPopupPropOfMaxWidth(screenWidth, anchorRect, relativePos, marginH, padding, outProp);
         getPopupPropOfY(screenHeight, navigationBarHeight, anchorRect, relativePos, marginV, outProp);
-    }
-
-    private static void getPopupPropOfY(int screenHeight, int navigationBarHeight, Rect anchorRect, RelativePos relativePos, int marginV, PopupProp outProp) {
-        switch (relativePos.getVerticalRelate()) {
-            case RelativePos.ALIGN_TOP:
-                outProp.gravity |= Gravity.TOP;
-                outProp.y = anchorRect.top + marginV;
-                break;
-            case RelativePos.BELOW:
-                outProp.gravity |= Gravity.TOP;
-                outProp.y = anchorRect.bottom + marginV;
-                break;
-            case RelativePos.ALIGN_BOTTOM:
-                outProp.gravity |= Gravity.BOTTOM;
-                outProp.y = screenHeight + navigationBarHeight - anchorRect.bottom + marginV;
-                break;
-            case RelativePos.ABOVE:
-                outProp.gravity |= Gravity.BOTTOM;
-                outProp.y = screenHeight + navigationBarHeight - anchorRect.top + marginV;
-                break;
-            case RelativePos.CENTER_VERTICAL:
-                outProp.gravity |= Gravity.CENTER_VERTICAL;
-                outProp.y = anchorRect.centerY() - navigationBarHeight / 2 - screenHeight / 2;
-                break;
-        }
     }
 
     private static void getPopupPropOfX(int screenWidth, Rect anchorRect, int contentWidth, RelativePos relativePos, int marginH, final int padding, PopupProp outProp) {
@@ -290,6 +266,31 @@ public class BubblePopupWindow extends PopupWindow {
         }
     }
 
+    private static void getPopupPropOfY(int screenHeight, int navigationBarHeight, Rect anchorRect, RelativePos relativePos, int marginV, PopupProp outProp) {
+        switch (relativePos.getVerticalRelate()) {
+            case RelativePos.ALIGN_TOP:
+                outProp.gravity |= Gravity.TOP;
+                outProp.y = anchorRect.top + marginV;
+                break;
+            case RelativePos.BELOW:
+                outProp.gravity |= Gravity.TOP;
+                outProp.y = anchorRect.bottom + marginV;
+                break;
+            case RelativePos.ALIGN_BOTTOM:
+                outProp.gravity |= Gravity.BOTTOM;
+                outProp.y = screenHeight + navigationBarHeight - anchorRect.bottom + marginV;
+                break;
+            case RelativePos.ABOVE:
+                outProp.gravity |= Gravity.BOTTOM;
+                outProp.y = screenHeight + navigationBarHeight - anchorRect.top + marginV;
+                break;
+            case RelativePos.CENTER_VERTICAL:
+                outProp.gravity |= Gravity.CENTER_VERTICAL;
+                outProp.y = anchorRect.centerY() - navigationBarHeight / 2 - screenHeight / 2;
+                break;
+        }
+    }
+
     private static int getAnimationStyle(ArrowDirection direction) {
         switch (direction) {
             case Up:
@@ -302,6 +303,22 @@ public class BubblePopupWindow extends PopupWindow {
                 return R.style.AnimationArrowRight;
             default:
                 return R.style.AnimationArrowNone;
+        }
+    }
+
+    /**
+     * 获得用于补偿位置偏移的 NavigationBar 高度
+     * 在 Android5.0 以上系统，showAtLocation 如果使用了 Gravity.BOTTOM 或 Gravity.CENTER_VERTICAL 可能出现显示偏移的Bug
+     * 偏移值和 NavigationBar 高度有关
+     *
+     * @param view 目标View
+     * @return 如果需要修正且存在NavigationBar则返回高度，否则为0
+     */
+    private static int getDeltaNavigationBarHeight(View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
+            return Utils.getNavigationBarHeight(view);
+        } else {
+            return 0;
         }
     }
 

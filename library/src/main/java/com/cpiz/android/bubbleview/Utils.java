@@ -1,20 +1,22 @@
 package com.cpiz.android.bubbleview;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.res.Resources;
-import android.os.Build;
-import android.util.DisplayMetrics;
-import android.view.Display;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
 /**
  * 工具类
- *
+ * <p>
  * Created by caijw on 2016/10/28.
  */
 @SuppressWarnings("WeakerAccess")
 public class Utils {
+    private static final String TAG = "Utils";
+
     /**
      * 范围内取有效值
      *
@@ -28,18 +30,6 @@ public class Utils {
     }
 
     /**
-     * 判断目标值是否在范围内
-     *
-     * @param val    目标值
-     * @param scopeA 范围边界A
-     * @param scopeB 范围边界B
-     * @return 是否符合
-     */
-    public static boolean isBetween(int val, int scopeA, int scopeB) {
-        return (val >= scopeA && val <= scopeB) || (val >= scopeB && val <= scopeA);
-    }
-
-    /**
      * dp转为px
      *
      * @param dp dp值
@@ -50,30 +40,51 @@ public class Utils {
     }
 
     /**
-     * 获得用于补偿位置偏移的 NavigationBar 高度
-     * 在 Android5.0 以上系统，showAtLocation 如果使用了 Gravity.BOTTOM 或 Gravity.CENTER_VERTICAL 可能出现显示偏移的Bug
-     * 偏移值和 NavigationBar 高度有关
+     * 获得View所在界面 NavigationBar 高度
      *
      * @param view 目标View
-     * @return 如果需要修正且存在NavigationBar则返回高度，否则为0
+     * @return 如果存在NavigationBar则返回高度，否则0
      */
     public static int getNavigationBarHeight(View view) {
-        if (view.getRootView().getContext() instanceof Activity) {
-            Activity activity = (Activity) view.getRootView().getContext();
+        Activity activity = getActivity(view);
+        if (activity != null) {
             int flags = activity.getWindow().getAttributes().flags;
-            if ((flags & WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS) != 0) { // 没有这个属性无须修正
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
-                    Display defaultDisplay = activity.getWindowManager().getDefaultDisplay();
-                    DisplayMetrics metrics = new DisplayMetrics();
-                    defaultDisplay.getMetrics(metrics);
-                    int usableHeight = metrics.heightPixels;
-                    defaultDisplay.getRealMetrics(metrics); // getRealMetrics is only available with API 17 and +
-                    int realHeight = metrics.heightPixels;
-                    return realHeight > usableHeight ? realHeight - usableHeight : 0;
+            if ((flags & WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS) != 0) { // 表示当前屏幕有显示导航条
+                // 方法一
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//                    Display defaultDisplay = activity.getWindowManager().getDefaultDisplay();
+//                    DisplayMetrics metrics = new DisplayMetrics();
+//                    defaultDisplay.getMetrics(metrics);
+//                    int usableHeight = metrics.heightPixels;
+//                    defaultDisplay.getRealMetrics(metrics); // getRealMetrics is only available with API 17 and +
+//                    int realHeight = metrics.heightPixels;
+//                    return realHeight > usableHeight ? realHeight - usableHeight : 0;
+//                }
+
+                // 方法二
+                Resources resources = activity.getResources();
+                try {
+                    int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+                    if (resourceId > 0) {
+                        return resources.getDimensionPixelSize(resourceId);
+                    }
+                } catch (Exception ignored) {
+                    Log.w(TAG, "getNavigationBarHeight error", ignored);
                 }
             }
         }
 
         return 0;
+    }
+
+    private static Activity getActivity(View view) {
+        Context context = view.getContext();
+        while (context instanceof ContextWrapper) {
+            if (context instanceof Activity) {
+                return (Activity) context;
+            }
+            context = ((ContextWrapper) context).getBaseContext();
+        }
+        return null;
     }
 }
