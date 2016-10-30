@@ -33,6 +33,7 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
         init(context, attrs);
     }
 
+    @SuppressWarnings("unused")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public BubbleTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
@@ -80,13 +81,23 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     }
 
     @Override
-    public void setArrowOffset(float arrowOffset) {
-        mBubbleImpl.setArrowOffset(arrowOffset);
+    public void setArrowPosPolicy(ArrowPosPolicy policy) {
+        mBubbleImpl.setArrowPosPolicy(policy);
     }
 
     @Override
-    public float getArrowOffset() {
-        return mBubbleImpl.getArrowOffset();
+    public ArrowPosPolicy getArrowPosPolicy() {
+        return mBubbleImpl.getArrowPosPolicy();
+    }
+
+    @Override
+    public void setArrowPosDelta(float delta) {
+        mBubbleImpl.setArrowPosDelta(delta);
+    }
+
+    @Override
+    public float getArrowPosDelta() {
+        return mBubbleImpl.getArrowPosDelta();
     }
 
     @Override

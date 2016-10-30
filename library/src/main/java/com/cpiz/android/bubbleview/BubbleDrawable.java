@@ -9,17 +9,19 @@ import android.graphics.PixelFormat;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 
 import static com.cpiz.android.bubbleview.Utils.bound;
 
 /**
  * 气泡框背景
- *
+ * <p>
  * Created by caijw on 2016/5/26.
  * https://github.com/cpiz/BubbleView
  */
 class BubbleDrawable extends Drawable {
     private BubbleStyle.ArrowDirection mArrowDirection = BubbleStyle.ArrowDirection.None;
+    private BubbleStyle.ArrowPosPolicy mArrowPosPolicy = BubbleStyle.ArrowPosPolicy.TargetCenter;
     private Shape mOriginalShape = new Shape();
     private Shape mBorderShape = new Shape();
     private Shape mFillShape = new Shape();
@@ -37,7 +39,7 @@ class BubbleDrawable extends Drawable {
         float BorderWidth = 0;
         float ArrowHeight = 0;
         float ArrowWidth = 0;
-        float ArrowOffset = 0;
+        float ArrowDelta = 0;
         float ArrowPeakX = 0;
         float ArrowPeakY = 0;
         float TopLeftRadius = 0;
@@ -50,7 +52,7 @@ class BubbleDrawable extends Drawable {
             this.BorderWidth = shape.BorderWidth;
             this.ArrowHeight = shape.ArrowHeight;
             this.ArrowWidth = shape.ArrowWidth;
-            this.ArrowOffset = shape.ArrowOffset;
+            this.ArrowDelta = shape.ArrowDelta;
             this.ArrowPeakX = shape.ArrowPeakX;
             this.ArrowPeakY = shape.ArrowPeakY;
             this.TopLeftRadius = shape.TopLeftRadius;
@@ -60,27 +62,27 @@ class BubbleDrawable extends Drawable {
         }
     }
 
-    protected void resetRect(int width, int height) {
+    void resetRect(int width, int height) {
         mOriginalShape.Rect.set(0, 0, width, height);
     }
 
-    public void setFillColor(int fillColor) {
+    void setFillColor(int fillColor) {
         mFillColor = fillColor;
     }
 
-    public void setBorderColor(int borderColor) {
+    void setBorderColor(int borderColor) {
         mBorderColor = borderColor;
     }
 
-    public void setBorderWidth(float borderWidth) {
+    void setBorderWidth(float borderWidth) {
         mOriginalShape.BorderWidth = borderWidth;
     }
 
-    public void setFillPadding(float fillPadding) {
+    void setFillPadding(float fillPadding) {
         mFillPadding = fillPadding;
     }
 
-    public void rebuildShapes() {
+    void rebuildShapes() {
         buildBorderShape();
         buildFillShape();
     }
@@ -142,22 +144,26 @@ class BubbleDrawable extends Drawable {
         }
     }
 
-    public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
+    void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
         mOriginalShape.TopLeftRadius = topLeft;
         mOriginalShape.TopRightRadius = topRight;
         mOriginalShape.BottomRightRadius = bottomRight;
         mOriginalShape.BottomLeftRadius = bottomLeft;
     }
 
-    public void setArrowDirection(BubbleStyle.ArrowDirection arrowDirection) {
+    void setArrowDirection(BubbleStyle.ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
     }
 
-    public void setArrowHeight(float arrowHeight) {
+    void setArrowPosPolicy(BubbleStyle.ArrowPosPolicy arrowPosPolicy) {
+        mArrowPosPolicy = arrowPosPolicy;
+    }
+
+    void setArrowHeight(float arrowHeight) {
         mOriginalShape.ArrowHeight = arrowHeight;
     }
 
-    public void setArrowWidth(float arrowWidth) {
+    void setArrowWidth(float arrowWidth) {
         mOriginalShape.ArrowWidth = arrowWidth;
     }
 
@@ -167,17 +173,17 @@ class BubbleDrawable extends Drawable {
      * @param x 目标中心x
      * @param y 目标中心y
      */
-    public void setArrowTo(float x, float y) {
+    void setArrowTo(float x, float y) {
         mArrowTo.x = x;
         mArrowTo.y = y;
     }
 
-    public void setArrowPos(float arrowPos) {
-        mOriginalShape.ArrowOffset = arrowPos;
+    void setArrowPosDelta(float arrowDelta) {
+        mOriginalShape.ArrowDelta = arrowDelta;
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(@NonNull Canvas canvas) {
         mFillPaint.setStyle(Paint.Style.FILL);
         mFillPaint.setColor(mFillColor);
         canvas.drawPath(mFillPath, mFillPaint);
@@ -304,63 +310,82 @@ class BubbleDrawable extends Drawable {
     }
 
     private void buildLeftArrowPeak(Shape shape) {
-        float y;
-        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
-            y = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.bottom + shape.Rect.top);
-        } else {
-            y = shape.Rect.centerY() + mArrowTo.y;
-        }
-
         shape.ArrowPeakX = shape.Rect.left - shape.ArrowHeight;
         shape.ArrowPeakY = bound(shape.Rect.top + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                y, // 确保弧角的显示
+                getLeftRightArrowPeakY(shape), // 确保弧角的显示
                 shape.Rect.bottom - shape.BottomLeftRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowOffset = shape.ArrowPeakY;
-    }
-
-    private void buildUpArrowPeak(Shape shape) {
-        float x;
-        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
-            x = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.right + shape.Rect.left);
-        } else {
-            x = shape.Rect.centerX() + mArrowTo.x;
-        }
-
-        shape.ArrowPeakX = bound(shape.Rect.left + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                x,
-                shape.Rect.right - shape.TopRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowPeakY = shape.Rect.top - shape.ArrowHeight;
-        shape.ArrowOffset = shape.ArrowPeakX;
-    }
-
-    private void buildDownArrowPeak(Shape shape) {
-        float x;
-        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
-            x = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.right + shape.Rect.left);
-        } else {
-            x = shape.Rect.centerX() + mArrowTo.x;
-        }
-
-        shape.ArrowPeakX = bound(shape.Rect.left + shape.BottomLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                x,
-                shape.Rect.right - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowPeakY = shape.Rect.bottom + shape.ArrowHeight;
-        shape.ArrowOffset = shape.ArrowPeakX;
+        shape.ArrowDelta = shape.ArrowPeakY;
     }
 
     private void buildRightArrowPeak(Shape shape) {
-        float y;
-        if (mArrowTo.x == 0 && mArrowTo.y == 0 && shape.ArrowOffset != 0) {
-            y = shape.ArrowOffset + (shape.ArrowOffset > 0 ? 0 : shape.Rect.bottom + shape.Rect.top);
-        } else {
-            y = shape.Rect.centerY() + mArrowTo.y;
-        }
-
         shape.ArrowPeakX = shape.Rect.right + shape.ArrowHeight;
         shape.ArrowPeakY = bound(shape.Rect.top + shape.TopRightRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                y,
+                getLeftRightArrowPeakY(shape),
                 shape.Rect.bottom - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowOffset = shape.ArrowPeakY;
+        shape.ArrowDelta = shape.ArrowPeakY;
+    }
+
+    private void buildUpArrowPeak(Shape shape) {
+        shape.ArrowPeakX = bound(shape.Rect.left + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                getUpDownArrowPeakX(shape),
+                shape.Rect.right - shape.TopRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowPeakY = shape.Rect.top - shape.ArrowHeight;
+        shape.ArrowDelta = shape.ArrowPeakX;
+    }
+
+    private void buildDownArrowPeak(Shape shape) {
+        shape.ArrowPeakX = bound(shape.Rect.left + shape.BottomLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
+                getUpDownArrowPeakX(shape),
+                shape.Rect.right - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
+        shape.ArrowPeakY = shape.Rect.bottom + shape.ArrowHeight;
+        shape.ArrowDelta = shape.ArrowPeakX;
+    }
+
+    private float getLeftRightArrowPeakY(Shape shape) {
+        float y;
+        switch (mArrowPosPolicy) {
+            case TargetCenter:
+                y = shape.Rect.centerY() + mArrowTo.y;
+                break;
+            case SelfCenter:
+                y = shape.Rect.centerY();
+                break;
+            case SelfBegin:
+                y = shape.Rect.top;
+                y += mOriginalShape.ArrowDelta;
+                break;
+            case SelfEnd:
+                y = shape.Rect.bottom;
+                y -= mOriginalShape.ArrowDelta;
+                break;
+            default:
+                y = 0;
+        }
+        return y;
+    }
+
+    private float getUpDownArrowPeakX(Shape shape) {
+        float x;
+        switch (mArrowPosPolicy) {
+            case TargetCenter:
+                x = shape.Rect.centerX() + mArrowTo.x;
+                break;
+            case SelfCenter:
+                x = shape.Rect.centerX();
+                break;
+            case SelfBegin:
+                x = shape.Rect.left;
+                x += mOriginalShape.ArrowDelta;
+                break;
+            case SelfEnd:
+                x = shape.Rect.right;
+                x -= mOriginalShape.ArrowDelta;
+                break;
+            default:
+                x = 0;
+        }
+
+        return x;
     }
 
     private void buildTopLeftCorner(Shape shape, Path path) {
@@ -405,13 +430,13 @@ class BubbleDrawable extends Drawable {
 
     private RectF mOvalRect = new RectF();
 
-    void compatPathArcTo(Path path,
-                         float left,
-                         float top,
-                         float right,
-                         float bottom,
-                         float startAngle,
-                         float sweepAngle) {
+    private void compatPathArcTo(Path path,
+                                 float left,
+                                 float top,
+                                 float right,
+                                 float bottom,
+                                 float startAngle,
+                                 float sweepAngle) {
         mOvalRect.set(left, top, right, bottom);
         path.arcTo(mOvalRect, startAngle, sweepAngle);
     }

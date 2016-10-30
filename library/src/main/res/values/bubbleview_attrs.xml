@@ -6,16 +6,21 @@
 
         <attr name="bb_arrowTo" format="reference"/>
         <attr name="bb_arrowDirection" format="enum">
-            <enum name="Auto" value="0"/>
+            <enum name="None" value="0"/>
             <enum name="Left" value="1"/>
             <enum name="Up" value="2"/>
             <enum name="Right" value="3"/>
             <enum name="Down" value="4"/>
-            <enum name="None" value="5"/>
         </attr>
         <attr name="bb_arrowHeight" format="dimension"/>
         <attr name="bb_arrowWidth" format="dimension"/>
-        <attr name="bb_arrowOffset" format="dimension"/>
+        <attr name="bb_arrowPosPolicy" format="enum">
+            <enum name="TargetCenter" value="0"/>
+            <enum name="SelfCenter" value="1"/>
+            <enum name="SelfBegin" value="2"/>
+            <enum name="SelfEnd" value="3"/>
+        </attr>
+        <attr name="bb_arrowPosDelta" format="dimension"/>
 
         <attr name="bb_cornerRadius" format="dimension"/>
         <attr name="bb_cornerTopLeftRadius" format="dimension"/>

@@ -2,8 +2,10 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:ignore="HardcodedText,RtlHardcoded">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -253,7 +255,7 @@
                 android:textColor="@android:color/white"
                 app:bb_arrowDirection="Down"
                 app:bb_arrowHeight="10dp"
-                app:bb_arrowOffset="30dp"
+                app:bb_arrowPosDelta="30dp"
                 app:bb_arrowWidth="40dp"
                 app:bb_borderColor="@color/colorPrimary"
                 app:bb_borderWidth="6dp"
@@ -287,7 +289,7 @@
                 android:layout_margin="10dp"
                 android:background="@android:color/holo_red_light"
                 app:bb_arrowDirection="Left"
-                app:bb_arrowOffset="20dp"
+                app:bb_arrowPosDelta="20dp"
                 app:bb_borderColor="#88FFFFFF"
                 app:bb_borderWidth="1dp"
                 app:bb_fillColor="#200000FF">
@@ -298,7 +300,7 @@
                     android:layout_margin="10dp"
                     android:background="@android:color/holo_red_light"
                     app:bb_arrowDirection="Up"
-                    app:bb_arrowOffset="20dp"
+                    app:bb_arrowPosDelta="20dp"
                     app:bb_borderColor="#88FFFFFF"
                     app:bb_borderWidth="1dp"
                     app:bb_fillColor="#200000FF">
@@ -309,7 +311,7 @@
                         android:layout_margin="10dp"
                         android:background="@android:color/holo_red_light"
                         app:bb_arrowDirection="Right"
-                        app:bb_arrowOffset="20dp"
+                        app:bb_arrowPosDelta="20dp"
                         app:bb_borderColor="#88FFFFFF"
                         app:bb_borderWidth="1dp"
                         app:bb_fillColor="#200000FF">
@@ -320,7 +322,7 @@
                             android:layout_margin="10dp"
                             android:background="@android:color/holo_red_light"
                             app:bb_arrowDirection="Down"
-                            app:bb_arrowOffset="20dp"
+                            app:bb_arrowPosDelta="20dp"
                             app:bb_borderColor="#88FFFFFF"
                             app:bb_borderWidth="1dp"
                             app:bb_fillColor="#200000FF">
@@ -331,7 +333,7 @@
                                 android:layout_margin="10dp"
                                 android:background="@android:color/holo_red_light"
                                 app:bb_arrowDirection="Left"
-                                app:bb_arrowOffset="-20dp"
+                                app:bb_arrowPosDelta="-20dp"
                                 app:bb_borderColor="#88FFFFFF"
                                 app:bb_borderWidth="1dp"
                                 app:bb_fillColor="#200000FF">
@@ -342,7 +344,7 @@
                                     android:layout_margin="10dp"
                                     android:background="@android:color/holo_red_light"
                                     app:bb_arrowDirection="Up"
-                                    app:bb_arrowOffset="-20dp"
+                                    app:bb_arrowPosDelta="-20dp"
                                     app:bb_borderColor="#88FFFFFF"
                                     app:bb_borderWidth="1dp"
                                     app:bb_fillColor="#200000FF">
@@ -353,7 +355,7 @@
                                         android:layout_margin="10dp"
                                         android:background="@android:color/holo_red_light"
                                         app:bb_arrowDirection="Right"
-                                        app:bb_arrowOffset="-20dp"
+                                        app:bb_arrowPosDelta="-20dp"
                                         app:bb_borderColor="#88FFFFFF"
                                         app:bb_borderWidth="1dp"
                                         app:bb_fillColor="#200000FF">
@@ -364,7 +366,7 @@
                                             android:layout_margin="10dp"
                                             android:background="@android:color/holo_red_light"
                                             app:bb_arrowDirection="Down"
-                                            app:bb_arrowOffset="-20dp"
+                                            app:bb_arrowPosDelta="-20dp"
                                             app:bb_borderColor="#88FFFFFF"
                                             app:bb_borderWidth="1dp"
                                             app:bb_fillColor="#200000FF">

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +24,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.cpiz.android.bubbleviewsample.Utils.dp2px;
+import static com.cpiz.android.bubbleview.Utils.dp2px;
 
 public class PopupWindowSampleActivity extends AppCompatActivity {
+    @SuppressWarnings("unused")
     private static final String TAG = "PopupWindowSample";
 
     @BindView(R.id.activity_popup_window_sample)
@@ -265,6 +265,9 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
                         if (bottom < oldBottom) {
                             savedHeight = lp.height;
                             lp.height = 0;
+                            if (mBubblePopupWindow != null) {
+                                mBubblePopupWindow.dismiss();
+                            }
                         } else {
                             lp.height = savedHeight;
                         }

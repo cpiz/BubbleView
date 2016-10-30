@@ -1,13 +1,11 @@
 package com.cpiz.android.bubbleview;
 
+import android.util.SparseArray;
 import android.view.View;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 气泡View抽象接口
- *
+ * <p>
  * Created by caijw on 2016/6/1.
  * https://github.com/cpiz/BubbleView
  */
@@ -16,18 +14,17 @@ public interface BubbleStyle {
      * 箭头朝向枚举
      */
     enum ArrowDirection {
-        Auto(0),
+        None(0),
         Left(1),
         Up(2),
         Right(3),
-        Down(4),
-        None(5);
+        Down(4);
 
-        private static final Map<Integer, ArrowDirection> intToTypeMap = new HashMap<>();
+        private static final SparseArray<ArrowDirection> intToTypeDict = new SparseArray<>();
 
         static {
             for (ArrowDirection type : ArrowDirection.values()) {
-                intToTypeMap.put(type.mValue, type);
+                intToTypeDict.put(type.mValue, type);
             }
         }
 
@@ -42,7 +39,7 @@ public interface BubbleStyle {
         }
 
         public static ArrowDirection valueOf(int value) {
-            ArrowDirection type = intToTypeMap.get(value);
+            ArrowDirection type = intToTypeDict.get(value);
             if (type == null)
                 return ArrowDirection.None;
             return type;
@@ -63,9 +60,37 @@ public interface BubbleStyle {
         public boolean isDown() {
             return this == Down;
         }
+    }
 
-        public boolean isAuto() {
-            return this == Auto;
+    enum ArrowPosPolicy {
+        TargetCenter(0),
+        SelfCenter(1),
+        SelfBegin(2),
+        SelfEnd(3);
+
+        private static final SparseArray<ArrowPosPolicy> intToTypeDict = new SparseArray<>();
+
+        static {
+            for (ArrowPosPolicy type : ArrowPosPolicy.values()) {
+                intToTypeDict.put(type.mValue, type);
+            }
+        }
+
+        private int mValue = 0;
+
+        public int getValue() {
+            return mValue;
+        }
+
+        ArrowPosPolicy(int value) {
+            mValue = value;
+        }
+
+        public static ArrowPosPolicy valueOf(int value) {
+            ArrowPosPolicy type = intToTypeDict.get(value);
+            if (type == null)
+                return ArrowPosPolicy.TargetCenter;
+            return type;
         }
     }
 
@@ -97,15 +122,25 @@ public interface BubbleStyle {
     float getArrowWidth();
 
     /**
-     * 设置箭头在边线上的位置，视箭头方向而定
+     * 设置箭头在边线上的位置策略
      *
-     * @param arrowOffset 根据箭头位置，偏移像素值：
-     *                    朝上/下时在X轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
-     *                    朝左/右时在Y轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
+     * @param policy 箭头位置策略
      */
-    void setArrowOffset(float arrowOffset);
+    void setArrowPosPolicy(ArrowPosPolicy policy);
 
-    float getArrowOffset();
+    ArrowPosPolicy getArrowPosPolicy();
+
+    /**
+     * 设置箭头在所在边线上的偏移距离
+     * 视 ArrowPosPolicy 而定，为 TargetCenter 或 SelfCenter 时无意义
+     *
+     * @param delta 基于箭头位置策略，相应的偏差
+     *               朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
+     *               值必须 >0，视 ArrowPosPolicy 从首段或尾端开始偏移
+     */
+    void setArrowPosDelta(float delta);
+
+    float getArrowPosDelta();
 
     /**
      * 设置箭头指向的View对象

@@ -24,12 +24,13 @@ class BubbleImpl implements BubbleStyle {
     private View mParentView;
     private BubbleCallback mHolderCallback;
     private BubbleDrawable mBubbleDrawable = new BubbleDrawable();
-    private ArrowDirection mArrowDirection = ArrowDirection.Auto;
+    private ArrowDirection mArrowDirection = ArrowDirection.None;
+    private ArrowPosPolicy mArrowPosPolicy = ArrowPosPolicy.TargetCenter;
     private WeakReference<View> mArrowToViewRef = null;
     private int mArrowToViewId = 0;
     private float mArrowHeight = 0;
     private float mArrowWidth = 0;
-    private float mArrowOffset = 0;
+    private float mArrowPosDelta = 0;
     private float mCornerTopLeftRadius = 0;
     private float mCornerTopRightRadius = 0;
     private float mCornerBottomLeftRadius = 0;
@@ -46,7 +47,7 @@ class BubbleImpl implements BubbleStyle {
         }
     };
 
-    public void init(View view, Context context, AttributeSet attrs) {
+    void init(View view, Context context, AttributeSet attrs) {
         mParentView = view;
         mHolderCallback = (BubbleCallback) view;
 
@@ -55,7 +56,8 @@ class BubbleImpl implements BubbleStyle {
             mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.None.getValue()));
             mArrowHeight = ta.getDimension(R.styleable.BubbleStyle_bb_arrowHeight, dp2px(6));
             mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dp2px(10));
-            mArrowOffset = ta.getDimension(R.styleable.BubbleStyle_bb_arrowOffset, 0);
+            mArrowPosPolicy = ArrowPosPolicy.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowPosPolicy, ArrowPosPolicy.TargetCenter.getValue()));
+            mArrowPosDelta = ta.getDimension(R.styleable.BubbleStyle_bb_arrowPosDelta, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleStyle_bb_arrowTo, 0);
 
             float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dp2px(4));
@@ -123,21 +125,35 @@ class BubbleImpl implements BubbleStyle {
     }
 
     /**
-     * 设置箭头在边线上的位置，视箭头方向而定
+     * 设置箭头在边线上的位置策略
      *
-     * @param arrowOffset 根据箭头位置，偏移像素值：
-     *                    朝上/下时在X轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
-     *                    朝左/右时在Y轴方向偏移，>0 时从正方向偏移，<0时从负方向偏移
+     * @param policy 箭头位置策略
      */
-    @Override
-    public void setArrowOffset(float arrowOffset) {
-        mArrowOffset = arrowOffset;
+    public void setArrowPosPolicy(ArrowPosPolicy policy) {
+        mArrowPosPolicy = policy;
         updateDrawable();
     }
 
+    /**
+     * 设置箭头在所在边线上的偏移距离
+     * 视 ArrowPosPolicy 而定，为 TargetCenter 或 SelfCenter 时无意义
+     *
+     * @param delta 基于箭头位置策略，相应的偏差
+     *               朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
+     *               值必须 >0，视 ArrowPosPolicy 从首段或尾端开始偏移
+     */
     @Override
-    public float getArrowOffset() {
-        return mArrowOffset;
+    public void setArrowPosDelta(float delta) {
+        mArrowPosDelta = delta;
+        updateDrawable();
+    }
+
+    public ArrowPosPolicy getArrowPosPolicy() {
+        return mArrowPosPolicy;
+    }
+
+    public float getArrowPosDelta() {
+        return mArrowPosDelta;
     }
 
     /**
@@ -349,7 +365,6 @@ class BubbleImpl implements BubbleStyle {
             setArrowToRef(arrowToView);
         }
 
-//        ArrowDirection direction = mArrowDirection;
         if (arrowToView != null) {
             arrowToView.getLocationOnScreen(mLocation);
             mRectTo.set(mLocation[0], mLocation[1],
@@ -357,14 +372,10 @@ class BubbleImpl implements BubbleStyle {
 
             mParentView.getLocationOnScreen(mLocation);
             mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
+            mArrowDirection = getAutoArrowDirection(mRectSelf, mRectTo);
 
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
-
-//            if (direction == ArrowDirection.Auto) {
-//            mArrowDirection = getAutoArrowDirection(width, height, arrowToOffsetX, arrowToOffsetY, (int) mArrowHeight);
-            mArrowDirection = getAutoArrowDirection(mRectSelf, mRectTo);
-//            }
         }
         setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
 
@@ -376,8 +387,9 @@ class BubbleImpl implements BubbleStyle {
             mBubbleDrawable.setFillPadding(mFillPadding);
             mBubbleDrawable.setBorderColor(mBorderColor);
             mBubbleDrawable.setArrowDirection(mArrowDirection);
+            mBubbleDrawable.setArrowPosPolicy(mArrowPosPolicy);
             mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
-            mBubbleDrawable.setArrowPos(mArrowOffset);
+            mBubbleDrawable.setArrowPosDelta(mArrowPosDelta);
             mBubbleDrawable.setArrowHeight(mArrowHeight);
             mBubbleDrawable.setArrowWidth(mArrowWidth);
             mBubbleDrawable.rebuildShapes();

@@ -15,7 +15,9 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.cpiz.android.bubbleview.BubbleStyle.ArrowDirection;
+import com.cpiz.android.bubbleview.BubbleStyle.ArrowPosPolicy;
 
+import static com.cpiz.android.bubbleview.RelativePos.CENTER_HORIZONTAL;
 import static com.cpiz.android.bubbleview.Utils.dp2px;
 
 /**
@@ -135,10 +137,10 @@ public class BubblePopupWindow extends PopupWindow {
         RelativePos relativePos;
         switch (direction) {
             case Up:
-                relativePos = new RelativePos(RelativePos.CENTER_HORIZONTAL, RelativePos.BELOW);
+                relativePos = new RelativePos(CENTER_HORIZONTAL, RelativePos.BELOW);
                 break;
             case Down:
-                relativePos = new RelativePos(RelativePos.CENTER_HORIZONTAL, RelativePos.ABOVE);
+                relativePos = new RelativePos(CENTER_HORIZONTAL, RelativePos.ABOVE);
                 break;
             case Left:
                 relativePos = new RelativePos(RelativePos.TO_RIGHT_OF, RelativePos.CENTER_VERTICAL);
@@ -147,7 +149,7 @@ public class BubblePopupWindow extends PopupWindow {
                 relativePos = new RelativePos(RelativePos.TO_LEFT_OF, RelativePos.CENTER_VERTICAL);
                 break;
             default:
-                relativePos = new RelativePos(RelativePos.CENTER_HORIZONTAL, RelativePos.CENTER_VERTICAL);
+                relativePos = new RelativePos(CENTER_HORIZONTAL, RelativePos.CENTER_VERTICAL);
                 break;
         }
         showArrowTo(anchor, relativePos, margin, margin);
@@ -179,7 +181,7 @@ public class BubblePopupWindow extends PopupWindow {
         PopupProp outProp = new PopupProp();
         getPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, relativePos, marginH, marginV, mPadding, outProp);
 
-        mBubbleView.setArrowDirection(outProp.direction);
+//        mBubbleView.setArrowDirection(outProp.direction); // 自动调整方向了
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setAnimationStyle(outProp.animationStyle);
@@ -187,6 +189,7 @@ public class BubblePopupWindow extends PopupWindow {
             setWidth(outProp.maxWidth);
         }
         showAtLocation(anchor, outProp.gravity, outProp.x, outProp.y);
+        mBubbleView.setArrowPosPolicy(outProp.arrowPosPolicy);
         mBubbleView.setArrowTo(anchor);
 
         if (mDelayMillis > 0) {
@@ -211,6 +214,46 @@ public class BubblePopupWindow extends PopupWindow {
         getPopupPropOfX(screenWidth, anchorRect, contentWidth, relativePos, marginH, padding, outProp);
         getPopupPropOfMaxWidth(screenWidth, anchorRect, relativePos, marginH, padding, outProp);
         getPopupPropOfY(screenHeight, navigationBarHeight, anchorRect, relativePos, marginV, outProp);
+
+        switch (outProp.direction) {
+            case Up:
+            case Down:
+                switch (relativePos.getHorizontalRelate()) {
+                    case RelativePos.CENTER_HORIZONTAL:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.TargetCenter;
+                        break;
+                    case RelativePos.ALIGN_LEFT:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.SelfBegin;
+                        break;
+                    case RelativePos.ALIGN_RIGHT:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.SelfEnd;
+                        break;
+                    default:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.TargetCenter;
+                        break;
+                }
+                break;
+            case Left:
+            case Right:
+                switch (relativePos.getVerticalRelate()) {
+                    case RelativePos.CENTER_HORIZONTAL:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.TargetCenter;
+                        break;
+                    case RelativePos.ALIGN_TOP:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.SelfBegin;
+                        break;
+                    case RelativePos.ALIGN_BOTTOM:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.SelfEnd;
+                        break;
+                    default:
+                        outProp.arrowPosPolicy = ArrowPosPolicy.TargetCenter;
+                        break;
+                }
+                break;
+            default:
+                outProp.arrowPosPolicy = ArrowPosPolicy.TargetCenter;
+                break;
+        }
     }
 
     private static void getPopupPropOfX(int screenWidth, Rect anchorRect, int contentWidth, RelativePos relativePos, int marginH, final int padding, PopupProp outProp) {
@@ -231,7 +274,7 @@ public class BubblePopupWindow extends PopupWindow {
                 outProp.gravity |= Gravity.RIGHT;
                 outProp.x = screenWidth - anchorRect.right + marginH;
                 break;
-            case RelativePos.CENTER_HORIZONTAL:
+            case CENTER_HORIZONTAL:
                 if (anchorRect.centerX() < contentWidth / 2 + padding) {
                     outProp.gravity |= Gravity.LEFT;
                     outProp.x = padding;
@@ -260,7 +303,7 @@ public class BubblePopupWindow extends PopupWindow {
             case RelativePos.ALIGN_RIGHT:
                 outProp.maxWidth = anchorRect.right - marginH - padding;
                 break;
-            case RelativePos.CENTER_HORIZONTAL:
+            case CENTER_HORIZONTAL:
                 outProp.maxWidth = screenWidth - 2 * padding;
                 break;
         }
@@ -325,6 +368,7 @@ public class BubblePopupWindow extends PopupWindow {
 
     private class PopupProp {
         ArrowDirection direction;
+        ArrowPosPolicy arrowPosPolicy;
         int animationStyle;
         int maxWidth;
         int gravity, x, y;

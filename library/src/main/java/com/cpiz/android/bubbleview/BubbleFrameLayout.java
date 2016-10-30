@@ -81,13 +81,23 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     }
 
     @Override
-    public void setArrowOffset(float arrowOffset) {
-        mBubbleImpl.setArrowOffset(arrowOffset);
+    public void setArrowPosPolicy(ArrowPosPolicy policy) {
+        mBubbleImpl.setArrowPosPolicy(policy);
     }
 
     @Override
-    public float getArrowOffset() {
-        return mBubbleImpl.getArrowOffset();
+    public ArrowPosPolicy getArrowPosPolicy() {
+        return mBubbleImpl.getArrowPosPolicy();
+    }
+
+    @Override
+    public void setArrowPosDelta(float delta) {
+        mBubbleImpl.setArrowPosDelta(delta);
+    }
+
+    @Override
+    public float getArrowPosDelta() {
+        return mBubbleImpl.getArrowPosDelta();
     }
 
     @Override
