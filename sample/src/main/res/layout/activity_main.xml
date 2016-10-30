@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="HardcodedText,RtlHardcoded">
+    tools:ignore="HardcodedText,RtlHardcoded,TooDeepLayout">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -290,6 +290,7 @@
                 android:background="@android:color/holo_red_light"
                 app:bb_arrowDirection="Left"
                 app:bb_arrowPosDelta="20dp"
+                app:bb_arrowPosPolicy="SelfBegin"
                 app:bb_borderColor="#88FFFFFF"
                 app:bb_borderWidth="1dp"
                 app:bb_fillColor="#200000FF">
@@ -301,6 +302,7 @@
                     android:background="@android:color/holo_red_light"
                     app:bb_arrowDirection="Up"
                     app:bb_arrowPosDelta="20dp"
+                    app:bb_arrowPosPolicy="SelfBegin"
                     app:bb_borderColor="#88FFFFFF"
                     app:bb_borderWidth="1dp"
                     app:bb_fillColor="#200000FF">
@@ -312,6 +314,7 @@
                         android:background="@android:color/holo_red_light"
                         app:bb_arrowDirection="Right"
                         app:bb_arrowPosDelta="20dp"
+                        app:bb_arrowPosPolicy="SelfBegin"
                         app:bb_borderColor="#88FFFFFF"
                         app:bb_borderWidth="1dp"
                         app:bb_fillColor="#200000FF">
@@ -323,6 +326,7 @@
                             android:background="@android:color/holo_red_light"
                             app:bb_arrowDirection="Down"
                             app:bb_arrowPosDelta="20dp"
+                            app:bb_arrowPosPolicy="SelfBegin"
                             app:bb_borderColor="#88FFFFFF"
                             app:bb_borderWidth="1dp"
                             app:bb_fillColor="#200000FF">
@@ -333,7 +337,8 @@
                                 android:layout_margin="10dp"
                                 android:background="@android:color/holo_red_light"
                                 app:bb_arrowDirection="Left"
-                                app:bb_arrowPosDelta="-20dp"
+                                app:bb_arrowPosDelta="20dp"
+                                app:bb_arrowPosPolicy="SelfEnd"
                                 app:bb_borderColor="#88FFFFFF"
                                 app:bb_borderWidth="1dp"
                                 app:bb_fillColor="#200000FF">
@@ -344,7 +349,8 @@
                                     android:layout_margin="10dp"
                                     android:background="@android:color/holo_red_light"
                                     app:bb_arrowDirection="Up"
-                                    app:bb_arrowPosDelta="-20dp"
+                                    app:bb_arrowPosDelta="20dp"
+                                    app:bb_arrowPosPolicy="SelfEnd"
                                     app:bb_borderColor="#88FFFFFF"
                                     app:bb_borderWidth="1dp"
                                     app:bb_fillColor="#200000FF">
@@ -355,7 +361,8 @@
                                         android:layout_margin="10dp"
                                         android:background="@android:color/holo_red_light"
                                         app:bb_arrowDirection="Right"
-                                        app:bb_arrowPosDelta="-20dp"
+                                        app:bb_arrowPosDelta="20dp"
+                                        app:bb_arrowPosPolicy="SelfEnd"
                                         app:bb_borderColor="#88FFFFFF"
                                         app:bb_borderWidth="1dp"
                                         app:bb_fillColor="#200000FF">
@@ -366,7 +373,8 @@
                                             android:layout_margin="10dp"
                                             android:background="@android:color/holo_red_light"
                                             app:bb_arrowDirection="Down"
-                                            app:bb_arrowPosDelta="-20dp"
+                                            app:bb_arrowPosDelta="20dp"
+                                            app:bb_arrowPosPolicy="SelfEnd"
                                             app:bb_borderColor="#88FFFFFF"
                                             app:bb_borderWidth="1dp"
                                             app:bb_fillColor="#200000FF">
