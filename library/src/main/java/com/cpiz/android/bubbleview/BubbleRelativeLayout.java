@@ -241,7 +241,7 @@ public class BubbleRelativeLayout extends RelativeLayout implements BubbleStyle,
     }
 
     @Override
-    public void updateDrawable() {
-        mBubbleImpl.updateDrawable();
+    public void requestUpdateBubble() {
+        mBubbleImpl.requestUpdateBubble();
     }
 }

@@ -24,6 +24,6 @@ public class BubbleTextViewSampleActivity extends AppCompatActivity {
 
     @OnClick({R.id.view_anchor})
     public void onClick(View view) {
-        mBubbleTextSample.updateDrawable();
+        mBubbleTextSample.requestUpdateBubble();
     }
 }

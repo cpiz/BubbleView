@@ -241,7 +241,7 @@ public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, Bub
     }
 
     @Override
-    public void updateDrawable() {
-        mBubbleImpl.updateDrawable();
+    public void requestUpdateBubble() {
+        mBubbleImpl.requestUpdateBubble();
     }
 }

@@ -241,7 +241,7 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     }
 
     @Override
-    public void updateDrawable() {
-        mBubbleImpl.updateDrawable();
+    public void requestUpdateBubble() {
+        mBubbleImpl.requestUpdateBubble();
     }
 }

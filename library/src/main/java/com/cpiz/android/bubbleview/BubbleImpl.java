@@ -43,7 +43,7 @@ class BubbleImpl implements BubbleStyle {
     private View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
-            updateDrawable();
+            requestUpdateBubble();
         }
     };
 
@@ -76,15 +76,9 @@ class BubbleImpl implements BubbleStyle {
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), false);
     }
 
-    /**
-     * 设置箭头朝向
-     *
-     * @param arrowDirection 上下左右或者无
-     */
     @Override
     public void setArrowDirection(ArrowDirection arrowDirection) {
         mArrowDirection = arrowDirection;
-        updateDrawable();
     }
 
     @Override
@@ -92,15 +86,9 @@ class BubbleImpl implements BubbleStyle {
         return mArrowDirection;
     }
 
-    /**
-     * 设置箭头三角形厚度
-     *
-     * @param arrowHeight 箭头厚度
-     */
     @Override
     public void setArrowHeight(float arrowHeight) {
         mArrowHeight = arrowHeight;
-        updateDrawable();
     }
 
     @Override
@@ -108,15 +96,9 @@ class BubbleImpl implements BubbleStyle {
         return mArrowHeight;
     }
 
-    /**
-     * 设置箭头三角形底宽
-     *
-     * @param arrowWidth 箭头底边宽度
-     */
     @Override
     public void setArrowWidth(float arrowWidth) {
         mArrowWidth = arrowWidth;
-        updateDrawable();
     }
 
     @Override
@@ -124,28 +106,13 @@ class BubbleImpl implements BubbleStyle {
         return mArrowWidth;
     }
 
-    /**
-     * 设置箭头在边线上的位置策略
-     *
-     * @param policy 箭头位置策略
-     */
     public void setArrowPosPolicy(ArrowPosPolicy policy) {
         mArrowPosPolicy = policy;
-        updateDrawable();
     }
 
-    /**
-     * 设置箭头在所在边线上的偏移距离
-     * 视 ArrowPosPolicy 而定，为 TargetCenter 或 SelfCenter 时无意义
-     *
-     * @param delta 基于箭头位置策略，相应的偏差
-     *               朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
-     *               值必须 >0，视 ArrowPosPolicy 从首段或尾端开始偏移
-     */
     @Override
     public void setArrowPosDelta(float delta) {
         mArrowPosDelta = delta;
-        updateDrawable();
     }
 
     public ArrowPosPolicy getArrowPosPolicy() {
@@ -166,14 +133,12 @@ class BubbleImpl implements BubbleStyle {
     public void setArrowTo(int targetViewId) {
         mArrowToViewId = targetViewId;
         setArrowToRef(null); // 先不设置，在updateDrawable会重新寻找
-        updateDrawable();
     }
 
     @Override
     public void setArrowTo(View targetView) {
         mArrowToViewId = targetView != null ? targetView.getId() : 0;
         setArrowToRef(targetView);
-        updateDrawable();
     }
 
     public View getArrowTo() {
@@ -188,7 +153,6 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setFillColor(int fillColor) {
         mFillColor = fillColor;
-        updateDrawable();
     }
 
     @Override
@@ -204,7 +168,6 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setBorderColor(int borderColor) {
         mBorderColor = borderColor;
-        updateDrawable();
     }
 
     @Override
@@ -220,7 +183,6 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setBorderWidth(float borderWidth) {
         mBorderWidth = borderWidth;
-        updateDrawable();
     }
 
     @Override
@@ -236,7 +198,6 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void setFillPadding(float fillPadding) {
         mFillPadding = fillPadding;
-        updateDrawable();
     }
 
     @Override
@@ -259,7 +220,6 @@ class BubbleImpl implements BubbleStyle {
         mCornerTopRightRadius = topRight;
         mCornerBottomRightRadius = bottomRight;
         mCornerBottomLeftRadius = bottomLeft;
-        updateDrawable();
     }
 
     @Override
@@ -403,7 +363,7 @@ class BubbleImpl implements BubbleStyle {
     }
 
     @Override
-    public void updateDrawable() {
+    public void requestUpdateBubble() {
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), true);
     }
 

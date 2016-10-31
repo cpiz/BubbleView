@@ -241,7 +241,7 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     }
 
     @Override
-    public void updateDrawable() {
-        mBubbleImpl.updateDrawable();
+    public void requestUpdateBubble() {
+        mBubbleImpl.requestUpdateBubble();
     }
 }

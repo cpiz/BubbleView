@@ -169,8 +169,6 @@ public class BubblePopupWindow extends PopupWindow {
         final int navigationBarHeight = getDeltaNavigationBarHeight(anchor);
         final Rect anchorRect = getRectInWindow(anchor);
 
-        ArrowDirection direction = relativePos.getArrowDirection();
-        mBubbleView.setArrowDirection(direction);
         getContentView().measure(
                 View.MeasureSpec.makeMeasureSpec(screenWidth - 2 * mPadding, View.MeasureSpec.AT_MOST),
                 View.MeasureSpec.makeMeasureSpec(screenHeight - 2 * mPadding, View.MeasureSpec.AT_MOST));
@@ -190,6 +188,7 @@ public class BubblePopupWindow extends PopupWindow {
         showAtLocation(anchor, outProp.gravity, outProp.x, outProp.y);
         mBubbleView.setArrowPosPolicy(outProp.arrowPosPolicy);
         mBubbleView.setArrowTo(anchor);
+        mBubbleView.requestUpdateBubble();
 
         if (mDelayMillis > 0) {
             setCancelOnLater(mDelayMillis);

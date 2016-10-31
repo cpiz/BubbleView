@@ -11,9 +11,12 @@ import android.view.View;
  */
 public interface BubbleStyle {
     /**
-     * 箭头朝向枚举
+     * 箭头朝向定义
      */
     enum ArrowDirection {
+        /**
+         * 无箭头
+         */
         None(0),
         Left(1),
         Up(2),
@@ -62,10 +65,28 @@ public interface BubbleStyle {
         }
     }
 
+    /**
+     * 箭头位置策略定义
+     */
     enum ArrowPosPolicy {
+        /**
+         * 箭头指向目标View的中心点
+         */
         TargetCenter(0),
+
+        /**
+         * 箭头从自己的中心点发出
+         */
         SelfCenter(1),
+
+        /**
+         * 结合setArrowPosDelta，箭头从所在轴的头端开始偏移
+         */
         SelfBegin(2),
+
+        /**
+         * 结合setArrowPosDelta，箭头从所在轴的尾端开始偏移
+         */
         SelfEnd(3);
 
         private static final SparseArray<ArrowPosPolicy> intToTypeDict = new SparseArray<>();
@@ -135,8 +156,8 @@ public interface BubbleStyle {
      * 视 ArrowPosPolicy 而定，为 TargetCenter 或 SelfCenter 时无意义
      *
      * @param delta 基于箭头位置策略，相应的偏差
-     *               朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
-     *               值必须 >0，视 ArrowPosPolicy 从首段或尾端开始偏移
+     *              朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
+     *              值必须 >0，视 ArrowPosPolicy 从首段或尾端开始偏移
      */
     void setArrowPosDelta(float delta);
 
@@ -230,5 +251,9 @@ public interface BubbleStyle {
 
     int getPaddingBottom();
 
-    void updateDrawable();
+    /**
+     * 请求刷新UI样式
+     * 设置好以上属性后，调用该函数进行刷新
+     */
+    void requestUpdateBubble();
 }
