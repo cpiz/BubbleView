@@ -32,6 +32,7 @@ public class BubblePopupWindow extends PopupWindow {
     private static final String TAG = "BubblePopupWindow";
 
     private int mPadding = dp2px(2);
+    private int mArrowPosDelta = 0;
     private BubbleStyle mBubbleView;
     private long mDelayMillis = 0;
     private Handler mHandler = new Handler(Looper.getMainLooper());
@@ -115,6 +116,17 @@ public class BubblePopupWindow extends PopupWindow {
     }
 
     /**
+     * 设置箭头在所在边线上的偏移距离
+     * 这是一个快捷入口，将转调BubbleView的setArrowPosDelta
+     *
+     * @param arrowPosDelta 基于箭头位置策略，相应的偏差
+     *                      值必须>0，朝上/下时在X轴方向偏移，朝左/右时在Y轴方向偏移
+     */
+    public void setArrowPosDelta(int arrowPosDelta) {
+        mArrowPosDelta = arrowPosDelta;
+    }
+
+    /**
      * 显示气泡弹窗，并将箭头指向目标中央
      *
      * @param anchor    气泡箭头要指向的目标
@@ -166,7 +178,7 @@ public class BubblePopupWindow extends PopupWindow {
 
         final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
         final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
-        final int navigationBarHeight = getDeltaNavigationBarHeight(anchor);
+        final int navigationBarHeight = getNavigationBarHeightDelta(anchor);
         final Rect anchorRect = getRectInWindow(anchor);
 
         getContentView().measure(
@@ -188,6 +200,7 @@ public class BubblePopupWindow extends PopupWindow {
         showAtLocation(anchor, outProp.gravity, outProp.x, outProp.y);
         mBubbleView.setArrowPosPolicy(outProp.arrowPosPolicy);
         mBubbleView.setArrowTo(anchor);
+        mBubbleView.setArrowPosDelta(mArrowPosDelta);
         mBubbleView.requestUpdateBubble();
 
         if (mDelayMillis > 0) {
@@ -355,14 +368,13 @@ public class BubblePopupWindow extends PopupWindow {
      * @param view 目标View
      * @return 如果需要修正且存在NavigationBar则返回高度，否则为0
      */
-    private static int getDeltaNavigationBarHeight(View view) {
+    private static int getNavigationBarHeightDelta(View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT_WATCH) {
             return Utils.getNavigationBarHeight(view);
         } else {
             return 0;
         }
     }
-
 
     private class PopupProp {
         ArrowDirection direction;
