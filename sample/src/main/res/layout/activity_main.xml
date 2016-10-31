@@ -396,9 +396,17 @@
             android:textStyle="bold"/>
 
         <Button
+            android:id="@+id/btn_bubble_text_view_sample"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="2dp"
+            android:text="BubbleTextView Sample"/>
+
+        <Button
             android:id="@+id/btn_bubble_popup_window_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/bubble_popup_window_sample"/>
+            android:layout_marginBottom="2dp"
+            android:text="BubblePopupWindow Sample"/>
     </LinearLayout>
 </ScrollView>

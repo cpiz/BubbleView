@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/activity_bubble_text_view_sample"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.cpiz.android.bubbleviewsample.BubbleTextViewSampleActivity"
+    tools:ignore="HardcodedText,RtlHardcoded">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="240dp">
+
+        <TextView
+            android:id="@+id/view_anchor"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="20dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="Click Me"
+            android:textColor="@android:color/white"/>
+
+        <!--app:bb_arrowDirection="Left"-->
+        <com.cpiz.android.bubbleview.BubbleTextView
+            android:id="@+id/bubble_text_sample"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_toRightOf="@id/view_anchor"
+            android:padding="30dp"
+            android:text="Arrow"
+            android:textColor="@android:color/white"
+            app:bb_arrowHeight="20dp"
+            app:bb_arrowTo="@id/view_anchor"
+            app:bb_arrowWidth="30dp"
+            app:bb_borderColor="@color/colorPrimary"
+            app:bb_borderWidth="6dp"
+            app:bb_fillPadding="10dp"
+            app:bb_cornerBottomLeftRadius="20dp"
+            app:bb_cornerBottomRightRadius="10dp"
+            app:bb_cornerRadius="4dp"
+            app:bb_cornerTopLeftRadius="0dp"
+            app:bb_cornerTopRightRadius="4dp"
+            app:bb_fillColor="@android:color/holo_red_light"/>
+    </RelativeLayout>
+
+</LinearLayout>

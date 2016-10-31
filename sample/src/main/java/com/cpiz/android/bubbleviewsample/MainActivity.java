@@ -18,11 +18,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @SuppressWarnings("unused")
-    @OnClick({R.id.btn_bubble_popup_window_sample})
+    @OnClick({R.id.btn_bubble_popup_window_sample, R.id.btn_bubble_text_view_sample})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_bubble_popup_window_sample:
                 startActivity(new Intent(MainActivity.this, PopupWindowSampleActivity.class));
+                break;
+            case R.id.btn_bubble_text_view_sample:
+                startActivity(new Intent(MainActivity.this, BubbleTextViewSampleActivity.class));
                 break;
         }
     }

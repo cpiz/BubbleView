@@ -181,7 +181,6 @@ public class BubblePopupWindow extends PopupWindow {
         PopupProp outProp = new PopupProp();
         getPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, relativePos, marginH, marginV, mPadding, outProp);
 
-//        mBubbleView.setArrowDirection(outProp.direction); // 自动调整方向了
         setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setAnimationStyle(outProp.animationStyle);

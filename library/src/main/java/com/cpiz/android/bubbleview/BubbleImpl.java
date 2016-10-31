@@ -392,7 +392,7 @@ class BubbleImpl implements BubbleStyle {
             mBubbleDrawable.setArrowPosDelta(mArrowPosDelta);
             mBubbleDrawable.setArrowHeight(mArrowHeight);
             mBubbleDrawable.setArrowWidth(mArrowWidth);
-            mBubbleDrawable.rebuildShapes();
+            mBubbleDrawable.updateShapes();
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 mParentView.setBackground(mBubbleDrawable);
             } else {

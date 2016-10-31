@@ -82,27 +82,27 @@ class BubbleDrawable extends Drawable {
         mFillPadding = fillPadding;
     }
 
-    void rebuildShapes() {
-        buildBorderShape();
-        buildFillShape();
+    void updateShapes() {
+        updateBorderShape();
+        updateFillShape();
     }
 
-    private void buildBorderShape() {
-        // 预留四周1/2的边框厚度，使得边框能够完全显示
+    private void updateBorderShape() {
         mBorderShape.set(mOriginalShape);
-        mBorderShape.Rect.set(
+        mBorderShape.Rect.set(  // 内缩四周1/2的边线厚度，使得边线能够完全显示
                 mOriginalShape.Rect.left + mOriginalShape.BorderWidth / 2 + (mArrowDirection.isLeft() ? mOriginalShape.ArrowHeight : 0),
                 mOriginalShape.Rect.top + mOriginalShape.BorderWidth / 2 + (mArrowDirection.isUp() ? mOriginalShape.ArrowHeight : 0),
                 mOriginalShape.Rect.right - mOriginalShape.BorderWidth / 2 - (mArrowDirection.isRight() ? mOriginalShape.ArrowHeight : 0),
                 mOriginalShape.Rect.bottom - mOriginalShape.BorderWidth / 2 - (mArrowDirection.isDown() ? mOriginalShape.ArrowHeight : 0)
         );
-        buildArrowPeak(mArrowDirection, mBorderShape);
 
-        mBorderPath.reset();
-        buildPath(mBorderShape, mBorderPath);
+        // 外层的箭头顶点位置通过箭头位置策略、箭头偏移设定、目标位置决定
+        updateBorderArrowPeak(mArrowDirection, mArrowPosPolicy, mArrowTo, mBorderShape);
+
+        updatePath(mBorderShape, mBorderPath);
     }
 
-    private void buildFillShape() {
+    private void updateFillShape() {
         mFillShape.set(mBorderShape);
         mFillShape.BorderWidth = 0;
         mFillShape.Rect.set(
@@ -121,25 +121,61 @@ class BubbleDrawable extends Drawable {
 
         mFillShape.ArrowHeight = (float) (h + mOriginalShape.BorderWidth / 2 + mFillPadding);
         mFillShape.ArrowWidth = mFillShape.ArrowHeight * mOriginalShape.ArrowWidth / mOriginalShape.ArrowHeight;
-        buildArrowPeak(mArrowDirection, mFillShape);
 
-        mFillPath.reset();
-        buildPath(mFillShape, mFillPath);
+        // 内层的箭头顶点位置通过外层边线上的顶点位置来计算
+        updateFillArrowPeak(mArrowDirection, mBorderShape, mFillShape);
+
+        updatePath(mFillShape, mFillPath);
     }
 
-    private void buildArrowPeak(BubbleStyle.ArrowDirection direction, Shape shape) {
+    private static void updateFillArrowPeak(BubbleStyle.ArrowDirection direction, Shape borderShape, Shape outFillShape) {
         switch (direction) {
             case Left:
-                buildLeftArrowPeak(shape);
-                break;
-            case Up:
-                buildUpArrowPeak(shape);
+                outFillShape.ArrowPeakX = outFillShape.Rect.left - outFillShape.ArrowHeight;
+                outFillShape.ArrowPeakY = borderShape.ArrowPeakY;
                 break;
             case Right:
-                buildRightArrowPeak(shape);
+                outFillShape.ArrowPeakX = outFillShape.Rect.right + outFillShape.ArrowHeight;
+                outFillShape.ArrowPeakY = borderShape.ArrowPeakY;
+                break;
+            case Up:
+                outFillShape.ArrowPeakX = borderShape.ArrowPeakX;
+                outFillShape.ArrowPeakY = outFillShape.Rect.top - outFillShape.ArrowHeight;
                 break;
             case Down:
-                buildDownArrowPeak(shape);
+                outFillShape.ArrowPeakX = borderShape.ArrowPeakX;
+                outFillShape.ArrowPeakY = outFillShape.Rect.bottom + outFillShape.ArrowHeight;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updateBorderArrowPeak(BubbleStyle.ArrowDirection direction, BubbleStyle.ArrowPosPolicy policy, PointF arrowTo, Shape outShape) {
+        switch (direction) {
+            case Left:
+                outShape.ArrowPeakX = outShape.Rect.left - outShape.ArrowHeight;
+                outShape.ArrowPeakY = bound(outShape.Rect.top + outShape.TopLeftRadius + outShape.ArrowWidth / 2 + outShape.BorderWidth / 2,
+                        getLeftRightArrowPeakY(policy, arrowTo, outShape), // 确保弧角的显示
+                        outShape.Rect.bottom - outShape.BottomLeftRadius - outShape.ArrowWidth / 2 - outShape.BorderWidth / 2);
+                break;
+            case Up:
+                outShape.ArrowPeakX = bound(outShape.Rect.left + outShape.TopLeftRadius + outShape.ArrowWidth / 2 + outShape.BorderWidth / 2,
+                        getUpDownArrowPeakX(policy, arrowTo, outShape),
+                        outShape.Rect.right - outShape.TopRightRadius - outShape.ArrowWidth / 2 - outShape.BorderWidth / 2);
+                outShape.ArrowPeakY = outShape.Rect.top - outShape.ArrowHeight;
+                break;
+            case Right:
+                outShape.ArrowPeakX = outShape.Rect.right + outShape.ArrowHeight;
+                outShape.ArrowPeakY = bound(outShape.Rect.top + outShape.TopRightRadius + outShape.ArrowWidth / 2 + outShape.BorderWidth / 2,
+                        getLeftRightArrowPeakY(policy, arrowTo, outShape),
+                        outShape.Rect.bottom - outShape.BottomRightRadius - outShape.ArrowWidth / 2 - outShape.BorderWidth / 2);
+                break;
+            case Down:
+                outShape.ArrowPeakX = bound(outShape.Rect.left + outShape.BottomLeftRadius + outShape.ArrowWidth / 2 + outShape.BorderWidth / 2,
+                        getUpDownArrowPeakX(policy, arrowTo, outShape),
+                        outShape.Rect.right - outShape.BottomRightRadius - outShape.ArrowWidth / 2 - outShape.BorderWidth / 2);
+                outShape.ArrowPeakY = outShape.Rect.bottom + outShape.ArrowHeight;
                 break;
         }
     }
@@ -211,7 +247,8 @@ class BubbleDrawable extends Drawable {
         return PixelFormat.UNKNOWN;
     }
 
-    private void buildPath(Shape shape, Path path) {
+    private void updatePath(Shape shape, Path path) {
+        path.reset();
         switch (mArrowDirection) {
             case None:
                 buildWithNoneArrow(shape, path);
@@ -309,54 +346,22 @@ class BubbleDrawable extends Drawable {
         path.lineTo(shape.ArrowPeakX, shape.ArrowPeakY);
     }
 
-    private void buildLeftArrowPeak(Shape shape) {
-        shape.ArrowPeakX = shape.Rect.left - shape.ArrowHeight;
-        shape.ArrowPeakY = bound(shape.Rect.top + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                getLeftRightArrowPeakY(shape), // 确保弧角的显示
-                shape.Rect.bottom - shape.BottomLeftRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowDelta = shape.ArrowPeakY;
-    }
-
-    private void buildRightArrowPeak(Shape shape) {
-        shape.ArrowPeakX = shape.Rect.right + shape.ArrowHeight;
-        shape.ArrowPeakY = bound(shape.Rect.top + shape.TopRightRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                getLeftRightArrowPeakY(shape),
-                shape.Rect.bottom - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowDelta = shape.ArrowPeakY;
-    }
-
-    private void buildUpArrowPeak(Shape shape) {
-        shape.ArrowPeakX = bound(shape.Rect.left + shape.TopLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                getUpDownArrowPeakX(shape),
-                shape.Rect.right - shape.TopRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowPeakY = shape.Rect.top - shape.ArrowHeight;
-        shape.ArrowDelta = shape.ArrowPeakX;
-    }
-
-    private void buildDownArrowPeak(Shape shape) {
-        shape.ArrowPeakX = bound(shape.Rect.left + shape.BottomLeftRadius + shape.ArrowWidth / 2 + shape.BorderWidth / 2,
-                getUpDownArrowPeakX(shape),
-                shape.Rect.right - shape.BottomRightRadius - shape.ArrowWidth / 2 - shape.BorderWidth / 2);
-        shape.ArrowPeakY = shape.Rect.bottom + shape.ArrowHeight;
-        shape.ArrowDelta = shape.ArrowPeakX;
-    }
-
-    private float getLeftRightArrowPeakY(Shape shape) {
+    private static float getLeftRightArrowPeakY(BubbleStyle.ArrowPosPolicy policy, PointF arrowTo, Shape shape) {
         float y;
-        switch (mArrowPosPolicy) {
+        switch (policy) {
             case TargetCenter:
-                y = shape.Rect.centerY() + mArrowTo.y;
+                y = shape.Rect.centerY() + arrowTo.y;
                 break;
             case SelfCenter:
                 y = shape.Rect.centerY();
                 break;
             case SelfBegin:
                 y = shape.Rect.top;
-                y += mOriginalShape.ArrowDelta;
+                y += shape.ArrowDelta;
                 break;
             case SelfEnd:
                 y = shape.Rect.bottom;
-                y -= mOriginalShape.ArrowDelta;
+                y -= shape.ArrowDelta;
                 break;
             default:
                 y = 0;
@@ -364,22 +369,22 @@ class BubbleDrawable extends Drawable {
         return y;
     }
 
-    private float getUpDownArrowPeakX(Shape shape) {
+    private static float getUpDownArrowPeakX(BubbleStyle.ArrowPosPolicy policy, PointF arrowTo, Shape shape) {
         float x;
-        switch (mArrowPosPolicy) {
+        switch (policy) {
             case TargetCenter:
-                x = shape.Rect.centerX() + mArrowTo.x;
+                x = shape.Rect.centerX() + arrowTo.x;
                 break;
             case SelfCenter:
                 x = shape.Rect.centerX();
                 break;
             case SelfBegin:
                 x = shape.Rect.left;
-                x += mOriginalShape.ArrowDelta;
+                x += shape.ArrowDelta;
                 break;
             case SelfEnd:
                 x = shape.Rect.right;
-                x -= mOriginalShape.ArrowDelta;
+                x -= shape.ArrowDelta;
                 break;
             default:
                 x = 0;

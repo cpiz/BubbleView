@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:tools="http://schemas.android.com/tools"
-          package="com.cpiz.android.bubbleviewsample"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="com.cpiz.android.bubbleviewsample"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <application
         android:allowBackup="true"
@@ -21,6 +21,8 @@
             android:name=".PopupWindowSampleActivity"
             android:label="PopupWindow Sample"
             android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".BubbleTextViewSampleActivity">
+        </activity>
     </application>
 
 </manifest>
