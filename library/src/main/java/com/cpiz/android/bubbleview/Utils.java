@@ -4,9 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.Resources;
+import android.graphics.Point;
+import android.os.Build;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
-import android.view.WindowManager;
 
 /**
  * 工具类
@@ -48,30 +50,37 @@ public class Utils {
     public static int getNavigationBarHeight(View view) {
         Activity activity = getActivity(view);
         if (activity != null) {
-            int flags = activity.getWindow().getAttributes().flags;
-            if ((flags & WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS) != 0) { // 表示当前屏幕有显示导航条
-                // 方法一
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-//                    Display defaultDisplay = activity.getWindowManager().getDefaultDisplay();
-//                    DisplayMetrics metrics = new DisplayMetrics();
-//                    defaultDisplay.getMetrics(metrics);
-//                    int usableHeight = metrics.heightPixels;
-//                    defaultDisplay.getRealMetrics(metrics); // getRealMetrics is only available with API 17 and +
-//                    int realHeight = metrics.heightPixels;
-//                    return realHeight > usableHeight ? realHeight - usableHeight : 0;
-//                }
-
-                // 方法二
-                Resources resources = activity.getResources();
-                try {
-                    int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
-                    if (resourceId > 0) {
-                        return resources.getDimensionPixelSize(resourceId);
+            // 方法一
+            {
+                Display display = activity.getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int usableHeight = size.y;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                    display.getRealSize(size); // getRealMetrics is only available with API 17 and +
+                } else {
+                    try {
+                        size.x = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
+                        size.y = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
+                    } catch (Exception e) {
+                        Log.w(TAG, "getNavigationBarHeight: error", e);
                     }
-                } catch (Exception ignored) {
-                    Log.w(TAG, "getNavigationBarHeight error", ignored);
                 }
+                int realHeight = size.y;
+                return realHeight > usableHeight ? realHeight - usableHeight : 0;
             }
+
+            // 方法二：不能确定当前屏幕上是否有NaviBar
+            // 不能
+//                Resources resources = activity.getResources();
+//                try {
+//                    int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+//                    if (resourceId > 0) {
+//                        return resources.getDimensionPixelSize(resourceId);
+//                    }
+//                } catch (Exception ignored) {
+//                    Log.w(TAG, "getNavigationBarHeight error", ignored);
+//                }
         }
 
         return 0;
