@@ -14,10 +14,15 @@ public interface BubbleStyle {
      * 箭头朝向定义
      */
     enum ArrowDirection {
+
         /**
          * 无箭头
          */
-        None(0),
+        None(-1),
+        /**
+         * 自动确定指向
+         */
+        Auto(0),
         Left(1),
         Up(2),
         Right(3),
@@ -44,7 +49,7 @@ public interface BubbleStyle {
         public static ArrowDirection valueOf(int value) {
             ArrowDirection type = intToTypeDict.get(value);
             if (type == null)
-                return ArrowDirection.None;
+                return ArrowDirection.Auto;
             return type;
         }
 

@@ -197,11 +197,11 @@ public class BubblePopupWindow extends PopupWindow {
         if (contentWidth > outProp.maxWidth) {
             setWidth(outProp.maxWidth);
         }
-        showAtLocation(anchor, outProp.gravity, outProp.x, outProp.y);
+        mBubbleView.setArrowDirection(outProp.direction);
         mBubbleView.setArrowPosPolicy(outProp.arrowPosPolicy);
         mBubbleView.setArrowTo(anchor);
         mBubbleView.setArrowPosDelta(mArrowPosDelta);
-        mBubbleView.requestUpdateBubble();
+        showAtLocation(anchor, outProp.gravity, outProp.x, outProp.y);
 
         if (mDelayMillis > 0) {
             setCancelOnLater(mDelayMillis);

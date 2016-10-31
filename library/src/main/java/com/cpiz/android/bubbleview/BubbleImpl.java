@@ -24,7 +24,8 @@ class BubbleImpl implements BubbleStyle {
     private View mParentView;
     private BubbleCallback mHolderCallback;
     private BubbleDrawable mBubbleDrawable = new BubbleDrawable();
-    private ArrowDirection mArrowDirection = ArrowDirection.None;
+    private ArrowDirection mArrowDirection = ArrowDirection.Auto;
+    private ArrowDirection mDrawableArrowDirection = ArrowDirection.None;
     private ArrowPosPolicy mArrowPosPolicy = ArrowPosPolicy.TargetCenter;
     private WeakReference<View> mArrowToViewRef = null;
     private int mArrowToViewId = 0;
@@ -53,7 +54,7 @@ class BubbleImpl implements BubbleStyle {
 
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BubbleStyle);
-            mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.None.getValue()));
+            mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.Auto.getValue()));
             mArrowHeight = ta.getDimension(R.styleable.BubbleStyle_bb_arrowHeight, dp2px(6));
             mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dp2px(10));
             mArrowPosPolicy = ArrowPosPolicy.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowPosPolicy, ArrowPosPolicy.TargetCenter.getValue()));
@@ -267,7 +268,7 @@ class BubbleImpl implements BubbleStyle {
         }
 
         mPaddingLeftOffset = mPaddingTopOffset = mPaddingRightOffset = mPaddingBottomOffset = 0;
-        switch (mArrowDirection) {
+        switch (mDrawableArrowDirection) {
             case Left:
                 mPaddingLeftOffset += mArrowHeight;
                 break;
@@ -279,6 +280,10 @@ class BubbleImpl implements BubbleStyle {
                 break;
             case Down:
                 mPaddingBottomOffset += mArrowHeight;
+                break;
+            case Auto:
+            case None:
+            default:
                 break;
         }
 
@@ -325,6 +330,7 @@ class BubbleImpl implements BubbleStyle {
             setArrowToRef(arrowToView);
         }
 
+        mDrawableArrowDirection = mArrowDirection;
         if (arrowToView != null) {
             arrowToView.getLocationOnScreen(mLocation);
             mRectTo.set(mLocation[0], mLocation[1],
@@ -332,7 +338,10 @@ class BubbleImpl implements BubbleStyle {
 
             mParentView.getLocationOnScreen(mLocation);
             mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
-            mArrowDirection = getAutoArrowDirection(mRectSelf, mRectTo);
+
+            if (mDrawableArrowDirection == ArrowDirection.Auto) {
+                mDrawableArrowDirection = getAutoArrowDirection(mRectSelf, mRectTo);
+            }
 
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
@@ -346,7 +355,7 @@ class BubbleImpl implements BubbleStyle {
             mBubbleDrawable.setBorderWidth(mBorderWidth);
             mBubbleDrawable.setFillPadding(mFillPadding);
             mBubbleDrawable.setBorderColor(mBorderColor);
-            mBubbleDrawable.setArrowDirection(mArrowDirection);
+            mBubbleDrawable.setArrowDirection(mDrawableArrowDirection);
             mBubbleDrawable.setArrowPosPolicy(mArrowPosPolicy);
             mBubbleDrawable.setArrowTo(arrowToOffsetX, arrowToOffsetY);
             mBubbleDrawable.setArrowPosDelta(mArrowPosDelta);

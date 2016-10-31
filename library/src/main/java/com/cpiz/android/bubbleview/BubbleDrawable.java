@@ -250,9 +250,6 @@ class BubbleDrawable extends Drawable {
     private void updatePath(Shape shape, Path path) {
         path.reset();
         switch (mArrowDirection) {
-            case None:
-                buildWithNoneArrow(shape, path);
-                break;
             case Up:
                 buildWithUpArrow(shape, path);
                 break;
@@ -264,6 +261,9 @@ class BubbleDrawable extends Drawable {
                 break;
             case Right:
                 buildWithRightArrow(shape, path);
+                break;
+            default:
+                buildWithNoneArrow(shape, path);
                 break;
         }
     }

@@ -206,7 +206,7 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
         mSeekbarMarginH.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mMarginH = dp2px(progress);
+                mMarginH = dp2px(progress - 10);
                 showPopupBubble();
             }
 
@@ -218,12 +218,12 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        mMarginH = dp2px(mSeekbarMarginH.getProgress());
+        mMarginH = dp2px(mSeekbarMarginH.getProgress() - 10);
 
         mSeekbarMarginV.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                mMarginV = dp2px(progress);
+                mMarginV = dp2px(progress - 10);
                 showPopupBubble();
             }
 
@@ -235,7 +235,7 @@ public class PopupWindowSampleActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
-        mMarginV = dp2px(mSeekbarMarginV.getProgress());
+        mMarginV = dp2px(mSeekbarMarginV.getProgress() - 10);
 
         mSeekbarPadding.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

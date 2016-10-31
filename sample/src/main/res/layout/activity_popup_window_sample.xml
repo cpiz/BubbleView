@@ -241,7 +241,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:max="50"
-                    android:progress="0"/>
+                    android:progress="10"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -256,7 +256,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="1"
                     android:max="50"
-                    android:progress="0"/>
+                    android:progress="10"/>
             </LinearLayout>
 
             <View
