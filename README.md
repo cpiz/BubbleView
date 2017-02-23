@@ -25,11 +25,11 @@ allprojects {
 }
 ```
 
-Add `compile 'com.github.cpiz:BubbleView:{X.X.X}'` to your module-level `build.gradle`
+Add `compile 'com.github.cpiz:BubbleView:{X.Y.Z}'` to your module-level `build.gradle`(see X.Y.Z in [Releases](https://github.com/cpiz/BubbleView/releases))
 ```
 dependencies {
     ...
-    compile 'com.github.cpiz:BubbleView:{X.X.X}'
+    compile 'com.github.cpiz:BubbleView:{X.Y.Z}'
 }
 ```
 
