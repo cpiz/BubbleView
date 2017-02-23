@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.cpiz.android.bubbleviewsample"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.cpiz.android.bubbleviewsample">
 
     <application
         android:allowBackup="true"
@@ -12,16 +12,22 @@
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".PopupWindowSampleActivity"
             android:label="PopupWindow Sample"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".BubbleTextViewSampleActivity">
+            android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".BubbleTextViewSampleActivity"></activity>
+        <activity android:name=".TestActivity">
+            <!--<intent-filter>-->
+            <!--<action android:name="android.intent.action.MAIN" />-->
+
+            <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
     </application>
 

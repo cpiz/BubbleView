@@ -9,7 +9,6 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
-
 import java.lang.ref.WeakReference;
 
 import static com.cpiz.android.bubbleview.Utils.dp2px;
@@ -43,7 +42,8 @@ class BubbleImpl implements BubbleStyle {
     private float mFillPadding = 0;
     private View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
-        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
+                int oldRight, int oldBottom) {
             requestUpdateBubble();
         }
     };
@@ -54,19 +54,25 @@ class BubbleImpl implements BubbleStyle {
 
         if (attrs != null) {
             TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.BubbleStyle);
-            mArrowDirection = ArrowDirection.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.Auto.getValue()));
+            mArrowDirection = ArrowDirection.valueOf(
+                    ta.getInt(R.styleable.BubbleStyle_bb_arrowDirection, ArrowDirection.Auto.getValue()));
             mArrowHeight = ta.getDimension(R.styleable.BubbleStyle_bb_arrowHeight, dp2px(6));
             mArrowWidth = ta.getDimension(R.styleable.BubbleStyle_bb_arrowWidth, dp2px(10));
-            mArrowPosPolicy = ArrowPosPolicy.valueOf(ta.getInt(R.styleable.BubbleStyle_bb_arrowPosPolicy, ArrowPosPolicy.TargetCenter.getValue()));
+            mArrowPosPolicy = ArrowPosPolicy.valueOf(
+                    ta.getInt(R.styleable.BubbleStyle_bb_arrowPosPolicy, ArrowPosPolicy.TargetCenter.getValue()));
             mArrowPosDelta = ta.getDimension(R.styleable.BubbleStyle_bb_arrowPosDelta, 0);
             mArrowToViewId = ta.getResourceId(R.styleable.BubbleStyle_bb_arrowTo, 0);
 
             float radius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerRadius, dp2px(4));
             mCornerTopLeftRadius = mCornerTopRightRadius = mCornerBottomLeftRadius = mCornerBottomRightRadius = radius;
-            mCornerTopLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
-            mCornerTopRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
-            mCornerBottomLeftRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerBottomLeftRadius, mCornerTopLeftRadius);
-            mCornerBottomRightRadius = ta.getDimension(R.styleable.BubbleStyle_bb_cornerBottomRightRadius, mCornerTopLeftRadius);
+            mCornerTopLeftRadius =
+                    ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopLeftRadius, mCornerTopLeftRadius);
+            mCornerTopRightRadius =
+                    ta.getDimension(R.styleable.BubbleStyle_bb_cornerTopRightRadius, mCornerTopLeftRadius);
+            mCornerBottomLeftRadius =
+                    ta.getDimension(R.styleable.BubbleStyle_bb_cornerBottomLeftRadius, mCornerTopLeftRadius);
+            mCornerBottomRightRadius =
+                    ta.getDimension(R.styleable.BubbleStyle_bb_cornerBottomRightRadius, mCornerTopLeftRadius);
 
             mFillColor = ta.getColor(R.styleable.BubbleStyle_bb_fillColor, 0xCC000000);
             mFillPadding = ta.getDimension(R.styleable.BubbleStyle_bb_fillPadding, 0);
@@ -210,10 +216,10 @@ class BubbleImpl implements BubbleStyle {
      * 设置边角弧度
      * 可以为四角指定不同弧度
      *
-     * @param topLeft     左上角
-     * @param topRight    右上角
+     * @param topLeft 左上角
+     * @param topRight 右上角
      * @param bottomRight 右下角
-     * @param bottomLeft  左下角
+     * @param bottomLeft 左下角
      */
     @Override
     public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
@@ -250,7 +256,7 @@ class BubbleImpl implements BubbleStyle {
 
     @SuppressWarnings("SuspiciousNameCombination")
     @Override
-    public void setPadding(int left, int top, int right, int bottom) {
+    public void setPadding(final int left, final int top, final int right, final int bottom) {
         if (mHolderCallback == null) {
             return;
         }
@@ -258,8 +264,8 @@ class BubbleImpl implements BubbleStyle {
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.JELLY_BEAN) {
             StackTraceElement stack[] = (new Throwable()).getStackTrace();
             for (int i = 0; i < 7; i++) {
-                if (stack[i].getClassName().equals(View.class.getName())
-                        && stack[i].getMethodName().equals("recomputePadding")) {
+                if (stack[i].getClassName().equals(View.class.getName()) && stack[i].getMethodName()
+                        .equals("recomputePadding")) {
                     Log.w("BubbleImpl", "Called setPadding by View on old Android platform");
                     mHolderCallback.setSuperPadding(left, top, right, bottom);
                     return;
@@ -287,11 +293,23 @@ class BubbleImpl implements BubbleStyle {
                 break;
         }
 
-        mHolderCallback.setSuperPadding(
-                left + mPaddingLeftOffset,
-                top + mPaddingTopOffset,
-                right + mPaddingRightOffset,
-                bottom + mPaddingBottomOffset);
+        final int superPaddingLeft = left + mPaddingLeftOffset;
+        final int superPaddingTop = top + mPaddingTopOffset;
+        final int superPaddingRight = right + mPaddingRightOffset;
+        final int superPaddingBottom = bottom + mPaddingBottomOffset;
+
+        if (superPaddingLeft != mHolderCallback.getSuperPaddingLeft()
+                || superPaddingTop != mHolderCallback.getSuperPaddingTop()
+                || superPaddingRight != mHolderCallback.getSuperPaddingRight()
+                || superPaddingBottom != mHolderCallback.getSuperPaddingBottom()) {
+            mParentView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mHolderCallback.setSuperPadding(superPaddingLeft, superPaddingTop, superPaddingRight,
+                            superPaddingBottom);
+                }
+            });
+        }
     }
 
     @Override
@@ -333,8 +351,8 @@ class BubbleImpl implements BubbleStyle {
         mDrawableArrowDirection = mArrowDirection;
         if (arrowToView != null) {
             arrowToView.getLocationOnScreen(mLocation);
-            mRectTo.set(mLocation[0], mLocation[1],
-                    mLocation[0] + arrowToView.getWidth(), mLocation[1] + arrowToView.getHeight());
+            mRectTo.set(mLocation[0], mLocation[1], mLocation[0] + arrowToView.getWidth(),
+                    mLocation[1] + arrowToView.getHeight());
 
             mParentView.getLocationOnScreen(mLocation);
             mRectSelf.set(mLocation[0], mLocation[1], mLocation[0] + width, mLocation[1] + height);
@@ -346,11 +364,13 @@ class BubbleImpl implements BubbleStyle {
             arrowToOffsetX = mRectTo.centerX() - mRectSelf.centerX();
             arrowToOffsetY = mRectTo.centerY() - mRectSelf.centerY();
         }
-        setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(), mParentView.getPaddingBottom());
+        setPadding(mParentView.getPaddingLeft(), mParentView.getPaddingTop(), mParentView.getPaddingRight(),
+                mParentView.getPaddingBottom());
 
         if (drawImmediately) {
             mBubbleDrawable.resetRect(width, height);
-            mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius, mCornerBottomLeftRadius);
+            mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius,
+                    mCornerBottomLeftRadius);
             mBubbleDrawable.setFillColor(mFillColor);
             mBubbleDrawable.setBorderWidth(mBorderWidth);
             mBubbleDrawable.setFillPadding(mFillPadding);
