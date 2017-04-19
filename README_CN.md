@@ -119,7 +119,7 @@ dependencies {
     app:bb_fillPadding="4dp"/>
 ```
 
-###作为容器
+### 作为容器
 --------
 除直接使用BubbleTextView显示文字外，还可以使用
 
@@ -131,7 +131,7 @@ dependencies {
 
 ![作为容器](./screenshots/4.png)
 
-###弹出显示
+### 弹出显示
 --------
 还可通过BubblePopupWindow来包装，弹出显示
 ![弹出显示](./screenshots/5.gif)
@@ -151,7 +151,7 @@ dependencies {
 ```
 
 
-###其它
+### 其它
 
 * 如果自行指定BubbleView的setBackground/setBackgroundColor等，将导致气泡样式失效
 

@@ -119,7 +119,7 @@ Customize style
     app:bb_fillPadding="4dp"/>
 ```
 
-###Use it as layout container
+### Use it as layout container
 --------
 Beside using BubbleTextView to display text, you can also use
 
@@ -131,7 +131,7 @@ as bubble layout container and put customized content into it.
 
 ![As container](./screenshots/4.png)
 
-###Popup
+### Popup
 --------
 Can use BubblePopupWindow to wrap bubble, and show as popup.
 ![popup](./screenshots/5.gif)
@@ -150,7 +150,7 @@ Can use BubblePopupWindow to wrap bubble, and show as popup.
     window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
 ```
 
-###Misc.
+### Misc.
 
 * Invoke methods like setBackground/setBackgroundColor of BubbleView will make the style settings invalid.
 
