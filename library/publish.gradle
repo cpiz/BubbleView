@@ -1,0 +1,89 @@
+apply plugin: "com.jfrog.bintray"
+apply plugin: "maven-publish"
+
+def localProperties = new Properties()
+localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+
+def group = "com.cpiz.bubbleview"
+def artifactName = "bubbleview"
+def artifactOrg = ""
+def verName = "1.0.2"
+def libDesc = "BubbleView is control/container with an arrow for Android, which can be fully customized by code or XML layout file."
+def verDesc = "BubbleView is control/container with an arrow for Android, which can be fully customized by code or XML layout file."
+def siteUrl = "https://github.com/cpiz/BubbleView"
+def issueUrl = "https://github.com/cpiz/BubbleView/issues"
+def vscUrl = "https://github.com/cpiz/BubbleView.git"
+def authorId = "cpiz"
+def authorName = "Jianwen Cai"
+def authorEmail = "caipiz@gmail.com"
+def gitRepo = "cpiz/BubbleView"
+
+bintray {
+    user = localProperties.getProperty("bintray.user")
+    key = localProperties.getProperty("bintray.apikey")
+    publications = ["library"]
+
+    pkg {
+        repo = "maven"
+        name = "$artifactName"
+        userOrg = "$artifactOrg"
+        desc = "$libDesc"
+        licenses = ["Apache-2.0"]
+        websiteUrl = "$siteUrl"
+        issueTrackerUrl = "$issueUrl"
+        vcsUrl = "$vscUrl"
+        publicDownloadNumbers = true
+
+        githubRepo = "$gitRepo" //Optional Github repository
+        githubReleaseNotesFile = "README.md" //Optional Github readme file
+
+        version {
+            name = "$verName"
+            desc = "$verDesc"
+            released = new Date()
+
+            gpg {
+                sign = true //Determines whether to GPG sign the files. The default is false
+                passphrase = localProperties.getProperty("bintray.gpg.password")
+            }
+        }
+    }
+}
+
+def pomConfig = {
+    licenses {
+        license {
+            name "The Apache Software License, Version 2.0"
+            url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+            distribution "repo"
+        }
+    }
+    developers {
+        developer {
+            id "$authorId"
+            name "$authorName"
+            email "$authorEmail"
+        }
+    }
+}
+
+publishing {
+    publications {
+        library(MavenPublication) {
+            groupId "$group"
+            artifactId "$artifactName"
+            version "$verName"
+
+            artifact sourcesJar
+            artifact("$buildDir/outputs/aar/library-release.aar")
+
+            pom.withXml {
+                def root = asNode()
+                root.appendNode("description", "$libDesc")
+                root.appendNode("name", "$artifactName")
+                root.appendNode("url", "$siteUrl")
+                root.children().last() + pomConfig
+            }
+        }
+    }
+}
