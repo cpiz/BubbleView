@@ -14,7 +14,7 @@ BubbleView是带箭头的Android气泡控件/容器类，支持在布局中通�
 
 下载
 --------
-在项目目录的 `build.gradle` 中增加 `maven { url "https://jitpack.io" }`
+在项目目录的 `build.gradle` 中增加 `jcenter()`
 ```
 allprojects {
     repositories {

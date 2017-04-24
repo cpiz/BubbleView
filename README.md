@@ -15,7 +15,7 @@ BubbleView is a control/container with an arrow for Android, which can be fully 
 
 Download
 --------
-Add `maven { url "https://jitpack.io" }` to your project-level `build.gradle`
+Add `jcenter()` to your project-level `build.gradle`
 ```
 allprojects {
     repositories {
