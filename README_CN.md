@@ -1,6 +1,6 @@
 # BubbleView for Android
 
-[![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)](https://travis-ci.org/cpiz/BubbleView) [![build](https://jitpack.io/v/cpiz/BubbleView.svg)](https://jitpack.io/#cpiz/BubbleView)
+[![build](https://travis-ci.org/cpiz/BubbleView.svg?branch=master)](https://travis-ci.org/cpiz/BubbleView) [ ![Download](https://api.bintray.com/packages/cpiz/maven/bubbleview/images/download.svg)](https://bintray.com/cpiz/maven/bubbleview/_latestVersion) [![build](https://jitpack.io/v/cpiz/BubbleView.svg)](https://jitpack.io/#cpiz/BubbleView)
 
 [README in English](README.md)
 
@@ -18,17 +18,16 @@ BubbleView是带箭头的Android气泡控件/容器类，支持在布局中通�
 ```
 allprojects {
     repositories {
-        ...
-        maven { url "https://jitpack.io" }
+        jcenter()
     }
 }
 ```
 
-在模块目录的 `build.gradle` 中增加 `compile 'com.github.cpiz:BubbleView:{X.Y.Z}'`(X.Y.Z 见 [Releases](https://github.com/cpiz/BubbleView/releases))
+在模块目录的 `build.gradle` 中增加 `compile 'com.cpiz.bubbleview:bubbleview:{X.Y.Z}'`(X.Y.Z 见 [Releases](https://github.com/cpiz/BubbleView/releases))
 ```
 dependencies {
     ...
-    compile 'com.github.cpiz:BubbleView:{X.Y.Z}'
+    compile 'com.cpiz.bubbleview:bubbleview:{X.Y.Z}'
 }
 ```
 
@@ -157,7 +156,7 @@ dependencies {
 
 License
 -------
-    Copyright 2016 Cpiz
+    Copyright 2017 Cpiz
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
