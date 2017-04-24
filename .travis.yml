@@ -5,6 +5,9 @@ language: android
 jdk:
   - oraclejdk8
 
+env:
+  - ANDROID_NDK_HOME=
+
 android:
   components:
     - tools
