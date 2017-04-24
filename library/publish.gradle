@@ -2,7 +2,12 @@ apply plugin: "com.jfrog.bintray"
 apply plugin: "maven-publish"
 
 def localProperties = new Properties()
-localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+try {
+    localProperties.load(project.rootProject.file("local.properties").newDataInputStream())
+} catch (Exception ignored) {
+    println("local.properties is not exist.")
+}
+
 
 def group = "com.cpiz.bubbleview"
 def artifactName = "bubbleview"
