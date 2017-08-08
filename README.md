@@ -143,9 +143,9 @@ Can use BubblePopupWindow to wrap bubble, and show as popup.
     View rootView = LayoutInflater.from(this).inflate(R.layout.simple_text_bubble, null);
     BubbleTextView bubbleView = (BubbleTextView) rootView.findViewById(R.id.popup_bubble);
     window = new BubblePopupWindow(rootView, bubbleView);
-    window.setCanceledOnTouch(true);
-    window.setCanceledOnTouchOutside(true);
-    window.setCanceledOnLater(3000);
+    window.setCancelOnTouch(true);
+    window.setCancelOnTouchOutside(true);
+    window.setCancelOnLater(3000);
     window.showArrowTo(v, BubbleStyle.ArrowDirection.Left);
 ```
 
