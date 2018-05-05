@@ -191,7 +191,11 @@ public class BubblePopupWindow extends PopupWindow {
         PopupProp outProp = new PopupProp();
         getPopupProp(screenWidth, screenHeight, navigationBarHeight, anchorRect, contentWidth, contentHeight, relativePos, marginH, marginV, mPadding, outProp);
 
-        setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (contentWidth < outProp.maxWidth) {
+            setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        } else {
+            setWidth(contentWidth);
+        }
         setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         setAnimationStyle(outProp.animationStyle);
         if (contentWidth > outProp.maxWidth) {
