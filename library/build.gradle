@@ -1,7 +1,12 @@
 apply plugin: 'com.android.library'
-group='com.github.cpiz'
+apply plugin: 'jacoco'
 
-ext.lombok_version = "1.18.2"
+group = 'com.github.cpiz'
+
+jacoco {
+    toolVersion = "$jacoco_version"
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
@@ -13,9 +18,39 @@ android {
         versionName "1.0.2"
     }
 
-    lintOptions {
-        abortOnError false
+    buildTypes {
+        debug {
+            testCoverageEnabled true
+        }
     }
+
+    lintOptions {
+        abortOnError true
+    }
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+}
+
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest', 'createDebugCoverageReport']) {
+    group = "verification"
+    description = "Generate Jacoco Test Reprot"
+    reports {
+        xml.enabled = true
+        html.enabled = true
+    }
+
+    def fileFilter = ['**/R.class', '**/R$*.class', '**/BuildConfig.*', '**/Manifest*.*', '**/*Test*.*', 'android/**/*.*']
+    def debugTree = fileTree(dir: "${buildDir}/intermediates/javac/debug/compileDebugJavaWithJavac", excludes: fileFilter)
+    def mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories = files([mainSrc])
+    classDirectories = files([debugTree])
+    executionData = fileTree(dir: "$buildDir", includes: [
+            "jacoco/testDebugUnitTest.exec",
+            "outputs/code-coverage/connected/*coverage.ec"
+    ])
 }
 
 task sourcesJar(type: Jar) {
@@ -29,6 +64,8 @@ artifacts {
 
 dependencies {
     implementation 'com.android.support:support-annotations:28.0.0'
+
+    testImplementation 'junit:junit:4.12'
 }
 
-apply from:("publish.gradle")
+apply from: ("publish.gradle")
