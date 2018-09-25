@@ -34,7 +34,7 @@ class BubbleDrawable extends Drawable {
     private int mBorderColor = Color.WHITE;
     private PointF mArrowTo = new PointF(0, 0);
 
-    private class Shape {
+    private static class Shape {
         RectF Rect = new RectF();
         float BorderWidth = 0;
         float ArrowHeight = 0;
