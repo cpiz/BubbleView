@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import lombok.experimental.Delegate;
+
 /**
  * 气泡样式的LinearLayout布局
  * 支持自定义气泡样式
@@ -17,7 +19,8 @@ import android.widget.LinearLayout;
  */
 @SuppressWarnings("unused")
 public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, BubbleCallback {
-    private BubbleImpl mBubbleImpl = new BubbleImpl();
+    @Delegate(types = BubbleStyle.class)
+    private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleLinearLayout(Context context) {
         super(context);
@@ -51,171 +54,6 @@ public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, Bub
     }
 
     @Override
-    public void setArrowDirection(ArrowDirection arrowDirection) {
-        mBubbleImpl.setArrowDirection(arrowDirection);
-    }
-
-    @Override
-    public ArrowDirection getArrowDirection() {
-        return mBubbleImpl.getArrowDirection();
-    }
-
-    @Override
-    public void setArrowHeight(float arrowHeight) {
-        mBubbleImpl.setArrowHeight(arrowHeight);
-    }
-
-    @Override
-    public float getArrowHeight() {
-        return mBubbleImpl.getArrowHeight();
-    }
-
-    @Override
-    public void setArrowWidth(float arrowWidth) {
-        mBubbleImpl.setArrowWidth(arrowWidth);
-    }
-
-    @Override
-    public float getArrowWidth() {
-        return mBubbleImpl.getArrowWidth();
-    }
-
-    @Override
-    public void setArrowPosPolicy(ArrowPosPolicy policy) {
-        mBubbleImpl.setArrowPosPolicy(policy);
-    }
-
-    @Override
-    public ArrowPosPolicy getArrowPosPolicy() {
-        return mBubbleImpl.getArrowPosPolicy();
-    }
-
-    @Override
-    public void setArrowPosDelta(float delta) {
-        mBubbleImpl.setArrowPosDelta(delta);
-    }
-
-    @Override
-    public float getArrowPosDelta() {
-        return mBubbleImpl.getArrowPosDelta();
-    }
-
-    @Override
-    public void setArrowTo(int viewId) {
-        mBubbleImpl.setArrowTo(viewId);
-    }
-
-    @Override
-    public void setArrowTo(View view) {
-        mBubbleImpl.setArrowTo(view);
-    }
-
-    public View getArrowTo() {
-        return mBubbleImpl.getArrowTo();
-    }
-
-    @Override
-    public void setFillColor(int fillColor) {
-        mBubbleImpl.setFillColor(fillColor);
-    }
-
-    @Override
-    public int getFillColor() {
-        return mBubbleImpl.getFillColor();
-    }
-
-    @Override
-    public void setBorderColor(int borderColor) {
-        mBubbleImpl.setBorderColor(borderColor);
-    }
-
-    @Override
-    public int getBorderColor() {
-        return mBubbleImpl.getBorderColor();
-    }
-
-    @Override
-    public void setBorderWidth(float borderWidth) {
-        mBubbleImpl.setBorderWidth(borderWidth);
-    }
-
-    @Override
-    public float getBorderWidth() {
-        return mBubbleImpl.getBorderWidth();
-    }
-
-    @Override
-    public void setFillPadding(float fillPadding) {
-        mBubbleImpl.setFillPadding(fillPadding);
-    }
-
-    @Override
-    public float getFillPadding() {
-        return mBubbleImpl.getFillPadding();
-    }
-
-    @Override
-    public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
-        mBubbleImpl.setCornerRadius(topLeft, topRight, bottomRight, bottomLeft);
-    }
-
-    @Override
-    public void setCornerRadius(float radius) {
-        mBubbleImpl.setCornerRadius(radius);
-    }
-
-    @Override
-    public float getCornerTopLeftRadius() {
-        return mBubbleImpl.getCornerTopLeftRadius();
-    }
-
-    @Override
-    public float getCornerTopRightRadius() {
-        return mBubbleImpl.getCornerTopRightRadius();
-    }
-
-    @Override
-    public float getCornerBottomLeftRadius() {
-        return mBubbleImpl.getCornerBottomLeftRadius();
-    }
-
-    @Override
-    public float getCornerBottomRightRadius() {
-        return mBubbleImpl.getCornerBottomRightRadius();
-    }
-
-    @Override
-    public void setPadding(int left, int top, int right, int bottom) {
-        if (mBubbleImpl == null) {
-            Log.w("BubbleView", "mBubbleImpl == null on old Android platform");
-            setSuperPadding(left, top, right, bottom);
-            return;
-        }
-
-        mBubbleImpl.setPadding(left, top, right, bottom);
-    }
-
-    @Override
-    public int getPaddingLeft() {
-        return mBubbleImpl.getPaddingLeft();
-    }
-
-    @Override
-    public int getPaddingTop() {
-        return mBubbleImpl.getPaddingTop();
-    }
-
-    @Override
-    public int getPaddingRight() {
-        return mBubbleImpl.getPaddingRight();
-    }
-
-    @Override
-    public int getPaddingBottom() {
-        return mBubbleImpl.getPaddingBottom();
-    }
-
-    @Override
     public void setSuperPadding(int left, int top, int right, int bottom) {
         super.setPadding(left, top, right, bottom);
     }
@@ -238,10 +76,5 @@ public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, Bub
     @Override
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
-    }
-
-    @Override
-    public void requestUpdateBubble() {
-        mBubbleImpl.requestUpdateBubble();
     }
 }

@@ -7,6 +7,10 @@ jacoco {
     toolVersion = "$jacoco_version"
 }
 
+ext {
+    lombok_version = "1.18.2"
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.2'
@@ -64,6 +68,8 @@ artifacts {
 
 dependencies {
     implementation 'com.android.support:support-annotations:28.0.0'
+    compileOnly "org.projectlombok:lombok:$lombok_version"
+    annotationProcessor "org.projectlombok:lombok:$lombok_version"
 
     testImplementation 'junit:junit:4.12'
 }
