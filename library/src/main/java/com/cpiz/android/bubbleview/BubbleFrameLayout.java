@@ -52,6 +52,7 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
+        // noinspection ConstantConditions
         if (mBubbleImpl == null) {
             Log.w("BubbleView", "mBubbleImpl == null on old Android platform");
             setSuperPadding(left, top, right, bottom);

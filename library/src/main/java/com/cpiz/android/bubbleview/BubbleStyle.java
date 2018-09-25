@@ -9,6 +9,7 @@ import android.view.View;
  * Created by caijw on 2016/6/1.
  * https://github.com/cpiz/BubbleView
  */
+@SuppressWarnings("unused")
 public interface BubbleStyle {
     /**
      * 箭头朝向定义
@@ -36,6 +37,7 @@ public interface BubbleStyle {
             }
         }
 
+        @SuppressWarnings("UnusedAssignment")
         private int mValue = 0;
 
         public int getValue() {
@@ -102,6 +104,7 @@ public interface BubbleStyle {
             }
         }
 
+        @SuppressWarnings("UnusedAssignment")
         private int mValue = 0;
 
         public int getValue() {

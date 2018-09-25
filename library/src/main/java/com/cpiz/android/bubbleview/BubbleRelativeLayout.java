@@ -52,6 +52,7 @@ public class BubbleRelativeLayout extends RelativeLayout implements BubbleStyle,
 
     @Override
     public void setPadding(int left, int top, int right, int bottom) {
+        // noinspection ConstantConditions
         if (mBubbleImpl == null) {
             Log.w("BubbleView", "mBubbleImpl == null on old Android platform");
             setSuperPadding(left, top, right, bottom);
