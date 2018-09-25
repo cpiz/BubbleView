@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import lombok.experimental.Delegate;
@@ -23,13 +21,11 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleFrameLayout(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public BubbleFrameLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public BubbleFrameLayout(Context context, AttributeSet attrs, int defStyleAttr) {

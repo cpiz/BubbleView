@@ -17,16 +17,14 @@ import lombok.experimental.Delegate;
  */
 public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallback {
     @Delegate(types = BubbleStyle.class)
-    private BubbleImpl mBubbleImpl = new BubbleImpl();
+    private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleTextView(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public BubbleTextView(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public BubbleTextView(Context context, AttributeSet attrs, int defStyleAttr) {

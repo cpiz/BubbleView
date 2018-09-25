@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import lombok.experimental.Delegate;
@@ -23,13 +21,11 @@ public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, Bub
     private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleLinearLayout(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public BubbleLinearLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public BubbleLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {

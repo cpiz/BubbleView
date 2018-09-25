@@ -4,8 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.widget.RelativeLayout;
 
 import lombok.experimental.Delegate;
@@ -20,16 +18,14 @@ import lombok.experimental.Delegate;
 @SuppressWarnings("unused")
 public class BubbleRelativeLayout extends RelativeLayout implements BubbleStyle, BubbleCallback {
     @Delegate(types = BubbleStyle.class)
-    private BubbleImpl mBubbleImpl = new BubbleImpl();
+    private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleRelativeLayout(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
     public BubbleRelativeLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+        this(context, attrs, 0);
     }
 
     public BubbleRelativeLayout(Context context, AttributeSet attrs, int defStyleAttr) {
