@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 import lombok.experimental.Delegate;
@@ -17,7 +18,7 @@ import lombok.experimental.Delegate;
  */
 @SuppressWarnings("unused")
 public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, BubbleCallback {
-    @Delegate(types = BubbleStyle.class)
+    @Delegate(types = BubbleStyle.class, excludes = Undelegateable.BubbleStyle.class)
     private final BubbleImpl mBubbleImpl = new BubbleImpl();
 
     public BubbleFrameLayout(Context context) {
@@ -47,6 +48,17 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         super.onLayout(changed, left, top, right, bottom);
         mBubbleImpl.updateDrawable(right - left, bottom - top, true);
+    }
+
+    @Override
+    public void setPadding(int left, int top, int right, int bottom) {
+        if (mBubbleImpl == null) {
+            Log.w("BubbleView", "mBubbleImpl == null on old Android platform");
+            setSuperPadding(left, top, right, bottom);
+            return;
+        }
+
+        mBubbleImpl.setPadding(left, top, right, bottom);
     }
 
     @Override
