@@ -12,7 +12,7 @@ try {
 def group = "com.cpiz.bubbleview"
 def artifactName = "bubbleview"
 def artifactOrg = ""
-def verName = "1.0.2"
+def verName = "$bubble_version"
 def libDesc = "BubbleView is control/container with an arrow for Android, which can be fully customized by code or XML layout file."
 def verDesc = "BubbleView is control/container with an arrow for Android, which can be fully customized by code or XML layout file."
 def siteUrl = "https://github.com/cpiz/BubbleView"

@@ -6,6 +6,7 @@ buildscript {
         google()
     }
 
+    ext.bubble_version = "1.0.3"
     ext.jacoco_version = "0.8.2"
 
     dependencies {
