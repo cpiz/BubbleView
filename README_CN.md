@@ -133,6 +133,7 @@ dependencies {
 ### 弹出显示
 --------
 还可通过BubblePopupWindow来包装，弹出显示
+
 ![弹出显示](./screenshots/5.gif)
 
 * 支持点击气泡之外关闭
