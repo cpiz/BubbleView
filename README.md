@@ -133,6 +133,7 @@ as bubble layout container and put customized content into it.
 ### Popup
 --------
 Can use BubblePopupWindow to wrap bubble, and show as popup.
+
 ![popup](./screenshots/5.gif)
 
 * Support touch outside to close
