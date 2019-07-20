@@ -86,4 +86,9 @@ public class BubbleFrameLayout extends FrameLayout implements BubbleStyle, Bubbl
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
     }
+
+    @Override
+    public void setSuperPressed(boolean pressed) {
+        super.setPressed(pressed);
+    }
 }

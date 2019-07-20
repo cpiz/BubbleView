@@ -86,4 +86,9 @@ public class BubbleRelativeLayout extends RelativeLayout implements BubbleStyle,
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
     }
+
+    @Override
+    public void setSuperPressed(boolean pressed) {
+        super.setPressed(pressed);
+    }
 }

@@ -31,6 +31,8 @@ class BubbleDrawable extends Drawable {
     private Path mFillPath = new Path();
     private float mFillPadding = 0;
     private int mFillColor = 0xCC000000;
+    private int mFillPressColor = mFillColor;
+    private boolean mPressed = false;
     private int mBorderColor = Color.WHITE;
     private PointF mArrowTo = new PointF(0, 0);
 
@@ -68,6 +70,10 @@ class BubbleDrawable extends Drawable {
 
     void setFillColor(int fillColor) {
         mFillColor = fillColor;
+    }
+
+    void setFillPressColor(int fillPressColor) {
+        mFillPressColor = fillPressColor;
     }
 
     void setBorderColor(int borderColor) {
@@ -218,10 +224,14 @@ class BubbleDrawable extends Drawable {
         mOriginalShape.ArrowDelta = arrowDelta;
     }
 
+    void setPressed(boolean pressed) {
+        mPressed = pressed;
+    }
+
     @Override
     public void draw(@NonNull Canvas canvas) {
         mFillPaint.setStyle(Paint.Style.FILL);
-        mFillPaint.setColor(mFillColor);
+        mFillPaint.setColor(mPressed ? mFillPressColor : mFillColor);
         canvas.drawPath(mFillPath, mFillPaint);
 
         if (mBorderShape.BorderWidth > 0) {

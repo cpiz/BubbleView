@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -19,7 +18,7 @@
             android:layout_height="wrap_content"
             android:text="自定义箭头方向"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/group1"
@@ -35,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:src="@android:drawable/ic_btn_speak_now"
-                android:tint="#FFFFFF"/>
+                android:tint="#FFFFFF" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb1"
@@ -47,7 +46,8 @@
                 android:text="ArrowRight"
                 android:textColor="@android:color/white"
                 app:bb_arrowDirection="Right"
-                app:bb_cornerRadius="4dp"/>
+                app:bb_cornerRadius="4dp"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb3"
@@ -59,7 +59,8 @@
                 android:text="ArrowLeft"
                 android:textColor="@android:color/white"
                 app:bb_arrowDirection="Left"
-                app:bb_cornerRadius="4dp"/>
+                app:bb_cornerRadius="4dp"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb4"
@@ -71,7 +72,8 @@
                 android:text="ArrowUp"
                 android:textColor="@android:color/white"
                 app:bb_arrowDirection="Up"
-                app:bb_cornerRadius="4dp"/>
+                app:bb_cornerRadius="4dp"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb5"
@@ -83,7 +85,8 @@
                 android:padding="6dp"
                 android:text="NoneArrow"
                 android:textColor="@android:color/white"
-                app:bb_cornerRadius="4dp"/>
+                app:bb_cornerRadius="4dp"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/bb2"
@@ -95,7 +98,8 @@
                 android:text="ArrowDown"
                 android:textColor="@android:color/white"
                 app:bb_arrowDirection="Down"
-                app:bb_cornerRadius="4dp"/>
+                app:bb_cornerRadius="4dp"
+                app:bb_fillPressColor="#686868" />
         </RelativeLayout>
 
         <TextView
@@ -103,7 +107,7 @@
             android:layout_height="wrap_content"
             android:text="自动指向&amp;目标对齐"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/group2"
@@ -121,7 +125,7 @@
                 android:layout_centerVertical="true"
                 android:layout_margin="4dp"
                 android:src="@android:drawable/ic_btn_speak_now"
-                android:tint="#FFFFFF"/>
+                android:tint="#FFFFFF" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
@@ -131,7 +135,7 @@
                 android:padding="6dp"
                 android:text="Get your apps ready for Android 6.0 Marshmallow! "
                 android:textColor="@android:color/white"
-                app:bb_arrowTo="@id/iv2"/>
+                app:bb_arrowTo="@id/iv2" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
@@ -141,7 +145,7 @@
                 android:padding="6dp"
                 android:text="Get your apps ready for Android 6.0 Marshmallow! "
                 android:textColor="@android:color/white"
-                app:bb_arrowTo="@id/iv2"/>
+                app:bb_arrowTo="@id/iv2" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
@@ -151,17 +155,17 @@
                 android:padding="6dp"
                 android:text="Get your apps ready for Android 6.0 Marshmallow! "
                 android:textColor="@android:color/white"
-                app:bb_arrowTo="@id/iv2"/>
+                app:bb_arrowTo="@id/iv2" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/iv2"
                 android:layout_below="@id/iv2"
+                android:layout_alignLeft="@id/iv2"
                 android:padding="6dp"
                 android:text="Get your apps ready for Android 6.0 Marshmallow! "
                 android:textColor="@android:color/white"
-                app:bb_arrowTo="@id/iv2"/>
+                app:bb_arrowTo="@id/iv2" />
 
         </RelativeLayout>
 
@@ -170,7 +174,7 @@
             android:layout_height="wrap_content"
             android:text="自定义边框&amp;圆角"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/group3"
@@ -198,7 +202,8 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light"/>
+                app:bb_fillColor="@android:color/holo_red_light"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big2"
@@ -220,7 +225,8 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light"/>
+                app:bb_fillColor="@android:color/holo_red_light"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big3"
@@ -241,7 +247,8 @@
                 app:bb_cornerRadius="4dp"
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
-                app:bb_fillColor="@android:color/holo_red_light"/>
+                app:bb_fillColor="@android:color/holo_red_light"
+                app:bb_fillPressColor="#686868" />
 
             <com.cpiz.android.bubbleview.BubbleTextView
                 android:id="@+id/big4"
@@ -265,7 +272,8 @@
                 app:bb_cornerTopLeftRadius="0dp"
                 app:bb_cornerTopRightRadius="4dp"
                 app:bb_fillColor="@android:color/holo_red_light"
-                app:bb_fillPadding="4dp"/>
+                app:bb_fillPadding="4dp"
+                app:bb_fillPressColor="#686868" />
 
         </RelativeLayout>
 
@@ -274,7 +282,7 @@
             android:layout_height="wrap_content"
             android:text="容器&amp;箭头位置"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <RelativeLayout
             android:id="@+id/group4"
@@ -293,7 +301,8 @@
                 app:bb_arrowPosPolicy="SelfBegin"
                 app:bb_borderColor="#88FFFFFF"
                 app:bb_borderWidth="1dp"
-                app:bb_fillColor="#200000FF">
+                app:bb_fillColor="#200000FF"
+                app:bb_fillPressColor="#686868">
 
                 <com.cpiz.android.bubbleview.BubbleRelativeLayout
                     android:layout_width="match_parent"
@@ -377,8 +386,8 @@
                                             app:bb_arrowPosPolicy="SelfEnd"
                                             app:bb_borderColor="#88FFFFFF"
                                             app:bb_borderWidth="1dp"
-                                            app:bb_fillColor="#200000FF">
-                                        </com.cpiz.android.bubbleview.BubbleRelativeLayout>
+                                            app:bb_fillColor="#200000FF"
+                                            app:bb_fillPressColor="#686868"></com.cpiz.android.bubbleview.BubbleRelativeLayout>
                                     </com.cpiz.android.bubbleview.BubbleRelativeLayout>
                                 </com.cpiz.android.bubbleview.BubbleRelativeLayout>
                             </com.cpiz.android.bubbleview.BubbleRelativeLayout>
@@ -393,20 +402,20 @@
             android:layout_height="wrap_content"
             android:text="气泡弹窗"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/btn_bubble_text_view_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:text="BubbleTextView Sample"/>
+            android:text="BubbleTextView Sample" />
 
         <Button
             android:id="@+id/btn_bubble_popup_window_sample"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
-            android:text="BubblePopupWindow Sample"/>
+            android:text="BubblePopupWindow Sample" />
     </LinearLayout>
 </ScrollView>

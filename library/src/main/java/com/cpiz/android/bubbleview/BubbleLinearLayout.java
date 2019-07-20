@@ -86,4 +86,9 @@ public class BubbleLinearLayout extends LinearLayout implements BubbleStyle, Bub
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
     }
+
+    @Override
+    public void setSuperPressed(boolean pressed) {
+        super.setPressed(pressed);
+    }
 }

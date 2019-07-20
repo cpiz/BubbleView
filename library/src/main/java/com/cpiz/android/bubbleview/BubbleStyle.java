@@ -193,6 +193,14 @@ public interface BubbleStyle {
     int getFillColor();
 
     /**
+     * 设置点击时气泡背景色
+     * @param fillPressColor 点击时气泡的背景颜色
+     */
+    void setFillPressColor(int fillPressColor);
+
+    int getFillPressColor();
+
+    /**
      * 设置边框线颜色
      *
      * @param borderColor 边框颜色
@@ -264,4 +272,6 @@ public interface BubbleStyle {
      * 设置好以上属性后，调用该函数进行刷新
      */
     void requestUpdateBubble();
+
+    void setPressed(boolean pressed);
 }

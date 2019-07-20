@@ -16,4 +16,6 @@ interface BubbleCallback {
     int getSuperPaddingRight();
 
     int getSuperPaddingBottom();
+
+    void setSuperPressed(boolean pressed);
 }

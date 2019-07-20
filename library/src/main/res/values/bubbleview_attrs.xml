@@ -2,6 +2,7 @@
 <resources>
     <declare-styleable name="BubbleStyle">
         <attr name="bb_fillColor" format="reference|color"/>
+        <attr name="bb_fillPressColor" format="reference|color"/>
         <attr name="bb_fillPadding" format="dimension"/>
 
         <attr name="bb_arrowTo" format="reference"/>

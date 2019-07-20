@@ -86,4 +86,9 @@ public class BubbleTextView extends TextView implements BubbleStyle, BubbleCallb
     public int getSuperPaddingBottom() {
         return super.getPaddingBottom();
     }
+
+    @Override
+    public void setSuperPressed(boolean pressed) {
+        super.setPressed(pressed);
+    }
 }

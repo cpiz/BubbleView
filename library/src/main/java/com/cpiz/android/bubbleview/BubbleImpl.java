@@ -9,6 +9,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+
 import java.lang.ref.WeakReference;
 
 import static com.cpiz.android.bubbleview.Utils.dp2px;
@@ -37,13 +38,14 @@ class BubbleImpl implements BubbleStyle {
     private float mCornerBottomRightRadius = 0;
     private int mPaddingLeftOffset = 0, mPaddingTopOffset = 0, mPaddingRightOffset = 0, mPaddingBottomOffset = 0;
     private int mFillColor = 0xCC000000;
+    private int mFillPressColor = mFillColor;
     private int mBorderColor = Color.WHITE;
     private float mBorderWidth = 0;
     private float mFillPadding = 0;
     private View.OnLayoutChangeListener mOnLayoutChangeListener = new View.OnLayoutChangeListener() {
         @Override
         public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop,
-                int oldRight, int oldBottom) {
+                                   int oldRight, int oldBottom) {
             requestUpdateBubble();
         }
     };
@@ -75,6 +77,11 @@ class BubbleImpl implements BubbleStyle {
                     ta.getDimension(R.styleable.BubbleStyle_bb_cornerBottomRightRadius, mCornerTopLeftRadius);
 
             mFillColor = ta.getColor(R.styleable.BubbleStyle_bb_fillColor, 0xCC000000);
+            mFillPressColor = ta.getColor(R.styleable.BubbleStyle_bb_fillPressColor, mFillColor);
+            if (mFillColor != mFillPressColor) {
+                view.setClickable(true);
+                view.setLongClickable(true);
+            }
             mFillPadding = ta.getDimension(R.styleable.BubbleStyle_bb_fillPadding, 0);
             mBorderColor = ta.getColor(R.styleable.BubbleStyle_bb_borderColor, Color.WHITE);
             mBorderWidth = ta.getDimension(R.styleable.BubbleStyle_bb_borderWidth, 0);
@@ -167,6 +174,16 @@ class BubbleImpl implements BubbleStyle {
         return mFillColor;
     }
 
+    @Override
+    public void setFillPressColor(int fillPressColor) {
+        mFillPressColor = fillPressColor;
+    }
+
+    @Override
+    public int getFillPressColor() {
+        return mFillPressColor;
+    }
+
     /**
      * 设置边框线颜色
      *
@@ -216,10 +233,10 @@ class BubbleImpl implements BubbleStyle {
      * 设置边角弧度
      * 可以为四角指定不同弧度
      *
-     * @param topLeft 左上角
-     * @param topRight 右上角
+     * @param topLeft     左上角
+     * @param topRight    右上角
      * @param bottomRight 右下角
-     * @param bottomLeft 左下角
+     * @param bottomLeft  左下角
      */
     @Override
     public void setCornerRadius(float topLeft, float topRight, float bottomRight, float bottomLeft) {
@@ -372,6 +389,7 @@ class BubbleImpl implements BubbleStyle {
             mBubbleDrawable.setCornerRadius(mCornerTopLeftRadius, mCornerTopRightRadius, mCornerBottomRightRadius,
                     mCornerBottomLeftRadius);
             mBubbleDrawable.setFillColor(mFillColor);
+            mBubbleDrawable.setFillPressColor(mFillPressColor);
             mBubbleDrawable.setBorderWidth(mBorderWidth);
             mBubbleDrawable.setFillPadding(mFillPadding);
             mBubbleDrawable.setBorderColor(mBorderColor);
@@ -394,6 +412,13 @@ class BubbleImpl implements BubbleStyle {
     @Override
     public void requestUpdateBubble() {
         updateDrawable(mParentView.getWidth(), mParentView.getHeight(), true);
+        mParentView.invalidate();
+    }
+
+    public void setPressed(boolean pressed) {
+        mBubbleDrawable.setPressed(pressed);
+        requestUpdateBubble();
+        mHolderCallback.setSuperPressed(pressed);
     }
 
     private View findGlobalViewById(int viewId) {
