@@ -50,6 +50,10 @@ public class Utils {
     public static int getNavigationBarHeight(View view) {
         Activity activity = getActivity(view);
         if (activity != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && activity.isInMultiWindowMode()) {
+                // 小窗展示时没有NavigationBar，直接返回0
+                return 0;
+            }
             // 方法一
             {
                 Display display = activity.getWindowManager().getDefaultDisplay();
