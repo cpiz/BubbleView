@@ -90,7 +90,7 @@ public class Utils {
         return 0;
     }
 
-    public static Activity getActivity(View view) {
+    private static Activity getActivity(View view) {
         Context context = view.getContext();
         while (context instanceof ContextWrapper) {
             if (context instanceof Activity) {
