@@ -176,8 +176,8 @@ public class BubblePopupWindow extends PopupWindow {
     public void showArrowTo(View anchor, RelativePos relativePos, int marginH, int marginV) {
         dismiss();
 
-        final int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        final int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+        final int screenWidth = anchor.getResources().getDisplayMetrics().widthPixels;
+        final int screenHeight = anchor.getResources().getDisplayMetrics().heightPixels;
         final int navigationBarHeight = getNavigationBarHeightDelta(anchor);
         final Rect anchorRect = getRectInWindow(anchor);
 
